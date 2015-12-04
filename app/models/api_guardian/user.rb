@@ -8,7 +8,7 @@ module ApiGuardian
     delegate :can?, :cannot?, to: :role
 
     validates :email, presence: true, uniqueness: true
-    validates :password, length: { minimum: 8 }, if: :password
+    validates_with ApiGuardian::Validators::PasswordLengthValidator, if: :password
 
     # Class Methods
     def self.policy_class

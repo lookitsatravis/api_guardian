@@ -46,10 +46,17 @@ module ApiGuardian
     autoload :UserPolicy, 'api_guardian/policies/user_policy'
   end
 
+  module Validators
+    autoload :PasswordLengthValidator, 'api_guardian/validators/password_length_validator'
   end
 
+  class << self
+    attr_writer :configuration
   end
 
+  module_function
+  def configuration
+    @configuration ||= Configuration.new
   end
 
   def configure

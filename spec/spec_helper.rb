@@ -33,6 +33,7 @@ SimpleCov.start do
   add_group 'Engine::Concerns', 'lib/api_guardian/concerns'
   add_group 'Engine::Policies', 'lib/api_guardian/policies'
   add_group 'Engine::Errors', 'lib/api_guardian/errors'
+  add_group 'Engine::Validators', 'lib/api_guardian/validators'
   add_group 'Engine::Stores', 'lib/api_guardian/stores'
   add_filter 'db'
   add_filter 'spec'
