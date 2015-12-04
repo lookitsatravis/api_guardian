@@ -11,17 +11,8 @@ RSpec.describe ApiGuardian::User, type: :model do
     it { should validate_presence_of :email }
     it { should validate_uniqueness_of :email }
     it { should validate_length_of :password }
-
-    it 'should use the minimum password length config value' do
-      p = '123456'
-      ApiGuardian.configure { |config| config.minimum_password_length = 8 }
-
-      expect{create(:user, password: p, password_confirmation: p)}.to raise_error(ActiveRecord::RecordInvalid)
-
-      ApiGuardian.configure { |config| config.minimum_password_length = 6 }
-
-      expect{create(:user, password: p, password_confirmation: p)}.not_to raise_error
-    end
+    it { should validate_with ApiGuardian::Validators::PasswordLengthValidator }
+    it { should validate_with ApiGuardian::Validators::PasswordScoreValidator }
   end
 
   # Delegates
