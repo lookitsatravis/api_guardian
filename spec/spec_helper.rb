@@ -14,6 +14,7 @@ require 'shoulda/matchers'
 require 'support/matchers'
 require 'support/request_helpers'
 require 'rspec-activemodel-mocks'
+require 'codeclimate-test-reporter'
 
 Rails.backtrace_cleaner.remove_silencers!
 ActiveRecord::Migration.maintain_test_schema!
@@ -22,6 +23,8 @@ if ENV['IS_CODESHIP']
   SimpleCov.formatter = Coveralls::SimpleCov::Formatter
   Coveralls.wear!('rails')
 end
+
+CodeClimate::TestReporter.start
 
 SimpleCov.start do
   add_group 'Controllers', 'app/controllers'

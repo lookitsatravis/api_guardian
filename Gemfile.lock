@@ -62,6 +62,8 @@ GEM
       rack (>= 1.0.0)
       rack-test (>= 0.5.4)
       xpath (~> 2.0)
+    codeclimate-test-reporter (0.4.8)
+      simplecov (>= 0.7.1, < 1.0.0)
     coveralls (0.8.10)
       json (~> 1.8)
       rest-client (>= 1.6.8, < 2)
@@ -200,6 +202,7 @@ DEPENDENCIES
   active_model_serializers!
   api_guardian!
   capybara (~> 2.5.0)
+  codeclimate-test-reporter
   coveralls (~> 0.8.10)
   database_cleaner (~> 1.4.1)
   factory_girl_rails (~> 4.5.0)
