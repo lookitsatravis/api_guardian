@@ -1,0 +1,13 @@
+development: &default
+  adapter: postgresql
+  encoding: unicode
+  pool: 10
+  timeout: 5000
+  database: api_guardian_dev
+  username: postgres
+  password:
+  host: localhost
+
+test:
+  <<: *default
+  database: api_guardian_test
