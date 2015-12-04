@@ -10,11 +10,11 @@ Gem::Specification.new do |s|
   s.authors     = ["Travis Vignon"]
   s.email       = ["travis@lookitsatravis.com"]
   s.homepage    = "https://github.com/lookitsatravis/api_guardian"
-  s.summary     = "Summary of ApiGuardian."
-  s.description = "Description of ApiGuardian."
+  s.summary     = "Drop in authorization and authentication suite for Rails APIs."
+  s.description = "Drop in authorization and authentication suite for Rails APIs."
   s.license     = "MIT"
 
-  s.files = Dir["{app,config,db,lib}/**/*", "MIT-LICENSE", "Rakefile", "readme.md"]
+  s.files = Dir["{app,config,db,lib}/**/*", "MIT-LICENSE", "Rakefile", "README.md"]
   s.test_files = Dir["spec/**/*"]
 
   s.add_dependency "rails-api", "~> 0.4.0"
