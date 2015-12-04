@@ -25,6 +25,7 @@ What doesn't it include?
 
 ## Requirements
 
+* Ruby >= 2.0
 * PostgreSQL >= 9.1 (uuid-ossp support)
 
 **Note: For now, your app must use a PostgreSQL database.** This is because ApiGuardian is using UUID primary keys for all records.

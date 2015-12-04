@@ -3,8 +3,6 @@ rvm:
 - 2.2.0
 - 2.1.0
 - 2.0.0
-- 1.9.3
-- jruby-19mode
 - rbx-2
 env:
 - CODECLIMATE_REPO_TOKEN=67bd12d38e2ebb8be9df65f57a080a4fb436739c75ed859a82cd3267807d38ba
