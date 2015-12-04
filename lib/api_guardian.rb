@@ -9,7 +9,11 @@ require 'active_model_serializers'
 require 'api_guardian/configuration'
 require 'api_guardian/engine'
 
+require 'active_support/lazy_load_hooks'
+
 module ApiGuardian
+  ActiveSupport.run_load_hooks(:api_guardian_configuration, Configuration)
+
   module Concerns
     module ApiErrors
       autoload :Handler, 'api_guardian/concerns/api_errors/handler'
