@@ -4,7 +4,7 @@
 
   # This block will be called to check whether the resource owner is authenticated or not.
   resource_owner_from_credentials do
-    u = ApiGuardian.user_class.find_by(email: params[:email])
+    u = ApiGuardian.configuration.user_class.find_by(email: params[:email])
     u if u && u.try(:authenticate, params[:password])
   end
 
@@ -112,7 +112,7 @@ end
   # Defaults to a randomly generated token in a hash
   # { token: "RANDOM-TOKEN" }
   token_payload do |opts|
-    user = ApiGuardian.user_class.find(opts[:resource_owner_id])
+    user = ApiGuardian.configuration.user_class.find(opts[:resource_owner_id])
     iat = DateTime.current.utc.to_i
     {
       iss: 'guideon:washington',

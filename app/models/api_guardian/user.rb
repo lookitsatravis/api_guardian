@@ -3,7 +3,7 @@ module ApiGuardian
     acts_as_paranoid
     has_secure_password
 
-    belongs_to :role, class_name: ApiGuardian.role_class.to_s
+    belongs_to :role, class_name: ApiGuardian.configuration.role_class.to_s
 
     delegate :can?, :cannot?, to: :role
 

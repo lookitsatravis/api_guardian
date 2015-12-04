@@ -1,8 +1,8 @@
 # TODO: Permission. should be moved to PermissionStore.
 module ApiGuardian
   class Role < ActiveRecord::Base
-    has_many :users, class_name: ApiGuardian.user_class.to_s
-    has_many :role_permissions, class_name: ApiGuardian.role_permission_class.to_s
+    has_many :users, class_name: ApiGuardian.configuration.user_class.to_s
+    has_many :role_permissions, class_name: ApiGuardian.configuration.role_permission_class.to_s
 
     validates :name, uniqueness: true, presence: true
     validates :default, uniqueness: true, if: proc { |r| r.default? }

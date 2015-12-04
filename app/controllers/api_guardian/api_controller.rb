@@ -63,7 +63,7 @@ module ApiGuardian
     end
 
     def resource_class
-      @resource_class ||= ApiGuardian.send("#{resource_name.downcase}_class")
+      @resource_class ||= ApiGuardian.configuration.send("#{resource_name.downcase}_class")
     end
 
     # :nocov:
@@ -99,11 +99,11 @@ module ApiGuardian
     private
 
     def set_current_user
-      @current_user = ApiGuardian.user_class.find(doorkeeper_token.resource_owner_id) if doorkeeper_token
+      @current_user = ApiGuardian.configuration.user_class.find(doorkeeper_token.resource_owner_id) if doorkeeper_token
     end
 
     def current_resource_owner
-      ApiGuardian.user_class.find(doorkeeper_token.resource_owner_id) if doorkeeper_token
+      ApiGuardian.configuration.user_class.find(doorkeeper_token.resource_owner_id) if doorkeeper_token
     end
 
     def prep_response
