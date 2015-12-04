@@ -28,6 +28,7 @@ Gem::Specification.new do |s|
   s.add_dependency 'bcrypt', '~> 3.1.10'
   s.add_dependency 'kaminari', '~> 0.16.3'
   s.add_dependency 'pg', '~> 0.18.4'
+  s.add_runtime_dependency 'zxcvbn-js', '~> 4.2.0'
   # s.add_dependency 'active_model_serializers', '0.10.0.rc3'
   s.add_development_dependency 'rspec-rails', '~> 3.4.0'
   s.add_development_dependency 'rspec-activemodel-mocks', '~> 1.0.2'

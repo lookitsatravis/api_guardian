@@ -9,6 +9,7 @@ module ApiGuardian
 
     validates :email, presence: true, uniqueness: true
     validates_with ApiGuardian::Validators::PasswordLengthValidator, if: :password
+    validates_with ApiGuardian::Validators::PasswordScoreValidator, if: :password
 
     # Class Methods
     def self.policy_class

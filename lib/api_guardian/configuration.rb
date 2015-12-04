@@ -30,22 +30,28 @@ module ApiGuardian
       @minimum_password_length ||= 8
     end
 
-    # Example validating configuration
-    # def configurable_service
-    #   @configurable_service ||= default_configuration_service
-    # end
-    #
-    # def configurable_service=(callable)
-    #   if callable.respond_to?(:call)
-    #     @configurable_service = callable
-    #   else
-    #     raise ConfigurationError.new("Expected #{callable.inspect} to respond_to #call. Could not set #{self.class}#configurable_service.")
-    #   end
-    # end
-    #
-    # private
-    # def default_configuration_service
-    #   lambda {|args| ... }
-    # end
+    def validate_password_score
+      @validate_password_score ||= true
+    end
+
+    def validate_password_score=(value)
+      fail ConfigurationError.new('validate_password_score must be a boolean!') unless [true, false].include? value
+      @validate_password_score = value
+    end
+
+    def minimum_password_score
+      @minimum_password_score ||= 4
+    end
+
+    def minimum_password_score=(score)
+      if (0..4).include?(score)
+        if score < 3
+          ::Rails.logger.warn '[ApiGuardian] A password score of less than 3 is not recommended.'
+        end
+        @minimum_password_score = score
+      else
+        fail ConfigurationError.new('The minimum_password_score must be an integer and between 0..4')
+      end
+    end
   end
 end

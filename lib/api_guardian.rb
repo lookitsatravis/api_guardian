@@ -5,6 +5,7 @@ require 'pundit'
 require 'paranoia'
 require 'rack/cors'
 require 'kaminari'
+require 'zxcvbn'
 require 'active_model_serializers'
 require 'api_guardian/configuration'
 require 'api_guardian/engine'
@@ -52,10 +53,15 @@ module ApiGuardian
 
   module Validators
     autoload :PasswordLengthValidator, 'api_guardian/validators/password_length_validator'
+    autoload :PasswordScoreValidator, 'api_guardian/validators/password_score_validator'
   end
 
   class << self
     attr_writer :configuration
+
+    def zxcvbn_tester
+      @zxcvbn_tester ||= ::Zxcvbn::Tester.new
+    end
   end
 
   module_function
