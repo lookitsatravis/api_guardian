@@ -2,6 +2,8 @@
 
 Drop in authorization and authentication suite for Rails APIs.
 
+## **\*\*This gem is in alpha stages and is not feature complete. It should not be used in production!\*\***
+
 ## Overview
 
 ApiGuardian includes the following features out of the box:
