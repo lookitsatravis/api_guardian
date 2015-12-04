@@ -1,13 +1,10 @@
 module ApiGuardian
   module Stores
     class Base
-      @@instance = nil
-
       delegate :new, to: :resource_class
 
       def initialize(scope = nil)
         @scope = scope
-        @@instance = self
       end
 
       def all

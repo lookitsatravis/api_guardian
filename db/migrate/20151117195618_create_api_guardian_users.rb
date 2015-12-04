@@ -17,9 +17,9 @@ class CreateApiGuardianUsers < ActiveRecord::Migration
       t.timestamps null: false
     end
 
-    add_index 'api_guardian_users', ['deleted_at'], name: 'index_api_guardian_users_on_deleted_at', using: :btree
-    add_index 'api_guardian_users', ['email'], name: 'index_api_guardian_users_on_email', unique: true, using: :btree
-    add_index 'api_guardian_users', ['reset_password_token'], name: 'index_api_guardian_users_on_reset_password_token', unique: true, using: :btree
-    add_index 'api_guardian_users', ['role_id'], name: 'index_api_guardian_users_on_role_id', using: :btree
+    add_index :api_guardian_users, :deleted_at, using: :btree
+    add_index :api_guardian_users, :email, unique: true, using: :btree
+    add_index :api_guardian_users, :reset_password_token, unique: true, using: :btree
+    add_index :api_guardian_users, :role_id, using: :btree
   end
 end

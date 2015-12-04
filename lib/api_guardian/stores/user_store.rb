@@ -57,7 +57,8 @@ module ApiGuardian
 
         if user
           # Validate submitted email matches token
-          fail ApiGuardian::Errors::ResetTokenUserMismatchError, attributes[:email] unless user.email == attributes[:email]
+          fail ApiGuardian::Errors::ResetTokenUserMismatchError,
+               attributes[:email] unless user.email == attributes[:email]
 
           # Check that it hasn't expired
           fail ApiGuardian::Errors::ResetTokenExpiredError, '' unless user.reset_password_token_valid?

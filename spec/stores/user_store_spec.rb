@@ -95,7 +95,9 @@ describe ApiGuardian::Stores::UserStore do
         expect(user).to receive(:email).and_return('bar')
         allow_any_instance_of(ApiGuardian::Stores::UserStore).to receive(:find_by_reset_password_token).and_return(user)
 
-        expect { ApiGuardian::Stores::UserStore.complete_reset_password(email: 'foo') }.to raise_error ApiGuardian::Errors::ResetTokenUserMismatchError
+        expect { ApiGuardian::Stores::UserStore.complete_reset_password(email: 'foo') }.to(
+          raise_error ApiGuardian::Errors::ResetTokenUserMismatchError
+        )
       end
 
       it 'fails if token is expired' do
@@ -104,7 +106,9 @@ describe ApiGuardian::Stores::UserStore do
         expect(user).to receive(:reset_password_token_valid?).and_return(false)
         allow_any_instance_of(ApiGuardian::Stores::UserStore).to receive(:find_by_reset_password_token).and_return(user)
 
-        expect { ApiGuardian::Stores::UserStore.complete_reset_password(email: 'bar') }.to raise_error ApiGuardian::Errors::ResetTokenExpiredError
+        expect { ApiGuardian::Stores::UserStore.complete_reset_password(email: 'bar') }.to(
+          raise_error ApiGuardian::Errors::ResetTokenExpiredError
+        )
       end
 
       it 'fails if the new password is missing' do
@@ -114,7 +118,9 @@ describe ApiGuardian::Stores::UserStore do
         expect(user).to receive(:reset_password_token_valid?).and_return(true)
         expect(user).to receive(:password)
         expect_any_instance_of(ActionController::Parameters).to receive(:fetch).with(:password, nil).and_return(nil)
-        expect { ApiGuardian::Stores::UserStore.complete_reset_password(ActionController::Parameters.new(email: 'foo')) }.to raise_error ActiveRecord::RecordInvalid
+        expect { ApiGuardian::Stores::UserStore.complete_reset_password(ActionController::Parameters.new(email: 'foo')) }.to(
+          raise_error ActiveRecord::RecordInvalid
+        )
       end
 
       it 'resets on valid attributes' do

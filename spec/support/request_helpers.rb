@@ -6,10 +6,16 @@ module Requests
   end
 
   module AuthHelpers
-    @@headers = {
-      'Content-Type' => 'application/vnd.api+json',
-      'Accept' => 'application/vnd.api+json'
-    }
+    def custom_headers
+      @custom_headers ||= {
+        'Content-Type' => 'application/vnd.api+json',
+        'Accept' => 'application/vnd.api+json'
+      }
+    end
+
+    def current_user
+      @current_user ||= create(:user)
+    end
 
     def seed_permissions(resource)
       %w(create read update delete manage).each do |p|
@@ -26,7 +32,7 @@ module Requests
     end
 
     def destroy_user
-      @@current_user = nil
+      @current_user = nil
       remove_header('Authorization')
     end
 
@@ -38,20 +44,16 @@ module Requests
       current_user.role.remove_permission(perm_name)
     end
 
-    def current_user
-      @@current_user ||= create(:user)
-    end
-
     def add_header(key, value)
-      @@headers[key] = value
+      custom_headers[key] = value
     end
 
     def remove_header(key)
-      @@headers.delete(key)
+      custom_headers.delete(key)
     end
 
     def get_headers
-      @@headers
+      custom_headers
     end
   end
 

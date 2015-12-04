@@ -27,7 +27,8 @@ module ApiGuardian
 
           def validate_content_type
             if request.body.read != '' && request.headers['Content-Type'] != 'application/vnd.api+json'
-              fail ApiGuardian::Errors::InvalidContentTypeError, "Invalid content type #{request.headers['Content-Type']}"
+              fail ApiGuardian::Errors::InvalidContentTypeError,
+                   "Invalid content type #{request.headers['Content-Type']}"
             end
           end
 
@@ -47,7 +48,8 @@ module ApiGuardian
             expected_request_id = params[:id]
             request_id = top_params.fetch(:id, nil)
 
-            fail ApiGuardian::Errors::InvalidRequestResourceIdError, request_id unless request_id == expected_request_id
+            fail ApiGuardian::Errors::InvalidRequestResourceIdError,
+                 request_id unless request_id == expected_request_id
           end
 
           def validate_request_type
@@ -57,7 +59,8 @@ module ApiGuardian
             expected_request_type = resource_name.pluralize.downcase
             request_type = top_params.fetch(:type, nil)
 
-            fail ApiGuardian::Errors::InvalidRequestResourceTypeError, expected_request_type unless request_type == expected_request_type
+            fail ApiGuardian::Errors::InvalidRequestResourceTypeError,
+                 expected_request_type unless request_type == expected_request_type
           end
         end
       end

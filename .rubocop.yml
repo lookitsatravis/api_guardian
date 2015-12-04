@@ -2,6 +2,8 @@ AllCops:
   Exclude:
     - "vendor/**/*"
     - "db/schema.rb"
+    - "spec/dummy/**/*"
+    - "bin/**/*"
   UseCache: false
 Style/CollectionMethods:
   Description: Preferred collection methods.
@@ -232,4 +234,4 @@ Lint/LiteralInInterpolation:
   Description: Checks for literals used in interpolation.
   Enabled: false
 Metrics/LineLength:
-  Max: 120
+  Max: 140

@@ -1,7 +1,7 @@
 # Configure Rails Environment
-ENV["RAILS_ENV"] = "test"
+ENV['RAILS_ENV'] = 'test'
 
-require File.expand_path("../dummy/config/environment.rb",  __FILE__)
+require File.expand_path('../dummy/config/environment.rb', __FILE__)
 require 'capybara/rspec'
 require 'pundit/rspec'
 require 'rspec/rails'
@@ -10,7 +10,7 @@ require 'simplecov'
 require 'coveralls'
 require 'faker'
 require 'database_cleaner'
-require "shoulda/matchers"
+require 'shoulda/matchers'
 require 'support/matchers'
 require 'support/request_helpers'
 require 'rspec-activemodel-mocks'
@@ -99,7 +99,7 @@ RSpec.configure do |config|
   # Use the specified formatter
   config.formatter = 'Fuubar' # :progress, :html, :textmate
 
-  config.order = "random"
+  config.order = 'random'
 
   config.before(:suite) do
     DatabaseCleaner.clean_with(:truncation)

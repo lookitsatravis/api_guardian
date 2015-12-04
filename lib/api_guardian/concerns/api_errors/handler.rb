@@ -114,7 +114,8 @@ module ApiGuardian
           def invalid_request_resource_id(exception)
             render_error(
               400, 'invalid_request_resource_id', 'Invalid Request Resource ID',
-              "Request 'id' property does not match 'id' of URI. Provided: #{exception.message}, Expected: #{params[:id]}"
+              "Request 'id' property does not match 'id' of URI. " \
+              "Provided: #{exception.message}, Expected: #{params[:id]}"
             )
           end
 

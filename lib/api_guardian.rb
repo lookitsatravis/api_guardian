@@ -6,8 +6,7 @@ require 'paranoia'
 require 'rack/cors'
 require 'kaminari'
 require 'active_model_serializers'
-require 'api_guardian/configuration'
-require "api_guardian/engine"
+require 'api_guardian/engine'
 
 module ApiGuardian
   module Concerns
@@ -47,31 +46,31 @@ module ApiGuardian
   end
 
   mattr_accessor :user_class
-  @@user_class = 'ApiGuardian::User'
+  @user_class = 'ApiGuardian::User'
 
   mattr_accessor :role_class
-  @@role_class = 'ApiGuardian::Role'
+  @role_class = 'ApiGuardian::Role'
 
   mattr_accessor :permission_class
-  @@permission_class = 'ApiGuardian::Permission'
+  @permission_class = 'ApiGuardian::Permission'
 
   mattr_accessor :role_permission_class
-  @@role_permission_class = 'ApiGuardian::RolePermission'
+  @role_permission_class = 'ApiGuardian::RolePermission'
 
   def self.user_class
-    @@user_class.constantize
+    @user_class.constantize
   end
 
   def self.role_class
-    @@role_class.constantize
+    @role_class.constantize
   end
 
   def self.permission_class
-    @@permission_class.constantize
+    @permission_class.constantize
   end
 
   def self.role_permission_class
-    @@role_permission_class.constantize
+    @role_permission_class.constantize
   end
 
   def self.setup
