@@ -56,6 +56,10 @@ module ApiGuardian
     autoload :PasswordScoreValidator, 'api_guardian/validators/password_score_validator'
   end
 
+  module Strategies
+    autoload :PasswordAuthentication, 'api_guardian/strategies/password_authentication'
+  end
+
   class << self
     attr_writer :configuration
 

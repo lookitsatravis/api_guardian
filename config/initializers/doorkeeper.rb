@@ -4,8 +4,8 @@
 
   # This block will be called to check whether the resource owner is authenticated or not.
   resource_owner_from_credentials do
-    u = ApiGuardian.configuration.user_class.find_by(email: params[:email])
-    u if u && u.try(:authenticate, params[:password])
+    user = ApiGuardian.configuration.user_class.find_by(email: params[:email])
+    ApiGuardian::Strategies::PasswordAuthentication.authenticate(user, params[:password])
   end
 
   # If you want to restrict access to the web interface for adding oauth authorized applications,
