@@ -6,8 +6,8 @@ module ApiGuardian
         min_score = ApiGuardian.configuration.minimum_password_score
 
         if password_score(record) < min_score
-          record.errors[:password] << "Password is not strong enough. Consider " \
-            "adding a number, symbols or more letters to make it stronger."
+          record.errors[:password] << 'is not strong enough. Consider ' \
+            'adding a number, symbols or more letters to make it stronger.'
         end
       end
 
@@ -26,7 +26,7 @@ module ApiGuardian
 
         if user.respond_to? :weak_words
           local_weak_words = user.weak_words
-          raise "weak_words must return an Array" unless (local_weak_words.is_a? Array)
+          raise 'weak_words must return an Array' unless (local_weak_words.is_a? Array)
           zxcvbn_weak_words += local_weak_words
         end
 
