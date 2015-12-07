@@ -12,6 +12,8 @@ class CreateApiGuardianUsers < ActiveRecord::Migration
       t.uuid :role_id, null: false
       t.string :reset_password_token
       t.datetime :reset_password_sent_at
+      t.string :otp_secret_key
+      t.boolean :otp_enabled, default: false
       t.datetime :deleted_at
 
       t.timestamps null: false
