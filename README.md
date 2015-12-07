@@ -93,6 +93,11 @@ To Do
 * config
   * user lockouts
   * ???
+* normalize email (downcase)
+* Add pepper/salt to bcrypt
+  * https://github.com/plataformatec/devise/blob/master/lib/devise/encryptor.rb
+  * http://api.rubyonrails.org/classes/ActiveModel/SecurePassword/InstanceMethodsOnActivation.html
+  * https://github.com/thoughtbot/clearance/blob/master/lib/clearance/password_strategies/bcrypt.rb
 * omniauth
 * Request logging
 * Sessions/Devices (attach to tokens)
@@ -102,6 +107,9 @@ To Do
 * SSO
 * digits integration
 * Multi-tenancy
+  * Invite users by email to organization
+  * Users can belong to multiple organizations
+  * Different roles based on organization? Or permissions?
 * Account lockout (failed login attempts)
 * 2FA
   * http://blog.meldium.com/home/2013/8/23/screw-up-two-factor-authentication
