@@ -19,7 +19,7 @@ ApiGuardian includes the following features out of the box:
 * Stateless authentication using OAuth2 (via [Doorkeeper](https://github.com/doorkeeper-gem/doorkeeper) and [Doorkeeper::JWT](https://github.com/chriswarren/doorkeeper-jwt))
 * Policy enforcement (via [Pundit](https://github.com/elabs/pundit))
 * Serialization to [JSON API](http://jsonapi.org/) (via [AMS](https://github.com/rails-api/active_model_serializers))
-* Two-factor auth (TODO)
+* Two-factor auth
 * External Login (TODO)
 
 What doesn't it include?
@@ -82,6 +82,12 @@ To Do
 To Do
 
 ### Users
+
+To Do
+
+## Configuration
+
+### Two-Factor Authentication
 
 To Do
 
