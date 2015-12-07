@@ -102,12 +102,55 @@ describe ApiGuardian::Concerns::ApiErrors::Handler, type: :request do
         expect { dummy_class.api_error_handler(ApiGuardian::Errors::ResetTokenExpiredError.new('')) }.not_to raise_error
       end
 
+      it 'handles PasswordRequired' do
+        expect_any_instance_of(Test::Dummy).to receive(:render_error).with(
+          403, 'password_required', 'Password Required',
+          'Password is required for this request.'
+        )
+        expect { dummy_class.api_error_handler(ApiGuardian::Errors::PasswordRequired.new('')) }.not_to raise_error
+      end
+
+      it 'handles PasswordInvalid' do
+        expect_any_instance_of(Test::Dummy).to receive(:render_error).with(
+          403, 'password_invalid', 'Password Invalid',
+          'Password invalid for this request.'
+        )
+        expect { dummy_class.api_error_handler(ApiGuardian::Errors::PasswordInvalid.new('')) }.not_to raise_error
+      end
+
+      it 'handles PhoneNumberInvalid' do
+        expect_any_instance_of(Test::Dummy).to receive(:render_error).with(
+          422, 'phone_number_invalid', 'Phone Number Invalid',
+          'The phone number you provided is invalid.'
+        )
+        expect { dummy_class.api_error_handler(ApiGuardian::Errors::PhoneNumberInvalid.new('')) }.not_to raise_error
+      end
+
+      it 'handles TwoFactorRequired' do
+        expect_any_instance_of(Test::Dummy).to receive(:render_error).with(
+          402, 'two_factor_required', 'Two-Factor Required',
+          'OTP has been sent to the user and must be included in the next' \
+          " authentication request in the #{ApiGuardian.configuration.otp_header_name} header."
+        )
+        expect { dummy_class.api_error_handler(ApiGuardian::Errors::TwoFactorRequired.new('')) }.not_to raise_error
+      end
+
       it 'handles generic errors' do
         exception = StandardError.new('')
         expect_any_instance_of(Test::Dummy).to receive(:render_error).with(
           500, nil, nil, nil, exception
         )
         expect { dummy_class.api_error_handler(exception) }.not_to raise_error
+      end
+    end
+
+    describe '#phone_verification_failed' do
+      it 'handles TwoFactorRequired' do
+        expect_any_instance_of(Test::Dummy).to receive(:render_error).with(
+          422, 'phone_verification_failed', 'Phone Verification Failed',
+          'The authentication code you provided is invalid or expired.'
+        )
+        expect { dummy_class.phone_verification_failed }.not_to raise_error
       end
     end
   end

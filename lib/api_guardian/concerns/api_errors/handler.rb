@@ -33,6 +33,14 @@ module ApiGuardian
               reset_token_mismatch
             elsif exception.is_a? ApiGuardian::Errors::ResetTokenExpiredError
               reset_token_expired
+            elsif exception.is_a? ApiGuardian::Errors::PasswordRequired
+              password_required
+            elsif exception.is_a? ApiGuardian::Errors::PasswordInvalid
+              password_invalid
+            elsif exception.is_a? ApiGuardian::Errors::PhoneNumberInvalid
+              phone_number_invalid
+            elsif exception.is_a? ApiGuardian::Errors::TwoFactorRequired
+              two_factor_required
             else
               generic_error_handler(exception)
             end
@@ -44,6 +52,21 @@ module ApiGuardian
               'You must be logged in.'
             )
             { json: { errors: [error] } }
+          end
+
+          def doorkeeper_forbidden_render_options(_)
+            error = construct_error(
+              403, 'forbidden', 'Forbidden',
+              'You do not have access to this resource.'
+            )
+            { json: { errors: [error] } }
+          end
+
+          def phone_verification_failed
+            render_error(
+              422, 'phone_verification_failed', 'Phone Verification Failed',
+              'The authentication code you provided is invalid or expired.'
+            )
           end
 
           protected
@@ -137,6 +160,35 @@ module ApiGuardian
             render_error(
               403, 'reset_token_expired', 'Reset Token Expired',
               'This reset token has expired. Tokens are valid for 24 hours.'
+            )
+          end
+
+          def password_required
+            render_error(
+              403, 'password_required', 'Password Required',
+              'Password is required for this request.'
+            )
+          end
+
+          def password_invalid
+            render_error(
+              403, 'password_invalid', 'Password Invalid',
+              'Password invalid for this request.'
+            )
+          end
+
+          def phone_number_invalid
+            render_error(
+              422, 'phone_number_invalid', 'Phone Number Invalid',
+              'The phone number you provided is invalid.'
+            )
+          end
+
+          def two_factor_required
+            render_error(
+              402, 'two_factor_required', 'Two-Factor Required',
+              'OTP has been sent to the user and must be included in the next' \
+              " authentication request in the #{ApiGuardian.configuration.otp_header_name} header."
             )
           end
         end
