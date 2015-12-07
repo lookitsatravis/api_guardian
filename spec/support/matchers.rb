@@ -43,7 +43,7 @@ end
 #     describe User do
 #       it { should validate_with CustomValidator }
 #     end
-RSpec::Matchers.define :validate_with do |expected_validator, options|
+RSpec::Matchers.define :validate_with do |expected_validator|
   match do |subject|
     @validator = subject.class.validators.find do |validator|
       validator.class == expected_validator
@@ -67,11 +67,11 @@ RSpec::Matchers.define :validate_with do |expected_validator, options|
     "RSpec matcher for validates_with"
   end
 
-  failure_message do |text|
+  failure_message do
     "expected to validate with #{validator}#{@options.present? ? (' with options ' + @options) : ''}"
   end
 
-  failure_message_when_negated do |text|
+  failure_message_when_negated do
     "do not expected to validate with #{validator}#{@options.present? ? (' with options ' + @options) : ''}"
   end
 end
