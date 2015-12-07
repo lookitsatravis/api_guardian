@@ -1,6 +1,4 @@
 require 'rails-api'
-require 'doorkeeper'
-require 'doorkeeper-jwt'
 require 'active_job'
 require 'pundit'
 require 'paranoia'
@@ -75,6 +73,7 @@ module ApiGuardian
   end
 
   class << self
+    attr_accessor :current_request
     attr_writer :configuration
 
     def zxcvbn_tester

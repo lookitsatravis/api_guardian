@@ -1,4 +1,7 @@
 require 'doorkeeper'
+require 'doorkeeper-jwt'
+require 'api_guardian/doorkeeper/helpers'
+require 'api_guardian/doorkeeper/otp_validation'
 
 module ApiGuardian
   Doorkeeper = ::Doorkeeper
@@ -17,6 +20,14 @@ module ApiGuardian
       allow do
         origins '*'
         resource '*', headers: :any, methods: [:get, :post, :options]
+      end
+    end
+
+    initializer "api_guardian.doorkeeper_helpers" do
+      ActiveSupport.on_load(:action_controller) do
+        Doorkeeper::ApplicationMetalController.send(:include, AbstractController::Callbacks)
+        Doorkeeper::ApplicationMetalController.send(:include, ActionController::Rescue)
+        Doorkeeper::ApplicationMetalController.send(:include, ApiGuardian::DoorkeeperHelpers)
       end
     end
   end

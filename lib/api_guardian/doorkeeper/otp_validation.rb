@@ -1,0 +1,11 @@
+module Doorkeeper
+  module OAuth
+    class PasswordAccessTokenRequest
+      validate :otp, error: :invalid_grant
+
+      def validate_otp
+        ApiGuardian::Strategies::TwoFactorAuthentication.authenticate_request resource_owner, ApiGuardian.current_request
+      end
+    end
+  end
+end
