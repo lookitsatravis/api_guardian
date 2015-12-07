@@ -17,6 +17,38 @@ module ApiGuardian
         super attributes
       end
 
+      def add_phone(user, attributes)
+        check_password user, attributes
+
+        phone_number = attributes[:phone_number]
+        cc = attributes[:cc] || '1'
+        formatted_phone = Phony.normalize(phone_number, cc: cc)
+        unless Phony.plausible? formatted_phone
+          fail ApiGuardian::Errors::PhoneNumberInvalid
+        end
+
+        user.phone_number = formatted_phone
+        user.phone_number_confirmed_at = nil
+        user.save!
+
+        ApiGuardian::Jobs::SendOtp.perform_later user
+
+        user
+      end
+
+      def verify_phone(user, attributes)
+        if user.authenticate_otp attributes[:otp], drift: 30
+          user.phone_number_confirmed_at = DateTime.now.utc
+          user.save
+
+          ApiGuardian::Jobs::SendSms.perform_later user, 'Your phone has been verified!'
+
+          return true
+        end
+
+        false
+      end
+
       def self.register(attributes)
         instance = new(nil)
 

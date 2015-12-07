@@ -34,6 +34,56 @@ describe ApiGuardian::Stores::UserStore do
       end
     end
 
+    describe '#add_phone' do
+      it 'fails on invalid phone number' do
+        user = mock_model(ApiGuardian::User)
+        expect(subject).to receive(:check_password).and_return(true)
+        expect(Phony).to receive(:normalize).once
+        expect(Phony).to receive(:plausible?).once.and_return(false)
+
+        expect{subject.add_phone(user, {})}.to raise_error ApiGuardian::Errors::PhoneNumberInvalid
+      end
+
+      it 'adds number and queues SendOtp job' do
+        example_number = '8009876543'
+        user = mock_model(ApiGuardian::User)
+        expect(subject).to receive(:check_password).and_return(true)
+        expect(Phony).to receive(:normalize).once.and_return("1#{example_number}")
+        expect(Phony).to receive(:plausible?).once.and_return(true)
+        expect(user).to receive(:phone_number=).with "1#{example_number}"
+        expect(user).to receive(:phone_number_confirmed_at=).with nil
+        expect(user).to receive(:save!)
+        expect(ApiGuardian::Jobs::SendOtp).to receive(:perform_later).with(user)
+
+        subject.add_phone(user, {phone_number: example_number})
+      end
+    end
+
+    describe '#verify_phone' do
+      it 'returns false if otp auth fails' do
+        user = mock_model(ApiGuardian::User)
+        expect(user).to receive(:authenticate_otp).and_return false
+
+        result = subject.verify_phone(user, {})
+
+        expect(result).to be false
+      end
+
+      it 'confirms phone and queues SendSms job with success message' do
+        user = mock_model(ApiGuardian::User)
+        expect(user).to receive(:authenticate_otp).and_return true
+        expect(user).to receive(:phone_number_confirmed_at=)
+        expect(user).to receive(:save)
+        expect(ApiGuardian::Jobs::SendSms).to receive(:perform_later).with(
+          user, 'Your phone has been verified!'
+        )
+
+        result = subject.verify_phone(user, {})
+
+        expect(result).to be true
+      end
+    end
+
     describe '.register' do
       it 'fails on invalid attributes' do
         role = mock_model(ApiGuardian::Role)
