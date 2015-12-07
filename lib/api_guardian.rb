@@ -66,6 +66,13 @@ module ApiGuardian
     def zxcvbn_tester
       @zxcvbn_tester ||= ::Zxcvbn::Tester.new
     end
+
+    def twilio_client
+      unless configuration.enable_2fa
+        fail Configuration::ConfigurationError.new('2FA is not enabled!')
+      end
+      @twilio_client ||= ::Twilio::REST::Client.new configuration.twilio_id, configuration.twilio_token
+    end
   end
 
   module_function
