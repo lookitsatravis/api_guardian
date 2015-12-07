@@ -12,7 +12,7 @@ describe ApiGuardian::Policies::UserPolicy do
   subject { described_class }
 
   context 'when current_user and user match for' do
-    permissions :show?, :update?, :edit? do
+    permissions :show?, :update?, :edit?, :add_phone?, :verify_phone? do
       let(:record) { current_user }
       it { is_expected.to permit(current_user, record) }
     end

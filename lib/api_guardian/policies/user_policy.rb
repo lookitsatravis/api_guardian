@@ -18,6 +18,14 @@ module ApiGuardian
       def update?
         user.can?(['user:update', 'user:manage']) || record.id == user.id
       end
+
+      def add_phone?
+        update?
+      end
+
+      def verify_phone?
+        update?
+      end
     end
   end
 end

@@ -31,7 +31,7 @@ describe 'ApiGuardian::UsersController' do
       end
     end
 
-    describe 'GET /{:permission_id}' do
+    describe 'GET /{:user_id}' do
       it 'gets a user by id' do
         add_user_permission('user:read')
         user = create(:user)
@@ -44,7 +44,7 @@ describe 'ApiGuardian::UsersController' do
       end
     end
 
-    describe 'PATCH /{:permission_id}' do
+    describe 'PATCH /{:user_id}' do
       it 'updates a user by id' do
         add_user_permission('user:update')
         user = create(:user)
@@ -59,7 +59,7 @@ describe 'ApiGuardian::UsersController' do
       end
     end
 
-    describe 'DELETE /{:permission_id}' do
+    describe 'DELETE /{:user_id}' do
       it 'deletes a user by id' do
         add_user_permission('user:delete')
         user = create(:user)
@@ -69,6 +69,49 @@ describe 'ApiGuardian::UsersController' do
         delete "/users/#{user.id}", {}, get_headers
 
         expect(response).to have_http_status(:no_content)
+      end
+    end
+
+    describe 'POST /{:user_id}/add_phone' do
+      it 'adds phone to user' do
+        add_user_permission('user:update')
+        user = create(:user)
+
+        allow_any_instance_of(ApiGuardian::Stores::UserStore).to receive(:add_phone).and_return(user)
+
+        data = { data: { type: 'users', id: "#{user.id}", attributes: { phone_number: Faker::PhoneNumber.phone_number } } }
+
+        post "/users/#{user.id}/add_phone", data.to_json, get_headers
+
+        expect(response).to have_http_status(:no_content)
+      end
+    end
+
+    describe 'POST /{:user_id}/verify_phone' do
+      it 'returns error if phone verification fails' do
+        add_user_permission('user:update')
+        user = create(:user)
+
+        allow_any_instance_of(ApiGuardian::Stores::UserStore).to receive(:verify_phone).and_return(false)
+
+        data = { data: { type: 'users', id: "#{user.id}", attributes: { otp: '000' } } }
+
+        post "/users/#{user.id}/verify_phone", data.to_json, get_headers
+
+        expect(response).to have_http_status(:unprocessable_entity)
+      end
+
+      it 'verifies user\'s phone' do
+        add_user_permission('user:update')
+        user = create(:user)
+
+        allow_any_instance_of(ApiGuardian::Stores::UserStore).to receive(:verify_phone).and_return(true)
+
+        data = { data: { type: 'users', id: "#{user.id}", attributes: { otp: '000' } } }
+
+        post "/users/#{user.id}/verify_phone", data.to_json, get_headers
+
+        expect(response).to have_http_status(:ok)
       end
     end
   end

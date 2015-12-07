@@ -11,6 +11,8 @@ ApiGuardian::Engine.routes.draw do
 
   resources :users, except: [:new, :edit] do
     get 'permissions', on: :member
+    post 'add_phone', on: :member
+    post 'verify_phone', on: :member
   end
 
   resources :roles, except: [:new, :edit]
