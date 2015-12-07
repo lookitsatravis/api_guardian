@@ -49,7 +49,7 @@ module ApiGuardian
     end
 
     def existing_migrations
-      @existing_migrations ||= Dir.glob("db/migrate/*.rb").map do |file|
+      @existing_migrations ||= Dir.glob('db/migrate/*.rb').map do |file|
         migration_name_without_timestamp(file)
       end
     end

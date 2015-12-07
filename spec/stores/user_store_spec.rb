@@ -41,7 +41,7 @@ describe ApiGuardian::Stores::UserStore do
         expect(Phony).to receive(:normalize).once
         expect(Phony).to receive(:plausible?).once.and_return(false)
 
-        expect{subject.add_phone(user, {})}.to raise_error ApiGuardian::Errors::PhoneNumberInvalid
+        expect { subject.add_phone(user, {}) }.to raise_error ApiGuardian::Errors::PhoneNumberInvalid
       end
 
       it 'adds number and queues SendOtp job' do
@@ -55,7 +55,7 @@ describe ApiGuardian::Stores::UserStore do
         expect(user).to receive(:save!)
         expect(ApiGuardian::Jobs::SendOtp).to receive(:perform_later).with(user)
 
-        subject.add_phone(user, {phone_number: example_number})
+        subject.add_phone(user, phone_number: example_number)
       end
     end
 
@@ -201,7 +201,7 @@ describe ApiGuardian::Stores::UserStore do
       it 'fails unless password is present' do
         user = mock_model(ApiGuardian::User)
 
-        expect{subject.check_password(user, {})}.to raise_error ApiGuardian::Errors::PasswordRequired
+        expect { subject.check_password(user, {}) }.to raise_error ApiGuardian::Errors::PasswordRequired
       end
 
       it 'fails if password is invalid' do
@@ -210,7 +210,7 @@ describe ApiGuardian::Stores::UserStore do
           receive(:authenticate).and_return(nil)
         )
 
-        expect{subject.check_password(user, {password: 'test'})}.to raise_error ApiGuardian::Errors::PasswordInvalid
+        expect { subject.check_password(user, password: 'test') }.to raise_error ApiGuardian::Errors::PasswordInvalid
       end
     end
   end

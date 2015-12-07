@@ -23,7 +23,7 @@ module ApiGuardian
       end
     end
 
-    initializer "api_guardian.doorkeeper_helpers" do
+    initializer 'api_guardian.doorkeeper_helpers' do
       ActiveSupport.on_load(:action_controller) do
         Doorkeeper::ApplicationMetalController.send(:include, AbstractController::Callbacks)
         Doorkeeper::ApplicationMetalController.send(:include, ActionController::Rescue)

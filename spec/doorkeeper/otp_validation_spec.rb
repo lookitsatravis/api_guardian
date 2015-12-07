@@ -1,41 +1,43 @@
 # Borrowed from
 # https://github.com/doorkeeper-gem/doorkeeper/blob/master/spec/lib/oauth/password_access_token_request_spec.rb
 
-module Doorkeeper::OAuth
-  describe PasswordAccessTokenRequest do
-    let(:server) do
-      double(
-        :server,
-        default_scopes: Doorkeeper::OAuth::Scopes.new,
-        access_token_expires_in: 2.hours,
-        refresh_token_enabled?: false,
-        custom_access_token_expires_in: ->(_app) { nil }
-      )
-    end
-    let(:credentials) { Client::Credentials.new(client.uid, client.secret) }
-    let(:client) { FactoryGirl.create(:application) }
-    let(:owner)  { double :owner, id: 99 }
+module Doorkeeper
+  module OAuth
+    describe PasswordAccessTokenRequest do
+      let(:server) do
+        double(
+          :server,
+          default_scopes: Doorkeeper::OAuth::Scopes.new,
+          access_token_expires_in: 2.hours,
+          refresh_token_enabled?: false,
+          custom_access_token_expires_in: ->(_app) { nil }
+        )
+      end
+      let(:credentials) { Client::Credentials.new(client.uid, client.secret) }
+      let(:client) { FactoryGirl.create(:application) }
+      let(:owner)  { double :owner, id: 99 }
 
-    subject do
-      PasswordAccessTokenRequest.new(server, credentials, owner)
-    end
+      subject do
+        PasswordAccessTokenRequest.new(server, credentials, owner)
+      end
 
-    it 'adds otp validation which fails with :invalid_grant' do
-      expect(subject).to receive(:validate_otp)
+      it 'adds otp validation which fails with :invalid_grant' do
+        expect(subject).to receive(:validate_otp)
 
-      subject.validate
+        subject.validate
 
-      expect(subject.error).to be :invalid_grant
-    end
+        expect(subject.error).to be :invalid_grant
+      end
 
-    describe 'methods' do
-      describe '#validate_otp' do
-        it 'validates using TwoFactorAuthentication' do
-          expect(ApiGuardian::Strategies::TwoFactorAuthentication).to(
-            receive(:authenticate_request).with(subject.resource_owner, ApiGuardian.current_request)
-          )
+      describe 'methods' do
+        describe '#validate_otp' do
+          it 'validates using TwoFactorAuthentication' do
+            expect(ApiGuardian::Strategies::TwoFactorAuthentication).to(
+              receive(:authenticate_request).with(subject.resource_owner, ApiGuardian.current_request)
+            )
 
-          subject.validate_otp
+            subject.validate_otp
+          end
         end
       end
     end

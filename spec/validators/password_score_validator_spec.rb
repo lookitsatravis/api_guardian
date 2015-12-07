@@ -3,7 +3,6 @@ describe ApiGuardian::Validators::PasswordScoreValidator do
   context 'methods' do
     describe '#validate' do
       it 'can be toggled on and off' do
-
         # Off
         allow_any_instance_of(ApiGuardian::Configuration).to(
           receive(:validate_password_score).and_return(false)

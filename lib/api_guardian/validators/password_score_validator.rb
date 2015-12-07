@@ -12,6 +12,7 @@ module ApiGuardian
       end
 
       private
+
       # Original from https://github.com/bitzesty/devise_zxcvbn
       def password_score(user)
         password = user.password
@@ -26,7 +27,7 @@ module ApiGuardian
 
         if user.respond_to? :weak_words
           local_weak_words = user.weak_words
-          raise 'weak_words must return an Array' unless (local_weak_words.is_a? Array)
+          raise 'weak_words must return an Array' unless local_weak_words.is_a? Array
           zxcvbn_weak_words += local_weak_words
         end
 

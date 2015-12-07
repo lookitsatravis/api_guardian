@@ -45,7 +45,7 @@ end
 #     end
 RSpec::Matchers.define :validate_with do |expected_validator|
   match do |subject|
-    @validator = subject.class.validators.find do |validator|
+    @validator = subject.class.validators.detect do |validator|
       validator.class == expected_validator
     end
     @validator.present? && options_matching?
@@ -64,7 +64,7 @@ RSpec::Matchers.define :validate_with do |expected_validator|
   end
 
   description do
-    "RSpec matcher for validates_with"
+    'RSpec matcher for validates_with'
   end
 
   failure_message do

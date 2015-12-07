@@ -89,6 +89,7 @@ module ApiGuardian
   end
 
   module_function
+
   def configuration
     @configuration ||= Configuration.new
   end
