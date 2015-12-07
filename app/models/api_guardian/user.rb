@@ -2,6 +2,7 @@ module ApiGuardian
   class User < ActiveRecord::Base
     acts_as_paranoid
     has_secure_password
+    has_one_time_password
 
     belongs_to :role, class_name: ApiGuardian.configuration.role_class.to_s
 
