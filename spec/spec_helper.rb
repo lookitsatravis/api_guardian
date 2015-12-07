@@ -129,6 +129,14 @@ RSpec.configure do |config|
   config.include Requests::JsonHelpers, type: :request
   config.include Requests::AuthHelpers, type: :request
   config.include Requests::ErrorHelpers, type: :request
+
+  # To aid in testing Twilio SMS
+  # https://robots.thoughtbot.com/testing-sms-interactions
+  # ApiGuardian.twilio_client = FakeSMS
+  #
+  # config.before :each do
+  #   FakeSMS.messages = []
+  # end
 end
 
 Shoulda::Matchers.configure do |config|
