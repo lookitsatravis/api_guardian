@@ -37,6 +37,9 @@ describe ApiGuardian::Validators::PasswordScoreValidator do
 
       it 'checks that a password\'s score matches configured value' do
         allow_any_instance_of(ApiGuardian::Configuration).to(
+          receive(:validate_password_score).and_return(true)
+        )
+        allow_any_instance_of(ApiGuardian::Configuration).to(
           receive(:minimum_password_score).and_return(4)
         )
 
