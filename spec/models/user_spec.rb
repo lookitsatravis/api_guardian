@@ -10,7 +10,9 @@ RSpec.describe ApiGuardian::User, type: :model do
   context 'validations' do
     it { should validate_presence_of :email }
     it { should validate_uniqueness_of :email }
-    it { should validate_length_of :password }
+    # FIXME: This validation test fails due to a bug in shoulda-matchers
+    # https://github.com/thoughtbot/shoulda-matchers/issues/853
+    # it { should validate_uniqueness_of(:phone_number).case_insensitive }
     it { should validate_with ApiGuardian::Validators::PasswordLengthValidator }
     it { should validate_with ApiGuardian::Validators::PasswordScoreValidator }
   end

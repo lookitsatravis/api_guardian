@@ -8,6 +8,7 @@ module ApiGuardian
     delegate :can?, :cannot?, to: :role
 
     validates :email, presence: true, uniqueness: true
+    validates :phone_number, uniqueness: true, case_sensitive: false
     validates_with ApiGuardian::Validators::PasswordLengthValidator, if: :password
     validates_with ApiGuardian::Validators::PasswordScoreValidator, if: :password
 
