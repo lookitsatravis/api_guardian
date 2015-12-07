@@ -82,6 +82,17 @@ module ApiGuardian
         end
         false
       end
+
+      def check_password(user, attributes)
+        password = attributes[:password]
+        if !password || password.blank?
+          fail ApiGuardian::Errors::PasswordRequired
+        end
+
+        unless ApiGuardian::Strategies::PasswordAuthentication.authenticate(user, password)
+          fail ApiGuardian::Errors::PasswordInvalid
+        end
+      end
     end
   end
 end

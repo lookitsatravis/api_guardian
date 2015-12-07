@@ -146,5 +146,22 @@ describe ApiGuardian::Stores::UserStore do
         expect(user.reset_password_sent_at).to be nil
       end
     end
+
+    describe '#check_password' do
+      it 'fails unless password is present' do
+        user = mock_model(ApiGuardian::User)
+
+        expect{subject.check_password(user, {})}.to raise_error ApiGuardian::Errors::PasswordRequired
+      end
+
+      it 'fails if password is invalid' do
+        user = mock_model(ApiGuardian::User)
+        expect(ApiGuardian::Strategies::PasswordAuthentication).to(
+          receive(:authenticate).and_return(nil)
+        )
+
+        expect{subject.check_password(user, {password: 'test'})}.to raise_error ApiGuardian::Errors::PasswordInvalid
+      end
+    end
   end
 end
