@@ -1,11 +1,15 @@
 require 'rails-api'
 require 'doorkeeper'
 require 'doorkeeper-jwt'
+require 'active_job'
 require 'pundit'
 require 'paranoia'
 require 'rack/cors'
 require 'kaminari'
 require 'zxcvbn'
+require 'phony'
+require 'twilio-ruby'
+require 'active_model_otp'
 require 'active_model_serializers'
 require 'api_guardian/configuration'
 require 'api_guardian/engine'
@@ -35,6 +39,10 @@ module ApiGuardian
     autoload :InvalidUpdateActionError, 'api_guardian/errors/invalid_update_action_error'
     autoload :ResetTokenExpiredError, 'api_guardian/errors/reset_token_expired_error'
     autoload :ResetTokenUserMismatchError, 'api_guardian/errors/reset_token_user_mismatch_error'
+    autoload :PhoneNumberInvalid, 'api_guardian/errors/phone_number_invalid'
+    autoload :PasswordRequired, 'api_guardian/errors/password_required'
+    autoload :PasswordInvalid, 'api_guardian/errors/password_invalid'
+    autoload :TwoFactorRequired, 'api_guardian/errors/two_factor_required'
   end
 
   module Stores
@@ -58,6 +66,12 @@ module ApiGuardian
 
   module Strategies
     autoload :PasswordAuthentication, 'api_guardian/strategies/password_authentication'
+    autoload :TwoFactorAuthentication, 'api_guardian/strategies/two_factor_authentication'
+  end
+
+  module Jobs
+    autoload :SendOtp, 'api_guardian/jobs/send_otp'
+    autoload :SendSms, 'api_guardian/jobs/send_sms'
   end
 
   class << self
