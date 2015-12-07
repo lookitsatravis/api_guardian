@@ -3,11 +3,11 @@ module ApiGuardian
   module Stores
     class UserStore < Base
       def find_by_email(email)
-        User.find_by_email(email)
+        ApiGuardian.configuration.user_class.find_by_email(email)
       end
 
       def find_by_reset_password_token(token)
-        User.find_by_reset_password_token(token)
+        ApiGuardian.configuration.user_class.find_by_reset_password_token(token)
       end
 
       def create(attributes)
