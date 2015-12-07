@@ -55,11 +55,12 @@ Run this command:
 rake generate api_guardian:install
 ```
 
-This will add an initializer, mount the routes, and, copy the migrations/seed files.
+This will add an initializer, mount the routes, and, copy the migrations files.
 You will need to follow this with:
 
 ```sh
 rake db:migrate
+rake api_guardian:seed # not yet implemented, see db/seed.rb
 ```
 
 ### Third
@@ -90,13 +91,7 @@ To Do
   * Assign permissions to role by name
   * validate user password
 * config
-  * password settings (44:1?)
-    * devise_zxcvbn
   * user lockouts
-  * 2fa settings
-  * ???
-* Generators
-  * install (initializer, migrations, seed, routes)
   * ???
 * omniauth
 * Request logging
@@ -110,8 +105,8 @@ To Do
 * Account lockout (failed login attempts)
 * 2FA
   * http://blog.meldium.com/home/2013/8/23/screw-up-two-factor-authentication
-  * https://www.authy.com/product/
-  * https://github.com/heapsource/active_model_otp + Twilio
+  * review support for https://www.authy.com/product/
+  * review support for U2F
 * Fix for JWT storage: https://github.com/doorkeeper-gem/doorkeeper/wiki/How-to-fix-PostgreSQL-error-on-index-row-size
 * Cache
 
