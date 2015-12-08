@@ -21,17 +21,18 @@ module ApiGuardian
         check_password user, attributes
 
         phone_number = attributes[:phone_number]
-        cc = attributes[:cc] || '1'
+        cc = attributes[:country_code] || '1'
         formatted_phone = Phony.normalize(phone_number, cc: cc)
         unless Phony.plausible? formatted_phone
           fail ApiGuardian::Errors::PhoneNumberInvalid
         end
 
+        user.otp_enabled = true
         user.phone_number = formatted_phone
         user.phone_number_confirmed_at = nil
         user.save!
 
-        ApiGuardian::Jobs::SendOtp.perform_later user
+        ApiGuardian::Jobs::SendOtp.perform_later user, true
 
         user
       end

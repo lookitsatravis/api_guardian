@@ -28,7 +28,7 @@ module ApiGuardian
     end
 
     def add_phone_params
-      params.require(:data).require(:attributes).permit(:password, :phone_number)
+      params.require(:data).require(:attributes).permit(:password, :phone_number, :country_code)
     end
 
     def verify_phone_params

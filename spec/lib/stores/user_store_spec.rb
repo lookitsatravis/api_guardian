@@ -50,10 +50,11 @@ describe ApiGuardian::Stores::UserStore do
         expect(subject).to receive(:check_password).and_return(true)
         expect(Phony).to receive(:normalize).once.and_return("1#{example_number}")
         expect(Phony).to receive(:plausible?).once.and_return(true)
+        expect(user).to receive(:otp_enabled=).with true
         expect(user).to receive(:phone_number=).with "1#{example_number}"
         expect(user).to receive(:phone_number_confirmed_at=).with nil
         expect(user).to receive(:save!)
-        expect(ApiGuardian::Jobs::SendOtp).to receive(:perform_later).with(user)
+        expect(ApiGuardian::Jobs::SendOtp).to receive(:perform_later).with(user, true)
 
         subject.add_phone(user, phone_number: example_number)
       end
