@@ -52,7 +52,7 @@ gem 'active_model_serializers', git: 'https://github.com/rails-api/active_model_
 Run this command:
 
 ```sh
-rake generate api_guardian:install
+rails generate api_guardian:install
 ```
 
 This will add an initializer, mount the routes, and copy the migrations files.
