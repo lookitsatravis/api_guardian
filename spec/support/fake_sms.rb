@@ -11,7 +11,7 @@ class FakeSMS
     self
   end
 
-  def create(from:, to:, body:)
-    self.class.messages << Message.new(from: from, to: to, body: body)
+  def create(args = {})
+    self.class.messages << Message.new(from: args[:from], to: args[:to], body: args[:body])
   end
 end

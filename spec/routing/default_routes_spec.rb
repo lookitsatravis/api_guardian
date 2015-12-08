@@ -174,7 +174,7 @@ describe 'Default routes', type: :routing do
           random_route << Faker::Internet.slug(Faker::Lorem.words(4).join(' '), '-')
         end
 
-        expect(self.send(method.downcase, random_route.join('/'))).to route_to(
+        expect(send(method.downcase, random_route.join('/'))).to route_to(
           controller: 'api_guardian/application',
           action: 'not_found',
           unmatched_route: random_route.join('/')
