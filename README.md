@@ -89,7 +89,111 @@ To Do
 
 ### Two-Factor Authentication
 
-To Do
+Two-Factor Authentication (2FA) functionality is available out of the box. Requirements:
+
+* [Twilio](https://www.twilio.com/) account
+
+To enable this feature, update the ApiGuardian config in `config/initializers/api_guardian.rb`:
+
+```rb
+ApiGuardian.configure do |config|
+  # Enable two-factor authentication
+  config.enable_2fa = true
+
+  # 2FA header name. This header is used to validate a OTP and can be customized
+  # to have the app name, for example.
+  # config.otp_header_name = 'AG-2FA-TOKEN'
+
+  # 2FA Send From Number. This is the Twilio number we will send from.
+  config.twilio_send_from = 'YOUR_NUMBER' # formatted with country code, e.g. +18005551234
+
+  # Twilio Account SID and token (used with two-factor authentication). These can be found
+  # in your account.
+  config.twilio_id = 'YOUR_TWILIO_SID'
+  config.twilio_token = 'YOUR_TWILIO_AUTH_TOKEN'
+end
+```
+
+*Note: Restart your server when done for the changes to take effect.*
+
+#### Enabling 2FA for a user
+
+To enable 2FA for a user, you will post their phone number, country code, and password to the API. You will need a valid access token. The user must supply their password in order to verify that it is the proper person to add a phone number to their record.
+
+```sh
+curl -X POST \
+-H "Authorization: Bearer YOUR_ACCESS_TOKEN" \
+-H "Content-Type: application/vnd.api+json" \
+-H "Accept: application/vnd.api+json" \
+-d \
+'{
+    "data": {
+        "id": "USER_ID_HERE",
+        "type": "users",
+        "attributes": {
+            "phone_number": "8005551234",
+            "country_code": "1",
+            "password": "password"
+        }
+    }
+}' \
+'http://localhost:3000/api/v1/users/USER_ID_HERE/add_phone'
+```
+
+The user will receive an SMS message with a six digit code. You will need to send it to the API in order to verify the phone number. This must be completed within 60 seconds of sending the code.
+
+```sh
+curl -X POST \
+-H "Authorization: Bearer YOUR_ACCESS_TOKEN" \
+-H "Content-Type: application/vnd.api+json" \
+-H "Accept: application/vnd.api+json" \
+-d \
+'{
+    "data": {
+        "id": "USER_ID_HERE",
+        "type": "users",
+        "attributes": {
+            "otp": "SIX_DIGIT_SMS_CODE",
+        }
+    }
+}' \
+'http://localhost:3000/api/v1/users/USER_ID_HERE/verify_phone'
+```
+
+The user will receive a confirmation SMS and the verification is now complete.
+
+#### Authenticating a user with 2FA
+
+Authenticating with 2FA enabled is mostly the same as standard authentication using a password grant. Make the authentication request like normal:
+
+```sh
+curl -X POST \
+-H "Content-Type: application/json" \
+-d \
+'{
+    "email": "travis@lookitsatravis.com",
+    "password": "password",
+    "grant_type": "password"
+}' \
+'http://localhost:3000/api/v1/auth/token'
+```
+
+If the user has 2FA enabled, you will get a 402 response with a code of `two_factor_required`. The server will send the OTP to the user via SMS, and the client should present the user with a form to submit the code. When this happens, you will resubmit the access token request with an additional header (`AG-2FA-TOKEN` is the default value, though this is configurable) where the value is the OTP.
+
+```sh
+curl -X POST \
+-H "Content-Type: application/json" \
+-H "AG-2FA-TOKEN: SIX_DIGIT_SMS_CODE" \
+-d \
+'{
+    "email": "travis@lookitsatravis.com",
+    "password": "password",
+    "grant_type": "password"
+}' \
+'http://localhost:3000/api/v1/auth/token'
+```
+
+If done properly, you should be rewarded with an access token. If the OTP is incorrect or has expired, you will simply get a 401 http status invalid_grant response and you must start again.
 
 ## Roadmap
 
