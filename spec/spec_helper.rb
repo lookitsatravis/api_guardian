@@ -15,6 +15,7 @@ require 'support/matchers'
 require 'support/request_helpers'
 require 'rspec-activemodel-mocks'
 require 'codeclimate-test-reporter'
+require 'generator_spec'
 
 Rails.backtrace_cleaner.remove_silencers!
 ActiveRecord::Migration.maintain_test_schema!

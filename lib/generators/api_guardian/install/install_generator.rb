@@ -49,7 +49,10 @@ module ApiGuardian
     end
 
     def existing_migrations
-      @existing_migrations ||= Dir.glob('db/migrate/*.rb').map do |file|
+      directory = 'db/migrate'
+      # If testing, we need to check the proper directory
+      directory = 'spec/tmp/' + directory if Rails.env.test?
+      @existing_migrations ||= Dir.glob("#{directory}/*.rb").map do |file|
         migration_name_without_timestamp(file)
       end
     end

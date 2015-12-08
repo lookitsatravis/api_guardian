@@ -46,4 +46,5 @@ Gem::Specification.new do |s|
   s.add_development_dependency 'capybara', '~> 2.5.0'
   s.add_development_dependency 'fuubar', '~> 2.0.0'
   s.add_development_dependency 'rubocop', '~> 0.35.1'
+  s.add_development_dependency 'generator_spec', '~> 0.9.3'
 end
