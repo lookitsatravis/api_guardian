@@ -55,12 +55,12 @@ Run this command:
 rake generate api_guardian:install
 ```
 
-This will add an initializer, mount the routes, and, copy the migrations files.
+This will add an initializer, mount the routes, and copy the migrations files.
 You will need to follow this with:
 
 ```sh
 rake db:migrate
-rake api_guardian:seed # not yet implemented, see db/seed.rb
+rake api_guardian:seed # not yet implemented, see db/seed.rb for example
 ```
 
 ### Third
@@ -118,9 +118,13 @@ To Do
   * Different roles based on organization? Or permissions?
 * Account lockout (failed login attempts)
 * 2FA
-  * http://blog.meldium.com/home/2013/8/23/screw-up-two-factor-authentication
   * review support for https://www.authy.com/product/
   * review support for U2F
+  * 2FA via voice call
+  * Generate URL for Google Authenticator import
+  * Backup codes for when device is unavailable
+    * 16 one time use codes
+    * Ability to regenerate a new batch of codes
 * Fix for JWT storage: https://github.com/doorkeeper-gem/doorkeeper/wiki/How-to-fix-PostgreSQL-error-on-index-row-size
 * Cache
 
