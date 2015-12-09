@@ -21,6 +21,13 @@ describe ApiGuardian::Policies::UserPolicy do
       let(:record) { current_user }
       it { is_expected.not_to permit(current_user, record) }
     end
+
+    permissions :voice_otp? do
+      it { is_expected.to permit(nil, nil) }
+      it { is_expected.to permit(current_user, nil) }
+      it { is_expected.to permit(nil, current_user) }
+      it { is_expected.to permit(current_user, current_user) }
+    end
   end
 
   # permissions '.scope' do

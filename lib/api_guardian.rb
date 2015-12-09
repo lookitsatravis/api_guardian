@@ -27,6 +27,8 @@ module ApiGuardian
     module ApiRequest
       autoload :Validator, 'api_guardian/concerns/api_request/validator'
     end
+
+    autoload :TwilioVoiceOtpHelper, 'api_guardian/concerns/twilio_voice_otp_helper'
   end
 
   module Errors

@@ -26,6 +26,10 @@ module ApiGuardian
       def verify_phone?
         update?
       end
+
+      def voice_otp?
+        true
+      end
     end
   end
 end
