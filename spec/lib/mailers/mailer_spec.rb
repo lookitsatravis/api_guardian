@@ -32,7 +32,7 @@ describe ApiGuardian::Mailers::Mailer do
     end
 
     it 'renders the proper body' do
-      expect(ActionMailer::Base.deliveries.first.body).to match(/<p>Your authentication code is ([\d]){6}.<\/p>/)
+      expect(ActionMailer::Base.deliveries.first.body).to match(%r(<p>Your authentication code is ([\d]){6}.<\/p>))
     end
   end
 end

@@ -30,7 +30,7 @@ describe ApiGuardian::Jobs::SendOtp do
           it 'catches raised StandardErrors' do
             expect(user).to receive(:otp_code).and_return(otp_code)
             expect(ApiGuardian).to receive(:twilio_client).and_raise('oops')
-            expect(Rails.logger).to receive(:warn).with "[ApiGuardian] Could not connect to Twilio! oops"
+            expect(Rails.logger).to receive(:warn).with '[ApiGuardian] Could not connect to Twilio! oops'
             subject.perform(user, true)
           end
 
@@ -85,7 +85,7 @@ describe ApiGuardian::Jobs::SendOtp do
 
           it 'catches raised StandardErrors' do
             expect(ApiGuardian).to receive(:twilio_client).and_raise('oops')
-            expect(Rails.logger).to receive(:warn).with "[ApiGuardian] Could not connect to Twilio! oops"
+            expect(Rails.logger).to receive(:warn).with '[ApiGuardian] Could not connect to Twilio! oops'
             subject.perform(user, true)
           end
 

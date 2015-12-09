@@ -12,12 +12,12 @@ module ControllerConcernTestHelpers
 
     def self.skip_before_action(name, contraints)
       @skip_befores = [] unless @skip_befores.is_a? Array
-      @skip_befores.push( { name: name, contraints: contraints } )
+      @skip_befores.push(name: name, contraints: contraints)
     end
 
     def self.skip_after_action(name, contraints)
       @skip_afters = [] unless @skip_afters.is_a? Array
-      @skip_afters.push( { name: name, contraints: contraints } )
+      @skip_afters.push(name: name, contraints: contraints)
     end
 
     def render(options)
