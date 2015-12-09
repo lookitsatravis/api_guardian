@@ -21,3 +21,7 @@ ApiGuardian::Engine.routes.draw do
 
   match '*unmatched_route', to: 'application#not_found', via: :all
 end
+
+ApiGuardian::Engine.routes.default_url_options[:host] = Rails.application.routes.default_url_options[:host]
+ApiGuardian::Engine.routes.default_url_options[:port] = Rails.application.routes.default_url_options[:port]
+ApiGuardian::Engine.routes.default_url_options[:protocol] = Rails.application.routes.default_url_options[:protocol]
