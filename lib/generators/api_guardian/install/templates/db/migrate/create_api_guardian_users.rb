@@ -14,6 +14,7 @@ class CreateApiGuardianUsers < ActiveRecord::Migration
       t.datetime :reset_password_sent_at
       t.string :otp_secret_key
       t.boolean :otp_enabled, default: false
+      t.string :otp_method, default: 'sms'
       t.datetime :deleted_at
 
       t.timestamps null: false

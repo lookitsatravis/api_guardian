@@ -53,6 +53,7 @@ ActiveRecord::Schema.define(version: 20151117225238) do
     t.datetime "reset_password_sent_at"
     t.string   "otp_secret_key"
     t.boolean  "otp_enabled",               default: false
+    t.string   "otp_method",                default: "sms"
     t.datetime "deleted_at"
     t.datetime "created_at",                                null: false
     t.datetime "updated_at",                                null: false
