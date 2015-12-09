@@ -11,6 +11,7 @@ PATH
   remote: .
   specs:
     api_guardian (0.1.0.pre)
+      actionmailer (~> 4.2.0)
       active_model_otp (~> 1.2.0)
       activejob (~> 4.2.0)
       bcrypt (~> 3.1.10)
@@ -29,6 +30,12 @@ PATH
 GEM
   remote: https://rubygems.org/
   specs:
+    actionmailer (4.2.5)
+      actionpack (= 4.2.5)
+      actionview (= 4.2.5)
+      activejob (= 4.2.5)
+      mail (~> 2.5, >= 2.5.4)
+      rails-dom-testing (~> 1.0, >= 1.0.5)
     actionpack (4.2.5)
       actionview (= 4.2.5)
       activesupport (= 4.2.5)
@@ -118,6 +125,8 @@ GEM
       activesupport (>= 3.0.0)
     loofah (2.0.3)
       nokogiri (>= 1.5.9)
+    mail (2.6.3)
+      mime-types (>= 1.16, < 3)
     mime-types (2.99)
     mini_portile2 (2.0.0)
     minitest (5.8.3)
