@@ -5,13 +5,13 @@ module ApiGuardian
     include ApiGuardian::Concerns::ApiErrors::Handler
     include ApiGuardian::Concerns::ApiRequest::Validator
 
-    before_action :doorkeeper_authorize!, except: [:not_found]
+    before_action :doorkeeper_authorize!
     before_action :set_current_user
     before_action :prep_response
-    before_action :validate_api_request, except: [:not_found]
-    before_action :find_and_authorize_resource, except: [:index, :new, :create, :not_found]
+    before_action :validate_api_request
+    before_action :find_and_authorize_resource, except: [:index, :new, :create]
     after_action :verify_policy_scoped, only: :index
-    after_action :verify_authorized, except: [:index, :not_found]
+    after_action :verify_authorized, except: [:index]
 
     rescue_from Exception, with: :api_error_handler
 
@@ -40,10 +40,6 @@ module ApiGuardian
     def destroy
       @resource.destroy!
       head :no_content
-    end
-
-    def not_found
-      render_not_found
     end
 
     protected
@@ -100,10 +96,6 @@ module ApiGuardian
 
     def set_current_user
       @current_user = ApiGuardian.configuration.user_class.find(doorkeeper_token.resource_owner_id) if doorkeeper_token
-    end
-
-    def current_resource_owner
-      ApiGuardian.configuration.user_class.find(doorkeeper_token.resource_owner_id) if doorkeeper_token
     end
 
     def prep_response
