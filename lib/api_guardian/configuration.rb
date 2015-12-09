@@ -3,8 +3,10 @@ module ApiGuardian
     class ConfigurationError < RuntimeError
     end
 
+    AVAILABLE_2FA_METHODS = %w(sms voice google_auth email)
+
     attr_writer :user_class, :role_class, :permission_class, :role_permission_class,
-                :minimum_password_length, :twilio_id, :twilio_token
+                :minimum_password_length, :twilio_id, :twilio_token, :mail_from_address
 
     def user_class
       klass = @user_class ||= 'ApiGuardian::User'
@@ -54,6 +56,10 @@ module ApiGuardian
       end
     end
 
+    def mail_from_address
+      @mail_from_address ||= 'change-me@example.com'
+    end
+
     def otp_header_name
       @otp_header_name ||= 'AG-2FA-TOKEN'
     end
@@ -70,6 +76,22 @@ module ApiGuardian
     def enable_2fa=(value)
       fail ConfigurationError.new('enable_2fa must be a boolean!') unless [true, false].include? value
       @enable_2fa = value
+    end
+
+    def available_2fa_methods
+      @available_2fa_methods ||= AVAILABLE_2FA_METHODS
+    end
+
+    def available_2fa_methods=(value)
+      fail ConfigurationError.new('available_2fa_methods must be an array!') unless value.is_a? Array
+      allowed_methods = AVAILABLE_2FA_METHODS
+      value.each do |method|
+        fail ConfigurationError.new(
+          "'#{method}' is not an acceptable 2FA method! Possible values: " +
+          allowed_methods.join(', ')
+        ) unless allowed_methods.include? method
+      end
+      @available_2fa_methods = value
     end
 
     def twilio_send_from

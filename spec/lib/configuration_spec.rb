@@ -77,6 +77,30 @@ describe ApiGuardian::Configuration do
       end
     end
 
+    describe '.available_2fa_methods=' do
+      it 'fails if the value is not an array' do
+        expect { subject.available_2fa_methods = 0 }.to(
+          raise_error(ApiGuardian::Configuration::ConfigurationError)
+        )
+
+        expect { subject.available_2fa_methods = 'a' }.to(
+          raise_error(ApiGuardian::Configuration::ConfigurationError)
+        )
+
+        expect { subject.available_2fa_methods = ['sms'] }.not_to raise_error
+      end
+
+      it 'fails if the value contains unavailable 2FA methods' do
+        expect { subject.available_2fa_methods = ['sms'] }.not_to raise_error
+        expect { subject.available_2fa_methods = ['voice'] }.not_to raise_error
+        expect { subject.available_2fa_methods = ['google_auth'] }.not_to raise_error
+        expect { subject.available_2fa_methods = ['email'] }.not_to raise_error
+        expect { subject.available_2fa_methods = ['screaming'] }.to(
+          raise_error(ApiGuardian::Configuration::ConfigurationError)
+        )
+      end
+    end
+
     describe '.twilio_send_from=' do
       it 'fails if the provided number is invalid' do
         expect(Phony).to receive(:plausible?).and_return false

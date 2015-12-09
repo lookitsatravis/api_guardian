@@ -12,6 +12,10 @@ ApiGuardian.configure do |config|
   # Enable two-factor authentication
   # config.enable_2fa = true
 
+  # Methods for sending the 2FA one-time password. Note: it is not recommented
+  # that 2FA codes be sent through email.
+  # config.available_2fa_methods = %w(sms voice google_auth email)
+
   # 2FA header name. This header is used to validate a OTP and can be customized
   # to have the app name, for example.
   # config.otp_header_name = 'AG-2FA-TOKEN'
