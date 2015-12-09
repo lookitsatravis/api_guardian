@@ -35,6 +35,7 @@ SimpleCov.start do
   add_group 'Engine::Doorkeeper', 'lib/api_guardian/doorkeeper'
   add_group 'Engine::Errors', 'lib/api_guardian/errors'
   add_group 'Engine::Jobs', 'lib/api_guardian/jobs'
+  add_group 'Engine::Mailers', 'lib/api_guardian/mailers'
   add_group 'Engine::Policies', 'lib/api_guardian/policies'
   add_group 'Engine::Stores', 'lib/api_guardian/stores'
   add_group 'Engine::Strategies', 'lib/api_guardian/strategies'

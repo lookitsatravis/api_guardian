@@ -75,6 +75,10 @@ module ApiGuardian
     autoload :SendSms, 'api_guardian/jobs/send_sms'
   end
 
+  module Mailers
+    autoload :Mailer, 'api_guardian/mailers/mailer'
+  end
+
   class << self
     attr_accessor :current_request
     attr_writer :configuration
