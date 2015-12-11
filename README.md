@@ -200,27 +200,18 @@ If done properly, you should be rewarded with an access token. If the OTP is inc
 * controller actions:
   * Assign permissions to role by name
   * validate user password
-* config
-  * user lockouts
-  * ???
-* normalize email (downcase)
-* Add pepper/salt to bcrypt
-  * https://github.com/plataformatec/devise/blob/master/lib/devise/encryptor.rb
-  * http://api.rubyonrails.org/classes/ActiveModel/SecurePassword/InstanceMethodsOnActivation.html
-  * https://github.com/thoughtbot/clearance/blob/master/lib/clearance/password_strategies/bcrypt.rb
-* omniauth
-* Request logging
-* Sessions/Devices (attach to tokens)
-* Activity/Events (User signed in, User authenticated at...)
-* Email Service/SMS Service
-* Account lockout
-* SSO
 * digits integration
 * Multi-tenancy
   * Invite users by email to organization
   * Users can belong to multiple organizations
   * Different roles based on organization? Or permissions?
+* Add pepper/salt to bcrypt
+  * https://github.com/plataformatec/devise/blob/master/lib/devise/encryptor.rb
+  * http://api.rubyonrails.org/classes/ActiveModel/SecurePassword/InstanceMethodsOnActivation.html
+  * https://github.com/thoughtbot/clearance/blob/master/lib/clearance/password_strategies/bcrypt.rb
+* omniauth
 * Account lockout (failed login attempts)
+* https://github.com/kickstarter/rack-attack
 * 2FA
   * review support for https://www.authy.com/product/
   * review support for U2F
@@ -229,8 +220,14 @@ If done properly, you should be rewarded with an access token. If the OTP is inc
   * Backup codes for when device is unavailable
     * 16 one time use codes
     * Ability to regenerate a new batch of codes
+* Activity/Events (User signed in, User authenticated at...)
+* Sessions/Devices (attach to tokens)
 * Fix for JWT storage: https://github.com/doorkeeper-gem/doorkeeper/wiki/How-to-fix-PostgreSQL-error-on-index-row-size
 * Cache
+* SSO
+* Documentation
+  * Microservice usage
+  * Request logging
 
 ## Getting Help
 
