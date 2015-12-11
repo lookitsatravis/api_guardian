@@ -13,6 +13,8 @@ module ApiGuardian
     validates_with ApiGuardian::Validators::PasswordLengthValidator, if: :password
     validates_with ApiGuardian::Validators::PasswordScoreValidator, if: :password
 
+    before_save :enforce_email_case
+
     # Class Methods
     def self.policy_class
       ApiGuardian::Policies::UserPolicy
@@ -21,6 +23,10 @@ module ApiGuardian
     # Instance Methods
     def reset_password_token_valid?
       !reset_password_sent_at.nil? && 24.hours.ago <= reset_password_sent_at
+    end
+
+    def enforce_email_case
+      self.email = self.email.downcase if self.email
     end
   end
 end

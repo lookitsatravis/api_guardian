@@ -44,5 +44,21 @@ RSpec.describe ApiGuardian::User, type: :model do
         expect(user.reset_password_token_valid?).to be true
       end
     end
+
+    describe '#enforce_email_case' do
+      it 'ensures email is stored downcase on save' do
+        user = create(:user, email: 'UPPERCASE@EXAMPLE.COM')
+
+        expect(user.email).to eq 'uppercase@example.com'
+
+        user2 = create(:user, email: 'MiXeDcAsE@eXaMpLe.CoM')
+
+        expect(user2.email).to eq 'mixedcase@example.com'
+
+        user3 = create(:user, email: 'lowercase@example.com')
+
+        expect(user3.email).to eq 'lowercase@example.com'
+      end
+    end
   end
 end

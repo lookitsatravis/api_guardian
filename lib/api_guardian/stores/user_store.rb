@@ -3,7 +3,7 @@ module ApiGuardian
   module Stores
     class UserStore < Base
       def find_by_email(email)
-        ApiGuardian.configuration.user_class.find_by_email(email)
+        ApiGuardian.configuration.user_class.find_by_email(email.downcase)
       end
 
       def find_by_reset_password_token(token)
@@ -90,6 +90,7 @@ module ApiGuardian
 
         if user
           # Validate submitted email matches token
+          attributes[:email] = attributes[:email].downcase if attributes[:email].present?
           fail ApiGuardian::Errors::ResetTokenUserMismatchError,
                attributes[:email] unless user.email == attributes[:email]
 
