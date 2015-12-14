@@ -20,6 +20,7 @@ ActiveRecord::Schema.define(version: 20151211215201) do
   create_table "api_guardian_identities", id: :uuid, default: "uuid_generate_v4()", force: :cascade do |t|
     t.string   "provider",     null: false
     t.string   "provider_uid", null: false
+    t.json     "tokens",       null: false
     t.uuid     "user_id",      null: false
     t.datetime "created_at",   null: false
     t.datetime "updated_at",   null: false
