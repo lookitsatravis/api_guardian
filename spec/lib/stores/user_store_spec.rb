@@ -34,6 +34,18 @@ describe ApiGuardian::Stores::UserStore do
       end
     end
 
+    describe '#create_with_identity' do
+      it 'should create user and then identity with bang' do
+        attrs = {}
+        id_attrs = {}
+        mock_user = mock_model(ApiGuardian::User)
+        expect_any_instance_of(ApiGuardian::Stores::UserStore).to receive(:create).and_return(mock_user)
+        expect(mock_user).to receive_message_chain('identities.create!').with(id_attrs)
+
+        subject.create_with_identity(attrs, id_attrs)
+      end
+    end
+
     describe '#add_phone' do
       it 'fails on invalid phone number' do
         user = mock_model(ApiGuardian::User)

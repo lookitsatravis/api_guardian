@@ -17,6 +17,12 @@ module ApiGuardian
         super attributes
       end
 
+      def create_with_identity(attributes, id_attributes)
+        user = create(attributes)
+        user.identities.create!(id_attributes)
+        user
+      end
+
       def add_phone(user, attributes)
         check_password user, attributes
 
