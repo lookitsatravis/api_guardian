@@ -22,6 +22,7 @@ module ApiGuardian
       copy_migration 'create_api_guardian_users.rb'
       copy_migration 'create_api_guardian_permissions.rb'
       copy_migration 'create_api_guardian_role_permissions.rb'
+      copy_migration 'create_api_guardian_identities.rb'
       copy_migration 'create_doorkeeper_tables.rb'
     end
 
