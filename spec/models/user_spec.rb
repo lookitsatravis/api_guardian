@@ -4,15 +4,49 @@ RSpec.describe ApiGuardian::User, type: :model do
   # Relations
   context 'relations' do
     it { should belong_to(:role) }
+    it { should have_many(:identities) }
   end
 
   # Validations
   context 'validations' do
-    it { should validate_presence_of :email }
-    it { should validate_uniqueness_of :email }
-    # FIXME: This validation test fails due to a bug in shoulda-matchers
-    # https://github.com/thoughtbot/shoulda-matchers/issues/853
-    # it { should validate_uniqueness_of(:phone_number).case_insensitive }
+    context 'email' do
+      it { should validate_uniqueness_of(:email).allow_nil }
+
+      context 'presence' do
+        # Phone is not present
+        it 'validates when phone_number is blank' do
+          subject.phone_number = nil
+          subject.phone_number_confirmed_at = nil
+          subject.email = nil
+          subject.email_confirmed_at = nil
+
+          expect(subject).not_to be_valid
+
+          subject.phone_number = '18005551234'
+
+          expect(subject).to be_valid
+        end
+      end
+    end
+
+    context 'phone_number' do
+      # FIXME: This validation test fails due to a bug in shoulda-matchers
+      # https://github.com/thoughtbot/shoulda-matchers/issues/853
+      # it { should validate_uniqueness_of(:phone_number).case_insensitive.allow_nil }
+
+      it 'validates when email is blank' do
+        subject.phone_number = nil
+        subject.phone_number_confirmed_at = nil
+        subject.email = nil
+        subject.email_confirmed_at = nil
+
+        expect(subject).not_to be_valid
+
+        subject.email = '18005551234'
+
+        expect(subject).to be_valid
+      end
+    end
     it { should validate_with ApiGuardian::Validators::PasswordLengthValidator }
     it { should validate_with ApiGuardian::Validators::PasswordScoreValidator }
   end

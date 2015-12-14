@@ -5,11 +5,14 @@ module ApiGuardian
     has_one_time_password
 
     belongs_to :role, class_name: ApiGuardian.configuration.role_class.to_s
+    has_many :identities, class_name: ApiGuardian.configuration.identity_class.to_s
 
     delegate :can?, :cannot?, to: :role
 
-    validates :email, presence: true, uniqueness: true
-    validates :phone_number, uniqueness: true, case_sensitive: false
+    validates :email, uniqueness: true, allow_nil: true
+    validates :email, presence: true, unless: Proc.new { |u| u.phone_number.present? }
+    validates :phone_number, uniqueness: true, case_sensitive: false, allow_nil: true
+    validates :phone_number, presence: true, unless: Proc.new { |u| u.email.present? }
     validates_with ApiGuardian::Validators::PasswordLengthValidator, if: :password
     validates_with ApiGuardian::Validators::PasswordScoreValidator, if: :password
 
