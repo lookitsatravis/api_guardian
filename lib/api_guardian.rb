@@ -44,6 +44,9 @@ module ApiGuardian
     autoload :PasswordRequired, 'api_guardian/errors/password_required'
     autoload :PasswordInvalid, 'api_guardian/errors/password_invalid'
     autoload :TwoFactorRequired, 'api_guardian/errors/two_factor_required'
+    autoload :InvalidRegistrationProvider, 'api_guardian/errors/invalid_registration_provider'
+    autoload :RegistrationValidationFailed, 'api_guardian/errors/registration_validation_failed'
+    autoload :IdentityAuthorizationFailed, 'api_guardian/errors/identity_authorization_failed'
   end
 
   module Stores
