@@ -6,7 +6,8 @@ module ApiGuardian
     AVAILABLE_2FA_METHODS = %w(sms voice google_auth email)
 
     attr_writer :user_class, :role_class, :permission_class, :role_permission_class,
-                :minimum_password_length, :twilio_id, :twilio_token, :mail_from_address
+                :identity_class, :minimum_password_length, :twilio_id, :twilio_token,
+                :mail_from_address
 
     def user_class
       klass = @user_class ||= 'ApiGuardian::User'
@@ -25,6 +26,11 @@ module ApiGuardian
 
     def role_permission_class
       klass = @role_permission_class ||= 'ApiGuardian::RolePermission'
+      klass.constantize
+    end
+
+    def identity_class
+      klass = @identity_class ||= 'ApiGuardian::Identity'
       klass.constantize
     end
 
