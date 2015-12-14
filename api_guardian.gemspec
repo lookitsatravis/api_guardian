@@ -34,6 +34,7 @@ Gem::Specification.new do |s|
   s.add_dependency 'twilio-ruby', '~> 4.7.0'
   s.add_dependency 'activejob', '~> 4.2.0'
   s.add_dependency 'actionmailer', '~> 4.2.0'
+  s.add_dependency 'httparty', '~> 0.13.7'
   # s.add_dependency 'active_model_serializers', '0.10.0.rc3'
   s.add_development_dependency 'rspec-rails', '~> 3.4.0'
   s.add_development_dependency 'rspec-activemodel-mocks', '~> 1.0.2'
