@@ -51,19 +51,9 @@ module ApiGuardian
       end
 
       def self.register(attributes)
-        instance = new(nil)
-
-        attributes[:role_id] = ApiGuardian::Stores::RoleStore.default_role.id
-        attributes[:active] = false
-
-        # create user
-        user = instance.new(attributes)
-        fail ActiveRecord::RecordInvalid.new(user), '' unless user.valid?
-        instance.save(user)
-
-        # TODO: put user created event onto queue
-
-        user
+        provider = attributes.extract!(:type).fetch(:type)
+        strategy = ApiGuardian::Strategies::Registration.find provider
+        strategy.register(self, attributes)
       end
 
       def self.reset_password(email)

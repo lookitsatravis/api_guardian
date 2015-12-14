@@ -86,29 +86,14 @@ describe ApiGuardian::Stores::UserStore do
     end
 
     describe '.register' do
-      it 'fails on invalid attributes' do
-        role = mock_model(ApiGuardian::Role)
-        expect(role).to receive(:id).and_return(1)
-        expect(ApiGuardian::Stores::RoleStore).to receive(:default_role).and_return(role)
-        allow_any_instance_of(ApiGuardian::User).to receive(:valid?).and_return(false)
+      it 'passes attributes to registration strategy' do
+        expect_any_instance_of(ActionController::Parameters).to receive(:extract!).with(:type).and_return(ActionController::Parameters.new)
+        expect_any_instance_of(ActionController::Parameters).to receive(:fetch).with(:type).and_return('test')
+        mock_strategy = double(ApiGuardian::Strategies::Registration::Email)
+        expect(ApiGuardian::Strategies::Registration).to receive(:find).and_return(mock_strategy)
+        expect(mock_strategy).to receive(:register)
 
-        expect { ApiGuardian::Stores::UserStore.register({}) }.to raise_error ActiveRecord::RecordInvalid
-      end
-
-      it 'creates inactive user with unconfirmed email and default role' do
-        role = mock_model(ApiGuardian::Role)
-        user = create(:user)
-        expect(role).to receive(:id).and_return(1)
-        expect(ApiGuardian::Stores::RoleStore).to receive(:default_role).and_return(role)
-        expect(ApiGuardian::User).to receive(:new).and_return(user)
-        expect_any_instance_of(ApiGuardian::User).to receive(:valid?).and_return(true)
-        expect_any_instance_of(ApiGuardian::User).to receive(:save!).and_return(true)
-
-        result = ApiGuardian::Stores::UserStore.register({})
-
-        expect(result.role_id).to eq user.role_id
-        expect(result.active).to be false
-        expect(result.email_confirmed_at).to be nil
+        ApiGuardian::Stores::UserStore.register(ActionController::Parameters.new)
       end
     end
 
