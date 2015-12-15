@@ -135,6 +135,27 @@ describe ApiGuardian::Concerns::ApiErrors::Handler, type: :request do
         expect { dummy_class.api_error_handler(ApiGuardian::Errors::TwoFactorRequired.new('')) }.not_to raise_error
       end
 
+      it 'handles InvalidRegistrationProvider' do
+        expect_any_instance_of(Test::Dummy).to receive(:render_error).with(
+          400, 'malformed_request', 'Malformed Request', 'test message'
+        )
+        expect { dummy_class.api_error_handler(ApiGuardian::Errors::InvalidRegistrationProvider.new('test message')) }.not_to raise_error
+      end
+
+      it 'handles RegistrationValidationFailed' do
+        expect_any_instance_of(Test::Dummy).to receive(:render_error).with(
+          422, 'registration_failed', 'Registration Failed', 'test message'
+        )
+        expect { dummy_class.api_error_handler(ApiGuardian::Errors::RegistrationValidationFailed.new('test message')) }.not_to raise_error
+      end
+
+      it 'handles IdentityAuthorizationFailed' do
+        expect_any_instance_of(Test::Dummy).to receive(:render_error).with(
+          401, 'identity_authorization_failed', 'Identity Authorization Failed', 'test message'
+        )
+        expect { dummy_class.api_error_handler(ApiGuardian::Errors::IdentityAuthorizationFailed.new('test message')) }.not_to raise_error
+      end
+
       it 'handles generic errors' do
         exception = StandardError.new('')
         expect_any_instance_of(Test::Dummy).to receive(:render_error).with(

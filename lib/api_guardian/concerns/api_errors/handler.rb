@@ -41,6 +41,12 @@ module ApiGuardian
               phone_number_invalid
             elsif exception.is_a? ApiGuardian::Errors::TwoFactorRequired
               two_factor_required
+            elsif exception.is_a? ApiGuardian::Errors::InvalidRegistrationProvider
+              malformed_request(exception)
+            elsif exception.is_a? ApiGuardian::Errors::RegistrationValidationFailed
+              registration_invalid(exception)
+            elsif exception.is_a? ApiGuardian::Errors::IdentityAuthorizationFailed
+              identity_authorization_failed(exception)
             else
               generic_error_handler(exception)
             end
@@ -189,6 +195,20 @@ module ApiGuardian
               402, 'two_factor_required', 'Two-Factor Required',
               'OTP has been sent to the user and must be included in the next' \
               " authentication request in the #{ApiGuardian.configuration.otp_header_name} header."
+            )
+          end
+
+          def registration_invalid(exception)
+            render_error(
+              422, 'registration_failed', 'Registration Failed',
+              exception.message
+            )
+          end
+
+          def identity_authorization_failed(exception)
+            render_error(
+              401, 'identity_authorization_failed', 'Identity Authorization Failed',
+              exception.message
             )
           end
         end
