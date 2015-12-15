@@ -135,3 +135,17 @@ describe ApiGuardian::Configuration do
     end
   end
 end
+
+describe ApiGuardian::Configuration::Registration do
+  describe 'methods' do
+    describe '#add_config_option' do
+      it 'adds attr_accessor to itself by key' do
+        expect(subject).not_to have_attr_accessor(:test)
+
+        subject.add_config_option :test
+
+        expect(subject).to have_attr_accessor(:test)
+      end
+    end
+  end
+end

@@ -1,5 +1,11 @@
 module ApiGuardian
   class Configuration
+    class Registration
+      def add_config_option(key)
+        self.class.class_eval {attr_accessor key.to_sym}
+      end
+    end
+
     class ConfigurationError < RuntimeError
     end
 
@@ -120,6 +126,10 @@ module ApiGuardian
     def twilio_token
       fail ConfigurationError.new('You must supply your Twilio Auth Token in order to use 2FA features.') unless @twilio_token
       @twilio_token
+    end
+
+    def registration
+      @registration_config ||= Registration.new
     end
   end
 end
