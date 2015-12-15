@@ -71,6 +71,16 @@ module ApiGuardian
   module Strategies
     autoload :PasswordAuthentication, 'api_guardian/strategies/password_authentication'
     autoload :TwoFactorAuthentication, 'api_guardian/strategies/two_factor_authentication'
+
+    module Registration
+      module_function
+
+      def self.find(provider)
+        strategy = Base.providers[provider.to_sym]
+        fail ApiGuardian::Errors::InvalidRegistrationProvider, "Could not find provider '#{provider}'" unless strategy
+        strategy
+      end
+    end
   end
 
   module Jobs
