@@ -6,7 +6,22 @@ describe 'Registration' do
   let(:headers) { { 'Accept' => 'application/json', 'Content-Type' => 'application/json' } }
 
   describe 'POST /register' do
+    it 'fails if provider is not a string' do
+      expect_any_instance_of(ActionController::Parameters).to receive(:require).with(:type)
+      expect_any_instance_of(ActionController::Parameters).to receive(:fetch).with(:type, nil).and_return([])
+
+      post '/register', {}, headers
+
+      expect(response).to have_http_status(400)
+    end
+
     it 'registers a user' do
+      mock_strategy = double(ApiGuardian::Strategies::Registration::Email)
+      expect_any_instance_of(ActionController::Parameters).to receive(:require).with(:type)
+      expect_any_instance_of(ActionController::Parameters).to receive(:fetch).with(:type, nil).and_return('test')
+      expect(ApiGuardian::Strategies::Registration).to receive(:find).with('test').and_return(mock_strategy)
+      expect(mock_strategy).to receive(:params).and_return([])
+      expect_any_instance_of(ActionController::Parameters).to receive(:permit).with(:type, *[])
       expect(ApiGuardian::Stores::UserStore).to receive(:register).and_return(true)
 
       post '/register', {}, headers

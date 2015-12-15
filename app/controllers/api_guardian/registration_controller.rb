@@ -24,7 +24,9 @@ module ApiGuardian
     protected
 
     def register_params
-      params.permit(:email, :password, :password_confirmation)
+      params.require(:type)
+      strategy = find_strategy(params.fetch(:type, nil))
+      params.permit(:type, *strategy.params)
     end
 
     def reset_password_params
@@ -33,6 +35,13 @@ module ApiGuardian
 
     def complete_reset_password_params
       params.permit(:token, :email, :password, :password_confirmation)
+    end
+
+    private
+
+    def find_strategy(provider)
+      fail ApiGuardian::Errors::InvalidRegistrationProvider, 'Provider must be a string' unless provider.is_a? String
+      ApiGuardian::Strategies::Registration.find provider
     end
   end
 end
