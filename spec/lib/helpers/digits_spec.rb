@@ -9,8 +9,8 @@ describe ApiGuardian::Helpers::Digits do
   let(:auth_url) { 'https://api.digits.com/v1/something.json' }
   let(:auth_header) { 'OAuth oauth_consumer_key="foo"' }
 
-  it {should have_attr_reader(:auth_url) }
-  it {should have_attr_reader(:auth_header) }
+  it { should have_attr_reader(:auth_url) }
+  it { should have_attr_reader(:auth_header) }
 
   describe 'methods' do
     describe '#validate' do
@@ -22,7 +22,10 @@ describe ApiGuardian::Helpers::Digits do
         result = subject.validate
 
         expect(result.succeeded).to eq false
-        expect(result.error).to eq 'Digits consumer key not set! Please add "config.registration.digits_key" to the ApiGuardian initializer!'
+        expect(result.error).to eq(
+          'Digits consumer key not set! Please add ' \
+          '"config.registration.digits_key" to the ApiGuardian initializer!'
+        )
       end
 
       it 'fails with invalid auth header' do
@@ -60,7 +63,6 @@ describe ApiGuardian::Helpers::Digits do
 
         expect(result.succeeded).to eq true
         expect(result.error).to eq ''
-
       end
     end
 
@@ -88,7 +90,7 @@ describe ApiGuardian::Helpers::Digits do
 
         expect(mock_response).to receive(:code).twice.and_return(400)
 
-        expect{subject.authorize!}.to raise_error(
+        expect { subject.authorize! }.to raise_error(
           ApiGuardian::Errors::IdentityAuthorizationFailed,
           'Digits API responded with 400. Expected 200!'
         )

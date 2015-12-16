@@ -10,9 +10,9 @@ module ApiGuardian
     delegate :can?, :cannot?, to: :role
 
     validates :email, uniqueness: true, allow_nil: true
-    validates :email, presence: true, unless: Proc.new { |u| u.phone_number.present? }
+    validates :email, presence: true, unless: proc { |u| u.phone_number.present? }
     validates :phone_number, uniqueness: true, case_sensitive: false, allow_nil: true
-    validates :phone_number, presence: true, unless: Proc.new { |u| u.email.present? }
+    validates :phone_number, presence: true, unless: proc { |u| u.email.present? }
     validates_with ApiGuardian::Validators::PasswordLengthValidator, if: :password
     validates_with ApiGuardian::Validators::PasswordScoreValidator, if: :password
 
@@ -29,7 +29,7 @@ module ApiGuardian
     end
 
     def enforce_email_case
-      self.email = self.email.downcase if self.email
+      self.email = email.downcase if email
     end
   end
 end

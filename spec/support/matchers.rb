@@ -91,7 +91,7 @@ RSpec::Matchers.define :have_attr_accessor do |field|
   end
 
   description do
-    "assert there is an attr_accessor of the given name on the supplied object"
+    'assert there is an attr_accessor of the given name on the supplied object'
   end
 end
 
@@ -109,7 +109,7 @@ RSpec::Matchers.define :have_attr_reader do |field|
   end
 
   description do
-    "assert there is an attr_reader of the given name on the supplied object"
+    'assert there is an attr_reader of the given name on the supplied object'
   end
 end
 
@@ -127,6 +127,6 @@ RSpec::Matchers.define :have_attr_writer do |field|
   end
 
   description do
-    "assert there is an attr_writer of the given name on the supplied object"
+    'assert there is an attr_writer of the given name on the supplied object'
   end
 end

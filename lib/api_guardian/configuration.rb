@@ -2,7 +2,7 @@ module ApiGuardian
   class Configuration
     class Registration
       def add_config_option(key)
-        self.class.class_eval {attr_accessor key.to_sym}
+        self.class.class_eval { attr_accessor key.to_sym }
       end
     end
 

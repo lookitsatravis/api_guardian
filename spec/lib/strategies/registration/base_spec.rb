@@ -56,14 +56,14 @@ describe ApiGuardian::Strategies::Registration::Base do
       it 'execute validation' do
         expect_any_instance_of(ApiGuardian::ValidationResult).to receive(:succeeded).and_return true
 
-        expect{subject.register({})}.not_to raise_error
+        expect { subject.register({}) }.not_to raise_error
       end
 
       it 'fails if validation fails' do
         expect_any_instance_of(ApiGuardian::ValidationResult).to receive(:succeeded).and_return false
         expect_any_instance_of(ApiGuardian::ValidationResult).to receive(:error).and_return 'test'
 
-        expect{subject.register({})}.to raise_error(
+        expect { subject.register({}) }.to raise_error(
           ApiGuardian::Errors::RegistrationValidationFailed,
           'test'
         )
