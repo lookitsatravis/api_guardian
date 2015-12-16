@@ -120,3 +120,7 @@ module ApiGuardian
     yield(configuration)
   end
 end
+
+require 'api_guardian/strategies/registration/base'
+require 'api_guardian/strategies/registration/email'
+require 'api_guardian/strategies/registration/digits'
