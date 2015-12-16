@@ -30,7 +30,7 @@ What doesn't it include?
 ## Requirements
 
 * Ruby >= 2.0
-* PostgreSQL >= 9.1 (uuid-ossp support)
+* PostgreSQL >= 9.3 (JSON and uuid-ossp support)
 
 **Note: For now, your app must use a PostgreSQL database.** This is because ApiGuardian is using UUID primary keys for all records.
 
@@ -201,6 +201,7 @@ If done properly, you should be rewarded with an access token. If the OTP is inc
   * Assign permissions to role by name
   * validate user password
 * digits integration
+* disallow inactive users
 * Multi-tenancy
   * Invite users by email to organization
   * Users can belong to multiple organizations
