@@ -85,6 +85,8 @@ To Do
 
 To Do
 
+### Registration
+
 ## Configuration
 
 ### Two-Factor Authentication
@@ -213,6 +215,9 @@ If done properly, you should be rewarded with an access token. If the OTP is inc
 * omniauth
 * Account lockout (failed login attempts)
 * https://github.com/kickstarter/rack-attack
+* JWT
+  * configure issuer
+  * configure secret key
 * 2FA
   * review support for https://www.authy.com/product/
   * review support for U2F
