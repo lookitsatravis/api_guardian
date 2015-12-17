@@ -18,7 +18,7 @@ module ApiGuardian
           when 'WARN'
             severity = severity.yellow
           when 'ERROR'
-            severity = severity.magenta
+            severity = severity.light_red
           when 'FATAL'
             severity = severity.red
           when 'INFO'
