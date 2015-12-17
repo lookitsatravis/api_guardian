@@ -6,7 +6,7 @@ ApiGuardian::Engine.routes.draw do
 
   # API v1
   use_doorkeeper scope: 'auth' do
-    skip_controllers :applications, :authorized_applications
+    skip_controllers :applications, :authorized_applications, :authorizations, :token_info
   end
 
   resources :users, except: [:new, :edit] do
