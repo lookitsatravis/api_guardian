@@ -12,6 +12,7 @@ module ApiGuardian
     before_action :find_and_authorize_resource, except: [:index, :new, :create]
     after_action :verify_policy_scoped, only: :index
     after_action :verify_authorized, except: [:index]
+    append_before_filter :set_current_request
 
     rescue_from Exception, with: :api_error_handler
 
@@ -100,6 +101,10 @@ module ApiGuardian
 
     def prep_response
       response.headers['Content-Type'] = 'application/vnd.api+json'
+    end
+
+    def set_current_request
+      ApiGuardian.current_request = request
     end
   end
 end
