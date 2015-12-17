@@ -1,6 +1,6 @@
 require 'faker'
 
-describe ApiGuardian::Strategies::TwoFactorAuthentication do
+describe ApiGuardian::Strategies::Authentication::TwoFactor do
   # Methods
   describe 'methods' do
     let(:user) { mock_model(ApiGuardian::User) }
@@ -10,7 +10,7 @@ describe ApiGuardian::Strategies::TwoFactorAuthentication do
       it 'returns true if 2FA is disabled' do
         expect(ApiGuardian.configuration).to receive(:enable_2fa).and_return(false)
 
-        result = ApiGuardian::Strategies::TwoFactorAuthentication.authenticate_request(user, mock_request)
+        result = ApiGuardian::Strategies::Authentication::TwoFactor.authenticate_request(user, mock_request)
 
         expect(result).to be true
       end
@@ -19,7 +19,7 @@ describe ApiGuardian::Strategies::TwoFactorAuthentication do
         expect(ApiGuardian.configuration).to receive(:enable_2fa).and_return(true)
         expect(user).to receive(:otp_enabled).and_return false
 
-        result = ApiGuardian::Strategies::TwoFactorAuthentication.authenticate_request(user, mock_request)
+        result = ApiGuardian::Strategies::Authentication::TwoFactor.authenticate_request(user, mock_request)
 
         expect(result).to be true
       end
@@ -35,7 +35,7 @@ describe ApiGuardian::Strategies::TwoFactorAuthentication do
         expect(ApiGuardian::Jobs::SendOtp).to receive(:perform_later).with(user)
 
         expect do
-          ApiGuardian::Strategies::TwoFactorAuthentication.authenticate_request(user, mock_request)
+          ApiGuardian::Strategies::Authentication::TwoFactor.authenticate_request(user, mock_request)
         end.to raise_error ApiGuardian::Errors::TwoFactorRequired
       end
 
@@ -48,7 +48,7 @@ describe ApiGuardian::Strategies::TwoFactorAuthentication do
         expect(mock_headers).to receive(:[]).with('X-TEST').and_return('000')
         expect(user).to receive(:authenticate_otp).with('000', drift: 30).and_return true
 
-        result = ApiGuardian::Strategies::TwoFactorAuthentication.authenticate_request(user, mock_request)
+        result = ApiGuardian::Strategies::Authentication::TwoFactor.authenticate_request(user, mock_request)
 
         expect(result).to be true
       end
@@ -58,11 +58,11 @@ describe ApiGuardian::Strategies::TwoFactorAuthentication do
 
         user = create(:user, password: password, password_confirmation: password)
 
-        result = ApiGuardian::Strategies::PasswordAuthentication.authenticate user, password
+        result = ApiGuardian::Strategies::Authentication::Password.authenticate user, password
 
         expect(result).to eq user
 
-        result = ApiGuardian::Strategies::PasswordAuthentication.authenticate user, 'password'
+        result = ApiGuardian::Strategies::Authentication::Password.authenticate user, 'password'
 
         expect(result).to eq nil
       end

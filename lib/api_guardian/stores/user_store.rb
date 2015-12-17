@@ -119,7 +119,7 @@ module ApiGuardian
           fail ApiGuardian::Errors::PasswordRequired
         end
 
-        unless ApiGuardian::Strategies::PasswordAuthentication.authenticate(user, password)
+        unless ApiGuardian::Strategies::Authentication::Password.authenticate(user, password)
           fail ApiGuardian::Errors::PasswordInvalid
         end
       end

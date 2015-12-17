@@ -204,7 +204,7 @@ describe ApiGuardian::Stores::UserStore do
 
       it 'fails if password is invalid' do
         user = mock_model(ApiGuardian::User)
-        expect(ApiGuardian::Strategies::PasswordAuthentication).to(
+        expect(ApiGuardian::Strategies::Authentication::Password).to(
           receive(:authenticate).and_return(nil)
         )
 

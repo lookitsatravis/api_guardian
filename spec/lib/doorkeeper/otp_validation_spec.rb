@@ -31,8 +31,8 @@ module Doorkeeper
 
       describe 'methods' do
         describe '#validate_otp' do
-          it 'validates using TwoFactorAuthentication' do
-            expect(ApiGuardian::Strategies::TwoFactorAuthentication).to(
+          it 'validates using Two Factor Authentication' do
+            expect(ApiGuardian::Strategies::Authentication::TwoFactor).to(
               receive(:authenticate_request).with(subject.resource_owner, ApiGuardian.current_request)
             )
 

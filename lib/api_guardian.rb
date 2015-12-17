@@ -71,9 +71,6 @@ module ApiGuardian
   end
 
   module Strategies
-    autoload :PasswordAuthentication, 'api_guardian/strategies/password_authentication'
-    autoload :TwoFactorAuthentication, 'api_guardian/strategies/two_factor_authentication'
-
     module Registration
       module_function
 

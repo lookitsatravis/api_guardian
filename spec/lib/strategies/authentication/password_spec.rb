@@ -1,6 +1,6 @@
 require 'faker'
 
-describe ApiGuardian::Strategies::PasswordAuthentication do
+describe ApiGuardian::Strategies::Authentication::Password do
   # Methods
   describe 'methods' do
     describe '.authencate' do
@@ -9,11 +9,11 @@ describe ApiGuardian::Strategies::PasswordAuthentication do
 
         user = create(:user, password: password, password_confirmation: password)
 
-        result = ApiGuardian::Strategies::PasswordAuthentication.authenticate user, password
+        result = ApiGuardian::Strategies::Authentication::Password.authenticate user, password
 
         expect(result).to eq user
 
-        result = ApiGuardian::Strategies::PasswordAuthentication.authenticate user, 'password'
+        result = ApiGuardian::Strategies::Authentication::Password.authenticate user, 'password'
 
         expect(result).to eq nil
       end
