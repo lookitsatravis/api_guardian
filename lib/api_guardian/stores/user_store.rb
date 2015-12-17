@@ -113,6 +113,10 @@ module ApiGuardian
         false
       end
 
+      def self.find_identity_by_provider(user, provider)
+        user.identities.where(provider: provider).first
+      end
+
       def check_password(user, attributes)
         password = attributes[:password]
         if !password || password.blank?

@@ -211,5 +211,18 @@ describe ApiGuardian::Stores::UserStore do
         expect { subject.check_password(user, password: 'test') }.to raise_error ApiGuardian::Errors::PasswordInvalid
       end
     end
+
+    describe '.find_identity_by_provider' do
+      it 'does what it\'s name implies' do
+        user = mock_model(ApiGuardian::User)
+        identities = instance_double(ActiveRecord::Associations::CollectionProxy)
+        identities_result = instance_double(ActiveRecord::AssociationRelation)
+        expect(user).to receive('identities').and_return(identities)
+        expect(identities).to receive(:where).with(provider: :test).and_return(identities_result)
+        expect(identities_result).to receive(:first)
+
+        ApiGuardian::Stores::UserStore.find_identity_by_provider(user, :test)
+      end
+    end
   end
 end
