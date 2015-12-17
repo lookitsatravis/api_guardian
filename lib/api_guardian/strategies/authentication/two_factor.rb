@@ -10,11 +10,14 @@ module ApiGuardian
             otp_code = request.headers[otp_header_name]
 
             if !otp_code || otp_code.blank?
+              ApiGuardian.logger.warn 'OTP not provided'
               ApiGuardian::Jobs::SendOtp.perform_later user
               fail ApiGuardian::Errors::TwoFactorRequired
             end
 
-            return user.authenticate_otp otp_code, drift: 30
+            valid = user.authenticate_otp otp_code, drift: 30
+            ApiGuardian.logger.warn 'OTP code invalid' unless valid
+            valid
           end
 
           true

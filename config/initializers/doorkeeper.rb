@@ -4,7 +4,9 @@
 
   # This block will be called to check whether the resource owner is authenticated or not.
   resource_owner_from_credentials do
-    ApiGuardian.authenticate(params[:username], params[:password])
+    owner = ApiGuardian.authenticate(params[:username], params[:password])
+    ApiGuardian.logger.warn 'User not found or credentials are invalid.' unless owner
+    owner
   end
 
   # If you want to restrict access to the web interface for adding oauth authorized applications,

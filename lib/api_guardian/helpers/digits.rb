@@ -19,16 +19,19 @@ module ApiGuardian
         validate_oauth_key
         validate_auth_header
         validate_auth_url
+        ApiGuardian.logger.info 'Digits validation succeeded!'
         ApiGuardian::ValidationResult.new(true)
       rescue StandardError => e
-        ApiGuardian.logger.warn 'Validation failed: ' + e.message
+        ApiGuardian.logger.warn 'Digits validation failed: ' + e.message
         ApiGuardian::ValidationResult.new(false, e.message)
       end
 
       def authorize!
         response = HTTParty.get(auth_url, headers: { 'Authorization' => auth_header })
-        fail ApiGuardian::Errors::IdentityAuthorizationFailed,
-             "Digits API responded with #{response.code}. Expected 200!" unless response.code == 200
+        unless response.code == 200
+          ApiGuardian.logger.error "Digits authorization failed! #{response}"
+          fail ApiGuardian::Errors::IdentityAuthorizationFailed, "Digits API responded with #{response.code}. Expected 200!"
+        end
         response
       end
 
@@ -42,6 +45,7 @@ module ApiGuardian
       end
 
       def validate_auth_header
+        fail StandardError, 'Digits Auth Headers invalid or missing' unless auth_header
         auth_header.gsub('OAuth ', '').split(', ').each do |piece|
           key = piece.split('=')[0]
           next unless key == 'oauth_consumer_key'
@@ -54,6 +58,7 @@ module ApiGuardian
       end
 
       def validate_auth_url
+        fail StandardError, 'Digits Auth URL invalid or missing' unless auth_url
         domain = URI.parse(auth_url).host
         unless domain.match('api.digits.com')
           fail StandardError, 'Auth url is for invalid domain. Must match "api.digits.com".'
