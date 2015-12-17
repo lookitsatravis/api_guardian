@@ -11,6 +11,7 @@ require 'colorize'
 require 'twilio-ruby'
 require 'active_model_otp'
 require 'active_model_serializers'
+require 'api_guardian/logs'
 require 'api_guardian/helpers/helpers'
 require 'api_guardian/configuration'
 require 'api_guardian/validation'
@@ -117,8 +118,13 @@ module ApiGuardian
   def configure
     yield(configuration)
   end
+
+  def logger
+    @logger ||= ApiGuardian::Logging::Logger.new(STDOUT)
+  end
 end
 
+require 'api_guardian/strategies/authentication/authentication'
 require 'api_guardian/strategies/registration/base'
 require 'api_guardian/strategies/registration/email'
 require 'api_guardian/strategies/registration/digits'

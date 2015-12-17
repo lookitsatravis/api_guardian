@@ -21,6 +21,7 @@ module ApiGuardian
         validate_auth_url
         ApiGuardian::ValidationResult.new(true)
       rescue StandardError => e
+        ApiGuardian.logger.warn 'Validation failed: ' + e.message
         ApiGuardian::ValidationResult.new(false, e.message)
       end
 

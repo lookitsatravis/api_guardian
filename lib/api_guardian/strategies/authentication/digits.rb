@@ -14,7 +14,8 @@ module ApiGuardian
               response = client.authorize!
               update_digits_identity(identity, response)
               return user
-            rescue
+            rescue StandardError => e
+              ApiGuardian.logger.debug e.message
             end
           end
 

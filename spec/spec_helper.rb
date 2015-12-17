@@ -142,6 +142,17 @@ RSpec.configure do |config|
   # config.before :each do
   #   FakeSMS.messages = []
   # end
+
+  # Disable custom logger during tests
+  config.before(:each) do
+    logger = instance_double(ApiGuardian::Logging::Logger)
+    allow(logger).to receive(:debug)
+    allow(logger).to receive(:info)
+    allow(logger).to receive(:warn)
+    allow(logger).to receive(:error)
+    allow(logger).to receive(:fatal)
+    allow(ApiGuardian).to receive(:logger).and_return(logger)
+  end
 end
 
 Shoulda::Matchers.configure do |config|

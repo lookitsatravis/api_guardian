@@ -11,6 +11,8 @@ module ApiGuardian
 
         included do
           def api_error_handler(exception)
+            ApiGuardian.logger.error 'ApiError: ' + exception.class.name + ' - ' + exception.message
+
             if exception.is_a? Pundit::NotAuthorizedError
               user_not_authorized
             elsif exception.is_a? ActionController::ParameterMissing
