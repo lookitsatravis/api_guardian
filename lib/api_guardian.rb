@@ -32,6 +32,14 @@ module ApiGuardian
       autoload :Validator, 'api_guardian/concerns/api_request/validator'
     end
 
+    module Models
+      autoload :User, 'api_guardian/concerns/models/user'
+      autoload :Role, 'api_guardian/concerns/models/role'
+      autoload :Permission, 'api_guardian/concerns/models/permission'
+      autoload :RolePermission, 'api_guardian/concerns/models/role_permission'
+      autoload :Identity, 'api_guardian/concerns/models/identity'
+    end
+
     autoload :TwilioVoiceOtpHelper, 'api_guardian/concerns/twilio_voice_otp_helper'
   end
 

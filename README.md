@@ -47,7 +47,7 @@ gem 'api_guardian', git: 'https://github.com/lookitsatravis/api_guardian'
 gem 'active_model_serializers', git: 'https://github.com/rails-api/active_model_serializers.git'
 ```
 
-### Second
+### Next
 
 Run this command:
 
@@ -63,13 +63,49 @@ rake db:migrate
 rake api_guardian:seed # not yet implemented, see db/seed.rb for example
 ```
 
-### Third
-
-To Do
-
 ### Finally
 
-To Do
+Most of the time, you will want to customize the user model of your application.
+To do so, create a new model that includes the ApiGuardian User concern:
+
+```rb
+class User < ActiveRecord::Base
+  include ApiGuardian::Concerns::Models::User
+
+  def my_custom_method
+    send_glitter_to_my_enemies
+  end
+end
+```
+
+And then in `config/initializers/api_guardian.rb`:
+
+```rb
+ApiGuardian.configure do |config|
+  # ...
+
+  config.user_class = 'User'
+
+  # ...
+end
+```
+
+You will need to restart the server after making this change.
+
+##### Customizing User Table Name
+
+By default, this will use the database table created during install (`api_guardian_users`),
+but you can change that by customizing the table name:
+
+```rb
+class User < ActiveRecord::Base
+  include ApiGuardian::Concerns::Models::User
+  self.table_name = 'my_users'
+end
+```
+
+Keep in mind that if you do this, the table will need to have the same schema as
+`api_guardian_users`.
 
 ## Usage
 

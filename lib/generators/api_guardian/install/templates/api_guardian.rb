@@ -1,6 +1,7 @@
 ApiGuardian.configure do |config|
   # In order to change the base user class, you'd need to uncomment this line and
-  # enter your own class name. Your class will need to extend ApiGuardian::User.
+  # enter your own class name. Your class will need to include the
+  # ApiGuardian::Concerns::Models::User module.
   # config.user_class = 'User'
 
   # Change the minimum password length to set a user's password. Default is 8 add
