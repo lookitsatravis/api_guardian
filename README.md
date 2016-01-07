@@ -123,7 +123,142 @@ To Do
 
 ### Registration
 
-## Configuration
+Registration can be handled in a number of ways. The gist of it is that each
+registration strategy has different required fields, but you will always pass in
+a `type` attribute to specify the strategy you want to use. If registration
+succeeds, the user record will be returned.
+
+Endpoint: POST `{engine_mount_path}/register`
+
+#### via Email
+
+To register a user via email, the following fields are required.
+
+```json
+{
+  "type": "email",
+  "email": "person@example.com",
+  "password": "somepassword",
+  "password_confirmation": "somepassword"
+}
+```
+
+#### via [Twitter Digits](https://get.digits.com)
+
+Twitter Digits is a very simple method for a user to register for an app using
+only their phone number. Digits handles the phone number validation and 2FA using
+Twitter's trusted short code. When initiated via the Digits SDK, a client will receive
+an Authorization URL and Header which must be forwarded on to the app where
+ApiGuardian is mounted. ApiGuardian will automatically verify the data and make
+a request to Digits for the user's phone number and access token which will be stored
+as an Identity for that user.
+
+To register a user using Digits, the following fields are required.
+
+```json
+{
+  "type": "digits",
+  "auth_url": "auth_url_returned_from_digits_sdk",
+  "auth_header": "auth_header_returned_from_digits_sdk"
+}
+```
+
+### Authentication
+
+Authentication with ApiGuardian is handled via OAuth2 spec. Upon successfully
+authenticating, an access token is returned which sent in all future requests as
+a header. *NOTE: Currently, ApiGuardian supports the `password` OAuth2 grant type. Future
+additions of the other grant types are on the road map.*
+
+Endpoint: POST `{engine_mount_path}/auth/token`
+
+#### JWT Response
+
+ApiGuardian uses JSON Web Tokens as the generated access token. This is done as a
+convenient way to provide clients with a given user's permission set (or claims).
+More information on how to parse JWT and validate signatures can be found at
+[jwt.io](https://jwt.io).
+
+The successful authentication response looks like this:
+
+```json
+{
+  "access_token": "eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJpc3MiOiJhcGlfZ3VhcmRpYW4iLCJpYXQiOjE0NTIxODU3NzEsImV4cCI6MTQ1MjE5Mjk3MSwianRpIjoiMGNjMjNjY2ZiODQ5M2M3MDhmMDRhZGZiOTc1YzhhMTAiLCJzdWIiOiIzMzEyMWY5NS1mNzZkLTQ1NjUtOGYwNC00NjgyMjU4NDBlYWIiLCJ1c2VyIjp7ImlkIjoiMzMxMjFmOTUtZjc2ZC00NTY1LThmMDQtNDY4MjI1ODQwZWFiIn0sInBlcm1pc3Npb25zIjpbInJvbGU6bWFuYWdlIiwidXNlcjptYW5hZ2UiLCJwZXJtaXNzaW9uOm1hbmFnZSJdfQ.7cOk5loal4inq7b6qUV68cR5npheIQboqmCDvl0vy7o",
+  "token_type": "bearer",
+  "expires_in": 7200,
+  "refresh_token": "59aa75573944f6df61ef9930ca0d8968210339c3d51bb13968604fe0b2123b1a",
+  "created_at": 1452185771
+}
+```
+
+In this case, the JWT payload decodes to the following. You can see that the user's
+ID and permissions are included along with some of the standard JWT claims.
+
+```json
+{
+  "iss": "api_guardian",
+  "iat": 1452185771,
+  "exp": 1452192971,
+  "jti": "0cc23ccfb8493c708f04adfb975c8a10",
+  "sub": "33121f95-f76d-4565-8f04-468225840eab",
+  "user": {
+    "id": "33121f95-f76d-4565-8f04-468225840eab"
+  },
+  "permissions": [
+    "role:manage",
+    "user:manage",
+    "permission:manage"
+  ]
+}
+```
+
+The JWT issuer and secret can (and should) be customized. Please see configuration
+for more.
+
+#### Authenticating via Email
+
+To request an access token via email, the following fields are required.
+
+```json
+{
+    "username": "person@example.com",
+    "password": "somepassword",
+    "grant_type": "password"
+}
+```
+
+#### Authenticating via [Twitter Digits](https://get.digits.com)
+
+Digits also uses the `password` OAuth2 grant type. In this case, the username is
+the phone number returned from the Digits SDK. In order to conform to the OAuth2
+spec, a special step is needed to transform the Digits auth URL and Header into
+a "password". To do this, you must Base64 encode the auth URL and the auth Header
+joined by a semicolon. Example in JavaScript ([Digits web SDK docs](https://docs.fabric.io/web/digits/index.html)):
+
+```js
+Digits.init({ consumerKey: 'yourConsumerKey' });
+Digits.logIn()
+  .done(onLogin);
+
+function onLogin(loginResponse){
+  var oAuthHeaders = loginResponse.oauth_echo_headers;
+  var apiUrl = oAuthHeaders['X-Auth-Service-Provider'];
+  var authHeader = oAuthHeaders['X-Verify-Credentials-Authorization'];
+  var encodedPassword = window.btoa([apiUrl, authHeader].join(';'))
+
+  //encodedPassword is what you need to supply as the "password" to authenticate with Digits.
+}
+```
+
+To request an access token via Twitter Digits, the following fields are required.
+
+```js
+{
+    "username": "+18005551234", //As returned from Digits SDK
+    "password": "base_64_encoded_url_and_header",
+    "grant_type": "password"
+}
+```
 
 ### Two-Factor Authentication
 
@@ -238,7 +373,6 @@ If done properly, you should be rewarded with an access token. If the OTP is inc
 * controller actions:
   * Assign permissions to role by name
   * validate user password
-* digits integration
 * disallow inactive users
 * Multi-tenancy
   * Invite users by email to organization
