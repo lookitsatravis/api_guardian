@@ -59,6 +59,7 @@ module ApiGuardian
     autoload :InvalidRegistrationProvider, 'api_guardian/errors/invalid_registration_provider'
     autoload :RegistrationValidationFailed, 'api_guardian/errors/registration_validation_failed'
     autoload :IdentityAuthorizationFailed, 'api_guardian/errors/identity_authorization_failed'
+    autoload :InvalidJwtSecret, 'api_guardian/errors/invalid_jwt_secret'
   end
 
   module Stores

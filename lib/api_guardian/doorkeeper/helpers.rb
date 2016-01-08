@@ -6,6 +6,7 @@ module ApiGuardian
       include ApiGuardian::Concerns::ApiErrors::Handler
 
       rescue_from ApiGuardian::Errors::TwoFactorRequired, with: :two_factor_required
+      rescue_from ApiGuardian::Errors::InvalidJwtSecret, with: :invalid_jwt_secret
 
       append_before_filter :set_current_request
 

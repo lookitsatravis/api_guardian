@@ -49,6 +49,8 @@ module ApiGuardian
               registration_invalid(exception)
             elsif exception.is_a? ApiGuardian::Errors::IdentityAuthorizationFailed
               identity_authorization_failed(exception)
+            elsif exception.is_a? ApiGuardian::Errors::InvalidJwtSecret
+              invalid_jwt_secret(exception)
             else
               generic_error_handler(exception)
             end
@@ -210,6 +212,13 @@ module ApiGuardian
           def identity_authorization_failed(exception)
             render_error(
               401, 'identity_authorization_failed', 'Identity Authorization Failed',
+              exception.message
+            )
+          end
+
+          def invalid_jwt_secret(exception)
+            render_error(
+              400, 'invalid_jwt_secret', 'Invalid JWT Secret',
               exception.message
             )
           end

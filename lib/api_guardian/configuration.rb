@@ -163,7 +163,7 @@ module ApiGuardian
     end
 
     def jwt_secret_key_path
-      @jwt_secret ||= nil
+      @jwt_secret_key_path ||= nil
     end
 
     def jwt_encryption_method

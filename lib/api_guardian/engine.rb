@@ -2,6 +2,7 @@ require 'doorkeeper'
 require 'doorkeeper-jwt'
 require 'api_guardian/doorkeeper/helpers'
 require 'api_guardian/doorkeeper/otp_validation'
+require 'api_guardian/doorkeeper/jwt_validation'
 
 module ApiGuardian
   Doorkeeper = ::Doorkeeper
