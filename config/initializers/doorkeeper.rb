@@ -110,20 +110,17 @@ end
 ::Doorkeeper::JWT.configure do
   # Set the payload for the JWT token. This should contain unique information
   # about the user.
-  # Defaults to a randomly generated token in a hash
-  # { token: "RANDOM-TOKEN" }
   token_payload do |opts|
     user = ApiGuardian.configuration.user_class.find(opts[:resource_owner_id])
     iat = DateTime.current.utc.to_i
     {
-      iss: 'guideon:washington',
+      iss: ApiGuardian.configuration.jwt_issuer,
       iat: iat,
       exp: iat + opts[:expires_in],
       jti: Digest::MD5.hexdigest([SecureRandom.hex, iat].join(':')),
       sub: user.id,
       user: {
-        id: user.id,
-        email: user.email
+        id: user.id
       },
       permissions: user.role.permissions
     }
