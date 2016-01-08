@@ -12,8 +12,9 @@ module ApiGuardian
     AVAILABLE_2FA_METHODS = %w(sms voice google_auth email)
 
     attr_writer :user_class, :role_class, :permission_class, :role_permission_class,
-                :identity_class, :minimum_password_length, :twilio_id, :twilio_token,
-                :mail_from_address
+                :identity_class, :organization_class, :minimum_password_length,
+                :twilio_id, :twilio_token, :mail_from_address, :jwt_secret,
+                :jwt_secret_key_path
 
     def user_class
       klass = @user_class ||= 'ApiGuardian::User'
@@ -130,6 +131,49 @@ module ApiGuardian
 
     def registration
       @registration_config ||= Registration.new
+    end
+
+    def access_token_expires_in
+      @access_token_expires_in ||= 2.hours
+    end
+
+    def access_token_expires_in=(value)
+      fail ConfigurationError.new('access_token_expires_in must be a valid ActiveSupport::Duration.') unless value.is_a? ActiveSupport::Duration
+      @access_token_expires_in = value
+    end
+
+    def realm
+      @realm ||= 'ApiGuardian'
+    end
+
+    def realm=(value)
+      @realm = value.to_s
+    end
+
+    def jwt_issuer
+      @jwt_issuer ||= "api_guardian_#{ApiGuardian::VERSION}"
+    end
+
+    def jwt_issuer=(value)
+      @jwt_issuer = value.to_s
+    end
+
+    def jwt_secret
+      @jwt_secret ||= 'changeme'
+    end
+
+    def jwt_secret_key_path
+      @jwt_secret ||= nil
+    end
+
+    def jwt_encryption_method
+      @jwt_encryption_method ||= :hs256
+    end
+
+    def jwt_encryption_method=(value)
+      valid_methods = [:none, :hs256, :hs384, :hs512, :rs256, :rs384, :rs512, :es256, :es384, :es512]
+      fail ConfigurationError.new("#{value} is not a valid encryption method. See https://github.com/jwt/ruby-jwt") unless valid_methods.include? value
+      @jwt_encryption_method = value
     end
   end
 end

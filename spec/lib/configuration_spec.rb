@@ -133,6 +133,45 @@ describe ApiGuardian::Configuration do
         expect { subject.twilio_token }.not_to raise_error
       end
     end
+
+    describe '.access_token_expires_in=' do
+      it 'fails if the value is not a duration' do
+        expect { subject.access_token_expires_in = 'a' }.to(
+          raise_error(ApiGuardian::Configuration::ConfigurationError)
+        )
+
+        expect { subject.access_token_expires_in = 2 }.to(
+          raise_error(ApiGuardian::Configuration::ConfigurationError)
+        )
+
+        expect { subject.access_token_expires_in = [] }.to(
+          raise_error(ApiGuardian::Configuration::ConfigurationError)
+        )
+
+        expect { subject.access_token_expires_in = 2.hours}.not_to raise_error
+        expect(subject.access_token_expires_in).to eq 2.hours
+      end
+    end
+
+    describe '.jwt_encryption_method=' do
+      it 'fails if the encryption method is invalid' do
+        expect { subject.jwt_encryption_method = 'a' }.to(
+          raise_error(ApiGuardian::Configuration::ConfigurationError)
+        )
+
+        expect { subject.jwt_encryption_method = nil }.to(
+          raise_error(ApiGuardian::Configuration::ConfigurationError)
+        )
+
+        valid_methods = [
+          :none, :hs256, :hs384, :hs512, :rs256, :rs384, :rs512, :es256, :es384, :es512
+        ]
+
+        valid_methods.each do |method|
+          expect { subject.jwt_encryption_method = method }.not_to raise_error
+        end
+      end
+    end
   end
 end
 

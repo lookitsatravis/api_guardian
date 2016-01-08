@@ -27,4 +27,27 @@ ApiGuardian.configure do |config|
   # Twilio Account SID and token (used with two-factor authentication)
   # config.twilio_id = nil
   # config.twilio_token = nil
+
+  # Access token expiration time (default 2 hours).
+  # config.access_token_expires_in = 2.hours
+
+  # WWW-Authenticate Realm (default 'ApiGuardian').
+  # config.realm = 'My Application'
+
+  # JSON Web Tokens are used as the OAuth2 access token. Generating the JWT can
+  # be configured in the following ways:
+  #
+  # The JWT issuer can be configured. The default is 'api_guardian_' with the
+  # current version of ApiGuardian appended.
+  # config.jwt_issuer = 'my_app'
+  #
+  # The JWT secret can be customized to improve security of the JWT payload. By
+  # default, a simple secret token is used. But, if you're using RS* encoding, you
+  # must specify the path to your secret key.
+  # config.jwt_secret = 'changeme'
+  # config.jwt_secret_key_path = 'path/to/file.pem'
+  #
+  # The Encryption Method can use any of the valid methods found in
+  # https://github.com/jwt/ruby-jwt. The default is HMAC 256.
+  # config.jwt_encryption_method = :hs256
 end

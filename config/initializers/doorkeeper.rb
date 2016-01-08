@@ -22,7 +22,7 @@
 
   # Access token expiration time (default 2 hours).
   # If you want to disable expiration, set this to nil.
-  # access_token_expires_in 2.hours
+  access_token_expires_in ApiGuardian.configuration.access_token_expires_in
 
   # Assign a custom TTL for implicit grants.
   # custom_access_token_expires_in do |oauth_client|
@@ -104,7 +104,7 @@
   # end
 
   # WWW-Authenticate Realm (default "Doorkeeper").
-  # realm "Doorkeeper"
+  realm ApiGuardian.configuration.realm
 end
 
 ::Doorkeeper::JWT.configure do
@@ -132,15 +132,13 @@ end
   # Set the encryption secret. This would be shared with any other applications
   # that should be able to read the payload of the token.
   # Defaults to "secret"
-  secret_key 'MY-SECRET'
+  secret_key ApiGuardian.configuration.jwt_secret
 
   # If you want to use RS* encoding specify the path to the RSA key
   # to use for signing.
-  # If you specify a secret_key_path it will be used instead of secret_key
-  # secret_key_path 'path/to/file.pem'
+  secret_key_path ApiGuardian.configuration.jwt_secret_key_path
 
   # Specify encryption type. Supports any algorithim in
   # https://github.com/progrium/ruby-jwt
-  # defaults to nil
-  encryption_method :hs256
+  encryption_method ApiGuardian.configuration.jwt_encryption_method
 end
