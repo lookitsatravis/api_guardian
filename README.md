@@ -177,7 +177,12 @@ Endpoint: POST `{engine_mount_path}/auth/token`
 ApiGuardian uses JSON Web Tokens as the generated access token. This is done as a
 convenient way to provide clients with a given user's permission set (or claims).
 More information on how to parse JWT and validate signatures can be found at
-[jwt.io](https://jwt.io).
+[jwt.io](https://jwt.io). *NOTE: Access Tokens are reused by ApiGuardian. This means
+that if there are two or more successful authentications using the same resource owner
+and app id, the access token granted will be reused as long as it is still valid.
+The purpose of this behavior is to keep data storage low on large applications. It
+also makes it easy to revoke tokens since there should only be a single valid one
+at any given time.*
 
 The successful authentication response looks like this:
 
@@ -368,6 +373,59 @@ curl -X POST \
 
 If done properly, you should be rewarded with an access token. If the OTP is incorrect or has expired, you will simply get a 401 http status invalid_grant response and you must start again.
 
+## Configuration
+
+ApiGuardian is intended to be configured with sensible defaults, but it is inevitable
+that changes will need to be made from one application to another. Any changes
+should be made in the initializer (`config/initializers/api_guardian.rb`) created
+during installation. There are more options available than what is outlined here,
+but these are the most common changes you're likely to make.
+
+### Customizing Access Token Expiration
+
+```rb
+ApiGuardian.configure do |config|
+  # ...
+
+  # Access token expiration time (default 2 hours).
+  config.access_token_expires_in = 2.weeks
+
+  # ...
+end
+```
+
+### Configuring JWT
+
+You can customize the JWT issuer included in the payload as well as the secret
+used for signing the token. *Note: You must chant the JWT secret. Requests will fail
+if it is `nil` or the default value is used.*
+
+
+```rb
+ApiGuardian.configure do |config|
+  # ...
+
+  # JSON Web Tokens are used as the OAuth2 access token. Generating the JWT can
+  # be configured in the following ways:
+  #
+  # The JWT issuer can be configured. The default is 'api_guardian_' with the
+  # current version of ApiGuardian appended.
+  config.jwt_issuer = 'my_app'
+  #
+  # The JWT secret can be customized to improve security of the JWT payload. By
+  # default, a simple secret token is used. But, if you're using RS* encoding, you
+  # must specify the path to your secret key.
+  config.jwt_secret = 'changeme'
+  config.jwt_secret_key_path = 'path/to/file.pem'
+  #
+  # The Encryption Method can use any of the valid methods found in
+  # https://github.com/jwt/ruby-jwt. The default is HMAC 256.
+  config.jwt_encryption_method = :hs256
+
+  # ...
+end
+```
+
 ## Roadmap
 
 * controller actions:
@@ -385,9 +443,6 @@ If done properly, you should be rewarded with an access token. If the OTP is inc
 * omniauth
 * Account lockout (failed login attempts)
 * https://github.com/kickstarter/rack-attack
-* JWT
-  * configure issuer
-  * configure secret key
 * 2FA
   * review support for https://www.authy.com/product/
   * review support for U2F
