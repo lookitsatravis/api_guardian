@@ -72,7 +72,8 @@ module ApiGuardian
           user.reset_password_sent_at = DateTime.now.utc
           user.save
 
-          # TODO: email password reset
+          ApiGuardian::Mailers::Mailer.reset_password(user).deliver_later
+
           return true
         end
 

@@ -1,3 +1,5 @@
+require 'uri'
+
 module ApiGuardian
   class Configuration
     class Registration
@@ -174,6 +176,15 @@ module ApiGuardian
       valid_methods = [:none, :hs256, :hs384, :hs512, :rs256, :rs384, :rs512, :es256, :es384, :es512]
       fail ConfigurationError.new("#{value} is not a valid encryption method. See https://github.com/jwt/ruby-jwt") unless valid_methods.include? value
       @jwt_encryption_method = value
+    end
+
+    def client_password_reset_url
+      @client_password_reset_url ||= 'https://change-me-in-the-apiguardian-initializer.com'
+    end
+
+    def client_password_reset_url=(value)
+      fail ConfigurationError.new("#{value} is not a valid URL for client_password_reset_url!") unless value =~ URI::regexp
+      @client_password_reset_url = value
     end
   end
 end

@@ -172,6 +172,24 @@ describe ApiGuardian::Configuration do
         end
       end
     end
+
+    describe '.client_password_reset_url=' do
+      it 'fails if the value is not a valid URL' do
+        expect { subject.client_password_reset_url = 'a' }.to(
+          raise_error(ApiGuardian::Configuration::ConfigurationError)
+        )
+
+        expect { subject.client_password_reset_url = '//:asd.com' }.to(
+          raise_error(ApiGuardian::Configuration::ConfigurationError)
+        )
+
+        expect { subject.client_password_reset_url = 'ttp//asd.net' }.to(
+          raise_error(ApiGuardian::Configuration::ConfigurationError)
+        )
+
+        expect { subject.client_password_reset_url = 'http://test.com' }.not_to raise_error
+      end
+    end
   end
 end
 

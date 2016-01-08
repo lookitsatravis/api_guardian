@@ -50,4 +50,12 @@ ApiGuardian.configure do |config|
   # The Encryption Method can use any of the valid methods found in
   # https://github.com/jwt/ruby-jwt. The default is HMAC 256.
   # config.jwt_encryption_method = :hs256
+
+  # The Client Password Reset URL is used in the email sent when resetting
+  # a user's password. The client should post the token provided along with the
+  # users's new password to /complete-reset-password. This is done because this
+  # library is meant to be used on API-Only Rails apps which means there is no
+  # internal route for the user to reset their password, and the functionality
+  # must be provided by the client.
+  # config.client_password_reset_url = 'https://myapp.com'
 end

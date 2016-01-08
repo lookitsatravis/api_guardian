@@ -115,8 +115,10 @@ describe ApiGuardian::Stores::UserStore do
         expect(user).to receive(:reset_password_token=)
         expect(user).to receive(:reset_password_sent_at=)
         expect(user).to receive(:save)
-
+        mock_delivery = instance_double(ActionMailer::MessageDelivery)
         allow_any_instance_of(ApiGuardian::Stores::UserStore).to receive(:find_by_email).and_return(user)
+        expect(ApiGuardian::Mailers::Mailer).to receive(:reset_password).with(user).and_return(mock_delivery)
+        expect(mock_delivery).to receive(:deliver_later)
 
         result = ApiGuardian::Stores::UserStore.reset_password('email')
 
