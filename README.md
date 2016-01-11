@@ -109,6 +109,11 @@ Keep in mind that if you do this, the table will need to have the same schema as
 
 ## Usage
 
+* Organization support
+* Seeds + Initial User + Initial Organization
+* Explain Roles/Permissions
+* Password reset
+
 ### Roles
 
 To Do
@@ -430,13 +435,13 @@ end
 
 * controller actions:
   * Assign permissions to role by name
-  * validate user password
 * disallow inactive users
 * Multi-tenancy
   * Invite users by email to organization
-  * Users can belong to multiple organizations
+  * Users can belong to multiple organizations?
   * Different roles based on organization? Or permissions?
-* Add pepper/salt to bcrypt
+* Configuring allowed CORS domains (to better protect insecure clients)
+* Add pepper/salt to bcrypt?
   * https://github.com/plataformatec/devise/blob/master/lib/devise/encryptor.rb
   * http://api.rubyonrails.org/classes/ActiveModel/SecurePassword/InstanceMethodsOnActivation.html
   * https://github.com/thoughtbot/clearance/blob/master/lib/clearance/password_strategies/bcrypt.rb
@@ -446,7 +451,6 @@ end
 * 2FA
   * review support for https://www.authy.com/product/
   * review support for U2F
-  * 2FA via voice call
   * Generate URL for Google Authenticator import
   * Backup codes for when device is unavailable
     * 16 one time use codes
