@@ -10,6 +10,7 @@ class CreateApiGuardianUsers < ActiveRecord::Migration
       t.string :password_digest, null: false
       t.boolean :active, default: false
       t.uuid :role_id, null: false
+      t.uuid :organization_id, null: false
       t.string :reset_password_token
       t.datetime :reset_password_sent_at
       t.string :otp_secret_key
@@ -24,5 +25,6 @@ class CreateApiGuardianUsers < ActiveRecord::Migration
     add_index :api_guardian_users, :email, unique: true, using: :btree
     add_index :api_guardian_users, :reset_password_token, unique: true, using: :btree
     add_index :api_guardian_users, :role_id, using: :btree
+    add_index :api_guardian_users, :organization_id, using: :btree
   end
 end

@@ -28,6 +28,13 @@ ActiveRecord::Schema.define(version: 20151211215201) do
 
   add_index "api_guardian_identities", ["user_id"], name: "index_api_guardian_identities_on_user_id", using: :btree
 
+  create_table "api_guardian_organizations", id: :uuid, default: "uuid_generate_v4()", force: :cascade do |t|
+    t.string   "name"
+    t.boolean  "active",     default: false
+    t.datetime "created_at",                 null: false
+    t.datetime "updated_at",                 null: false
+  end
+
   create_table "api_guardian_permissions", id: :uuid, default: "uuid_generate_v4()", force: :cascade do |t|
     t.string   "name"
     t.string   "desc"
@@ -60,6 +67,7 @@ ActiveRecord::Schema.define(version: 20151211215201) do
     t.string   "password_digest",                           null: false
     t.boolean  "active",                    default: false
     t.uuid     "role_id",                                   null: false
+    t.uuid     "organization_id",                           null: false
     t.string   "reset_password_token"
     t.datetime "reset_password_sent_at"
     t.string   "otp_secret_key"
@@ -72,6 +80,7 @@ ActiveRecord::Schema.define(version: 20151211215201) do
 
   add_index "api_guardian_users", ["deleted_at"], name: "index_api_guardian_users_on_deleted_at", using: :btree
   add_index "api_guardian_users", ["email"], name: "index_api_guardian_users_on_email", unique: true, using: :btree
+  add_index "api_guardian_users", ["organization_id"], name: "index_api_guardian_users_on_organization_id", using: :btree
   add_index "api_guardian_users", ["reset_password_token"], name: "index_api_guardian_users_on_reset_password_token", unique: true, using: :btree
   add_index "api_guardian_users", ["role_id"], name: "index_api_guardian_users_on_role_id", using: :btree
 

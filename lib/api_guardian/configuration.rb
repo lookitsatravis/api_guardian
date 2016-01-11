@@ -43,6 +43,11 @@ module ApiGuardian
       klass.constantize
     end
 
+    def organization_class
+      klass = @organization_class ||= 'ApiGuardian::Organization'
+      klass.constantize
+    end
+
     def minimum_password_length
       @minimum_password_length ||= 8
     end

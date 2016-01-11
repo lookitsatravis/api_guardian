@@ -44,7 +44,7 @@ module ApiGuardian
 
           def enforce_organization
             unless self.organization_id
-              org = Organization.first
+              org = ApiGuardian.configuration.organization_class.first
               fail "Organization is not set and no default exists!" unless org
               self.organization_id = org.id
             end
