@@ -10,6 +10,7 @@ FactoryGirl.define do
     f.phone_number { Faker::PhoneNumber.phone_number }
     f.password password
     f.password_confirmation password
+    f.active true
     f.association :role, factory: :role_with_permissions
     f.association :organization, factory: :organization
   end

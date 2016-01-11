@@ -1,8 +1,9 @@
 module ApiGuardian
   module Strategies
     module Authentication
-      class Digits
+      class Digits < Base
         def self.authenticate(user, auth_hash)
+          super(user)
           identity = ApiGuardian::Stores::UserStore.find_identity_by_provider(user, :digits)
           return nil unless identity
 

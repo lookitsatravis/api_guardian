@@ -1,9 +1,10 @@
 module ApiGuardian
   module Strategies
     module Authentication
-      class Password
-        def self.authenticate(resource, password)
-          resource if resource && resource.try(:authenticate, password)
+      class Password < Base
+        def self.authenticate(user, password)
+          super(user)
+          user if user && user.try(:authenticate, password)
         end
       end
     end

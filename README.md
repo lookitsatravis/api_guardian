@@ -435,7 +435,6 @@ end
 
 * controller actions:
   * Assign permissions to role by name
-* disallow inactive users
 * Multi-tenancy
   * Invite users by email to organization
   * Users can belong to multiple organizations?
@@ -463,6 +462,9 @@ end
 * Documentation
   * Microservice usage
   * Request logging
+* Remove dependency on PostgreSQL
+  * Use serialize for attributes in models
+  * https://github.com/jashmenn/activeuuid
 
 ## Getting Help
 

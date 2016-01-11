@@ -51,6 +51,8 @@ module ApiGuardian
               identity_authorization_failed(exception)
             elsif exception.is_a? ApiGuardian::Errors::InvalidJwtSecret
               invalid_jwt_secret(exception)
+            elsif exception.is_a? ApiGuardian::Errors::UserInactive
+              user_inactive
             else
               generic_error_handler(exception)
             end
@@ -220,6 +222,12 @@ module ApiGuardian
             render_error(
               400, 'invalid_jwt_secret', 'Invalid JWT Secret',
               exception.message
+            )
+          end
+
+          def user_inactive
+            render_error(
+              401, 'user_inactive', 'User Inactive', 'User Inactive'
             )
           end
         end

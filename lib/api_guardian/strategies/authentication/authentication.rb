@@ -1,8 +1,13 @@
-require 'api_guardian/strategies/authentication/password'
-require 'api_guardian/strategies/authentication/two_factor'
-require 'api_guardian/strategies/authentication/digits'
-
 module ApiGuardian
+  module Strategies
+    module Authentication
+      class Base
+        def self.authenticate(user)
+          fail ApiGuardian::Errors::UserInactive unless user.active?
+        end
+      end
+    end
+  end
 
   module_function
 
@@ -19,9 +24,8 @@ module ApiGuardian
 
     nil
   end
-
-  module Strategies
-    module Authentication
-    end
-  end
 end
+
+require 'api_guardian/strategies/authentication/password'
+require 'api_guardian/strategies/authentication/two_factor'
+require 'api_guardian/strategies/authentication/digits'

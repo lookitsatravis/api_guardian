@@ -163,6 +163,13 @@ describe ApiGuardian::Concerns::ApiErrors::Handler, type: :request do
         expect { dummy_class.api_error_handler(ApiGuardian::Errors::InvalidJwtSecret.new('test message')) }.not_to raise_error
       end
 
+      it 'handles UserInactive' do
+        expect_any_instance_of(Test::Dummy).to receive(:render_error).with(
+          401, 'user_inactive', 'User Inactive', 'User Inactive'
+        )
+        expect { dummy_class.api_error_handler(ApiGuardian::Errors::UserInactive.new('test message')) }.not_to raise_error
+      end
+
       it 'handles generic errors' do
         exception = StandardError.new('')
         expect_any_instance_of(Test::Dummy).to receive(:render_error).with(
