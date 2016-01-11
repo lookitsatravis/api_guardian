@@ -30,7 +30,7 @@ describe ApiGuardian::Jobs::SendOtp do
           it 'catches raised StandardErrors' do
             expect(user).to receive(:otp_code).and_return(otp_code)
             expect(ApiGuardian).to receive(:twilio_client).and_raise('oops')
-            expect(Rails.logger).to receive(:warn).with '[ApiGuardian] Could not connect to Twilio! oops'
+            expect(ApiGuardian.logger).to receive(:warn).with 'Could not connect to Twilio! oops'
             subject.perform(user, true)
           end
 
@@ -50,14 +50,14 @@ describe ApiGuardian::Jobs::SendOtp do
           context 'executes when user can receive SMS' do
             it 'fails if user has no phone number' do
               expect(user).to receive(:phone_number).and_return('')
-              expect(Rails.logger).to receive(:error).with '[ApiGuardian] User does not have a confirmed phone number! Cannot send OTP.'
+              expect(ApiGuardian.logger).to receive(:error).with 'User does not have a confirmed phone number! Cannot send OTP.'
               subject.perform(user)
             end
 
             it 'fails if user\'s phone number is not confirmed' do
               expect(user).to receive(:phone_number).and_return(to_number)
               expect(user).to receive(:phone_number_confirmed_at).and_return(nil)
-              expect(Rails.logger).to receive(:error).with '[ApiGuardian] User does not have a confirmed phone number! Cannot send OTP.'
+              expect(ApiGuardian.logger).to receive(:error).with 'User does not have a confirmed phone number! Cannot send OTP.'
               subject.perform(user)
             end
 
@@ -85,7 +85,7 @@ describe ApiGuardian::Jobs::SendOtp do
 
           it 'catches raised StandardErrors' do
             expect(ApiGuardian).to receive(:twilio_client).and_raise('oops')
-            expect(Rails.logger).to receive(:warn).with '[ApiGuardian] Could not connect to Twilio! oops'
+            expect(ApiGuardian.logger).to receive(:warn).with 'Could not connect to Twilio! oops'
             subject.perform(user, true)
           end
 
@@ -104,14 +104,14 @@ describe ApiGuardian::Jobs::SendOtp do
           context 'executes when user can receive voice call' do
             it 'fails if user has no phone number' do
               expect(user).to receive(:phone_number).and_return('')
-              expect(Rails.logger).to receive(:error).with '[ApiGuardian] User does not have a confirmed phone number! Cannot send OTP.'
+              expect(ApiGuardian.logger).to receive(:error).with 'User does not have a confirmed phone number! Cannot send OTP.'
               subject.perform(user)
             end
 
             it 'fails if user\'s phone number is not confirmed' do
               expect(user).to receive(:phone_number).and_return(to_number)
               expect(user).to receive(:phone_number_confirmed_at).and_return(nil)
-              expect(Rails.logger).to receive(:error).with '[ApiGuardian] User does not have a confirmed phone number! Cannot send OTP.'
+              expect(ApiGuardian.logger).to receive(:error).with 'User does not have a confirmed phone number! Cannot send OTP.'
               subject.perform(user)
             end
 
@@ -140,13 +140,13 @@ describe ApiGuardian::Jobs::SendOtp do
 
         it 'can handle google_auth' do
           expect(user).to receive(:otp_method).and_return('google_auth')
-          expect(Rails.logger).to receive(:info).with '[ApiGuardian] User will provide code from Google Auth app'
+          expect(ApiGuardian.logger).to receive(:info).with 'User will provide code from Google Auth app'
           subject.perform(user)
         end
 
         it 'logs error for all other cases' do
           expect(user).to receive(:otp_method).and_return('blah')
-          expect(Rails.logger).to receive(:error).with "[ApiGuardian] No valid OTP send methods for user #{user.id}!"
+          expect(ApiGuardian.logger).to receive(:error).with "No valid OTP send methods for user #{user.id}!"
           subject.perform(user)
         end
       end

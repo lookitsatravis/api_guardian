@@ -68,7 +68,7 @@ module ApiGuardian
     def minimum_password_score=(score)
       if (0..4).include?(score)
         if score < 3
-          ::Rails.logger.warn '[ApiGuardian] A password score of less than 3 is not recommended.'
+          ApiGuardian.logger.warn 'A password score of less than 3 is not recommended.'
         end
         @minimum_password_score = score
       else
@@ -145,7 +145,9 @@ module ApiGuardian
     end
 
     def access_token_expires_in=(value)
-      fail ConfigurationError.new('access_token_expires_in must be a valid ActiveSupport::Duration.') unless value.is_a? ActiveSupport::Duration
+      unless value.is_a? ActiveSupport::Duration
+        fail ConfigurationError.new('access_token_expires_in must be a valid ActiveSupport::Duration.')
+      end
       @access_token_expires_in = value
     end
 
@@ -179,7 +181,9 @@ module ApiGuardian
 
     def jwt_encryption_method=(value)
       valid_methods = [:none, :hs256, :hs384, :hs512, :rs256, :rs384, :rs512, :es256, :es384, :es512]
-      fail ConfigurationError.new("#{value} is not a valid encryption method. See https://github.com/jwt/ruby-jwt") unless valid_methods.include? value
+      unless valid_methods.include? value
+        fail ConfigurationError.new("#{value} is not a valid encryption method. See https://github.com/jwt/ruby-jwt")
+      end
       @jwt_encryption_method = value
     end
 
@@ -188,7 +192,7 @@ module ApiGuardian
     end
 
     def client_password_reset_url=(value)
-      fail ConfigurationError.new("#{value} is not a valid URL for client_password_reset_url!") unless value =~ URI::regexp
+      fail ConfigurationError.new("#{value} is not a valid URL for client_password_reset_url!") unless value =~ URI.regexp
       @client_password_reset_url = value
     end
   end

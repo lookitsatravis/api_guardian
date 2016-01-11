@@ -5,7 +5,7 @@ module ApiGuardian
 
       def perform(user, body)
         unless user.phone_number.present? && user.phone_number_confirmed_at.present?
-          Rails.logger.error '[ApiGuardian] User does not have a confirmed phone number! Cannot send OTP.'
+          ApiGuardian.logger.error 'User does not have a confirmed phone number! Cannot send OTP.'
           return
         end
 

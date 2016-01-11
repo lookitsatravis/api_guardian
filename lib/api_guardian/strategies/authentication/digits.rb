@@ -22,8 +22,6 @@ module ApiGuardian
           nil
         end
 
-        protected
-
         def self.parse_digits_data(auth_hash)
           decoded = Base64.decode64(auth_hash)
           decoded.split(';')

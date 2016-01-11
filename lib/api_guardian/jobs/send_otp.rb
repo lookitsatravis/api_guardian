@@ -17,9 +17,9 @@ module ApiGuardian
         when 'email'
           send_email(user)
         when 'google_auth'
-          Rails.logger.info '[ApiGuardian] User will provide code from Google Auth app'
+          ApiGuardian.logger.info 'User will provide code from Google Auth app'
         else
-          Rails.logger.error "[ApiGuardian] No valid OTP send methods for user #{user.id}!"
+          ApiGuardian.logger.error "No valid OTP send methods for user #{user.id}!"
         end
       end
 
@@ -37,7 +37,7 @@ module ApiGuardian
           body: body
         )
       rescue StandardError => e
-        Rails.logger.warn "[ApiGuardian] Could not connect to Twilio! #{e.message}"
+        ApiGuardian.logger.warn "Could not connect to Twilio! #{e.message}"
       end
 
       def send_voice(user, force)
@@ -50,7 +50,7 @@ module ApiGuardian
           url: ApiGuardian::Engine.routes.url_helpers.voice_otp_user_url(user)
         )
       rescue StandardError => e
-        Rails.logger.warn "[ApiGuardian] Could not connect to Twilio! #{e.message}"
+        ApiGuardian.logger.warn "Could not connect to Twilio! #{e.message}"
       end
 
       def send_email(user)
@@ -60,7 +60,7 @@ module ApiGuardian
 
       def user_can_receive_sms?(user)
         unless user.phone_number.present? && user.phone_number_confirmed_at.present?
-          Rails.logger.error '[ApiGuardian] User does not have a confirmed phone number! Cannot send OTP.'
+          ApiGuardian.logger.error 'User does not have a confirmed phone number! Cannot send OTP.'
           return false
         end
         true

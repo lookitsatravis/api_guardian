@@ -5,7 +5,7 @@ describe ApiGuardian::Jobs::SendSms do
       it 'logs error if user has no phone number' do
         user = mock_model(ApiGuardian::User)
         expect(user).to receive(:phone_number).and_return('')
-        expect(Rails.logger).to receive(:error).with '[ApiGuardian] User does not have a confirmed phone number! Cannot send OTP.'
+        expect(ApiGuardian.logger).to receive(:error).with 'User does not have a confirmed phone number! Cannot send OTP.'
 
         subject.perform(user, 'I love scotch.')
       end
@@ -16,7 +16,7 @@ describe ApiGuardian::Jobs::SendSms do
         expect(user).to receive(:phone_number).and_return(example_number)
         expect(user).to receive(:phone_number_confirmed_at).and_return(nil)
 
-        expect(Rails.logger).to receive(:error).with '[ApiGuardian] User does not have a confirmed phone number! Cannot send OTP.'
+        expect(ApiGuardian.logger).to receive(:error).with 'User does not have a confirmed phone number! Cannot send OTP.'
 
         subject.perform(user, 'I love scotch.')
       end

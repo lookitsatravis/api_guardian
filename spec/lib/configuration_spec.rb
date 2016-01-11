@@ -40,8 +40,8 @@ describe ApiGuardian::Configuration do
       end
 
       it 'warns when set less than 3' do
-        expect_any_instance_of(::Logger).to(
-          receive(:warn).with('[ApiGuardian] A password score of less than 3 is not recommended.')
+        expect(ApiGuardian.logger).to(
+          receive(:warn).with('A password score of less than 3 is not recommended.')
         )
 
         subject.minimum_password_score = 2
@@ -148,7 +148,7 @@ describe ApiGuardian::Configuration do
           raise_error(ApiGuardian::Configuration::ConfigurationError)
         )
 
-        expect { subject.access_token_expires_in = 2.hours}.not_to raise_error
+        expect { subject.access_token_expires_in = 2.hours }.not_to raise_error
         expect(subject.access_token_expires_in).to eq 2.hours
       end
     end

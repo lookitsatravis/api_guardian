@@ -32,10 +32,10 @@ module ApiGuardian
       def reset_password_body(user)
         base_reset_url = ApiGuardian.configuration.client_password_reset_url
         reset_url = "#{base_reset_url}?token=#{user.reset_password_token}"
-        "<p>Hello!</p><p>Please click the following link to reset your password.</p>" \
+        '<p>Hello!</p><p>Please click the following link to reset your password.</p>' \
         "<p><strong><a href='#{reset_url}'>#{reset_url}</a></strong></p>" \
-        "<p>If you did not request to reset your password, simply ignore this email" \
-        " and nothing will change.</p><p>Thanks!</p>"
+        '<p>If you did not request to reset your password, simply ignore this email' \
+        ' and nothing will change.</p><p>Thanks!</p>'
       end
     end
   end
