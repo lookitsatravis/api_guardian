@@ -88,11 +88,11 @@ module ApiGuardian
         if user
           # Validate submitted email matches token
           attributes[:email] = attributes[:email].downcase if attributes[:email].present?
-          fail ApiGuardian::Errors::ResetTokenUserMismatchError,
+          fail ApiGuardian::Errors::ResetTokenUserMismatch,
                attributes[:email] unless user.email == attributes[:email]
 
           # Check that it hasn't expired
-          fail ApiGuardian::Errors::ResetTokenExpiredError, '' unless user.reset_password_token_valid?
+          fail ApiGuardian::Errors::ResetTokenExpired, '' unless user.reset_password_token_valid?
 
           # Validate password
           if attributes.fetch(:password, nil).blank?

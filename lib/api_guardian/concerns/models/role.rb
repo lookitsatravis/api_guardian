@@ -32,7 +32,7 @@ module ApiGuardian
               grants = []
               action.each do |a|
                 perm = ApiGuardian.configuration.permission_class.find_by_name(action)
-                fail ApiGuardian::Errors::InvalidPermissionNameError, "Permission '#{a}' is not valid." unless perm
+                fail ApiGuardian::Errors::InvalidPermissionName, "Permission '#{a}' is not valid." unless perm
 
                 role_permissions.includes(:permission).find_each do |rp|
                   grants.push rp.granted if rp.permission.name == a
@@ -41,7 +41,7 @@ module ApiGuardian
               return grants.include? true if grants.count > 0 # otherwise this permission wasn't found at all
             else
               perm = ApiGuardian.configuration.permission_class.find_by_name(action)
-              fail ApiGuardian::Errors::InvalidPermissionNameError, "Permission '#{action}' is not valid." unless perm
+              fail ApiGuardian::Errors::InvalidPermissionName, "Permission '#{action}' is not valid." unless perm
 
               role_permissions.includes(:permission).find_each do |rp|
                 return rp.granted if rp.permission.name == action
@@ -82,7 +82,7 @@ module ApiGuardian
 
           def add_permission(name)
             perm = ApiGuardian.configuration.permission_class.find_by_name(name)
-            fail ApiGuardian::Errors::InvalidPermissionNameError, "Permission '#{name}' is not valid." unless perm
+            fail ApiGuardian::Errors::InvalidPermissionName, "Permission '#{name}' is not valid." unless perm
 
             role_permissions.each do |rp|
               return rp.update_attribute(:granted, true) if rp.permission.name == name

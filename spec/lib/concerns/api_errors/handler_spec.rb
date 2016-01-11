@@ -47,59 +47,59 @@ describe ApiGuardian::Concerns::ApiErrors::Handler, type: :request do
         expect { dummy_class.api_error_handler(ActiveRecord::RecordNotFound.new('test')) }.not_to raise_error
       end
 
-      it 'handles InvalidContentTypeError' do
+      it 'handles InvalidContentType' do
         expect_any_instance_of(Test::Dummy).to receive(:render_error).with(
           415, 'invalid_content_type', 'Invalid Content Type', 'Supported content types are: application/vnd.api+json'
         )
-        expect { dummy_class.api_error_handler(ApiGuardian::Errors::InvalidContentTypeError.new('')) }.not_to raise_error
+        expect { dummy_class.api_error_handler(ApiGuardian::Errors::InvalidContentType.new('')) }.not_to raise_error
       end
 
-      it 'handles InvalidRequestBodyError' do
+      it 'handles InvalidRequestBody' do
         expect_any_instance_of(Test::Dummy).to receive(:render_error).with(
           400, 'invalid_request_body', 'Invalid Request Body', 'The \'test\' property is required.'
         )
-        expect { dummy_class.api_error_handler(ApiGuardian::Errors::InvalidRequestBodyError.new('test')) }.not_to raise_error
+        expect { dummy_class.api_error_handler(ApiGuardian::Errors::InvalidRequestBody.new('test')) }.not_to raise_error
       end
 
-      it 'handles InvalidRequestResourceTypeError' do
+      it 'handles InvalidRequestResourceType' do
         expect_any_instance_of(Test::Dummy).to receive(:render_error).with(
           400, 'invalid_request_resource_type', 'Invalid Request Resource Type',
           'Expected \'type\' property to be \'test\' for this resource.'
         )
-        expect { dummy_class.api_error_handler(ApiGuardian::Errors::InvalidRequestResourceTypeError.new('test')) }.not_to raise_error
+        expect { dummy_class.api_error_handler(ApiGuardian::Errors::InvalidRequestResourceType.new('test')) }.not_to raise_error
       end
 
-      it 'handles InvalidRequestResourceIdError' do
+      it 'handles InvalidRequestResourceId' do
         allow_any_instance_of(ActionController::Parameters).to receive(:fetch).with(:id, nil).and_return('test')
         expect_any_instance_of(Test::Dummy).to receive(:render_error).with(
           400, 'invalid_request_resource_id', 'Invalid Request Resource ID',
           'Request \'id\' property does not match \'id\' of URI. Provided: value, Expected: test'
         )
-        expect { dummy_class.api_error_handler(ApiGuardian::Errors::InvalidRequestResourceIdError.new('value')) }.not_to raise_error
+        expect { dummy_class.api_error_handler(ApiGuardian::Errors::InvalidRequestResourceId.new('value')) }.not_to raise_error
       end
 
-      it 'handles InvalidUpdateActionError' do
+      it 'handles InvalidUpdateAction' do
         expect_any_instance_of(Test::Dummy).to receive(:render_error).with(
           405, 'method_not_allowed', 'Method Not Allowed',
           'Resource update action expects PATCH method.'
         )
-        expect { dummy_class.api_error_handler(ApiGuardian::Errors::InvalidUpdateActionError.new('')) }.not_to raise_error
+        expect { dummy_class.api_error_handler(ApiGuardian::Errors::InvalidUpdateAction.new('')) }.not_to raise_error
       end
 
-      it 'handles ResetTokenUserMismatchError' do
+      it 'handles ResetTokenUserMismatch' do
         expect_any_instance_of(Test::Dummy).to receive(:render_error).with(
           403, 'reset_token_mismatch', 'Reset Token Mismatch',
           'Reset token is not valid for the supplied email address.'
         )
-        expect { dummy_class.api_error_handler(ApiGuardian::Errors::ResetTokenUserMismatchError.new('')) }.not_to raise_error
+        expect { dummy_class.api_error_handler(ApiGuardian::Errors::ResetTokenUserMismatch.new('')) }.not_to raise_error
       end
 
-      it 'handles ResetTokenExpiredError' do
+      it 'handles ResetTokenExpired' do
         expect_any_instance_of(Test::Dummy).to receive(:render_error).with(
           403, 'reset_token_expired', 'Reset Token Expired',
           'This reset token has expired. Tokens are valid for 24 hours.'
         )
-        expect { dummy_class.api_error_handler(ApiGuardian::Errors::ResetTokenExpiredError.new('')) }.not_to raise_error
+        expect { dummy_class.api_error_handler(ApiGuardian::Errors::ResetTokenExpired.new('')) }.not_to raise_error
       end
 
       it 'handles PasswordRequired' do
@@ -156,7 +156,7 @@ describe ApiGuardian::Concerns::ApiErrors::Handler, type: :request do
         expect { dummy_class.api_error_handler(ApiGuardian::Errors::IdentityAuthorizationFailed.new('test message')) }.not_to raise_error
       end
 
-      it 'handles IdentityAuthorizationFailed' do
+      it 'handles InvalidJwtSecret' do
         expect_any_instance_of(Test::Dummy).to receive(:render_error).with(
           400, 'invalid_jwt_secret', 'Invalid JWT Secret', 'test message'
         )

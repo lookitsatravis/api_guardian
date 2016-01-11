@@ -21,19 +21,19 @@ module ApiGuardian
               record_invalid(exception)
             elsif exception.is_a? ActiveRecord::RecordNotFound
               render_not_found
-            elsif exception.is_a? ApiGuardian::Errors::InvalidContentTypeError
+            elsif exception.is_a? ApiGuardian::Errors::InvalidContentType
               invalid_content_type
-            elsif exception.is_a? ApiGuardian::Errors::InvalidRequestBodyError
+            elsif exception.is_a? ApiGuardian::Errors::InvalidRequestBody
               invalid_request_body(exception)
-            elsif exception.is_a? ApiGuardian::Errors::InvalidRequestResourceTypeError
+            elsif exception.is_a? ApiGuardian::Errors::InvalidRequestResourceType
               invalid_request_resource_type(exception)
-            elsif exception.is_a? ApiGuardian::Errors::InvalidRequestResourceIdError
+            elsif exception.is_a? ApiGuardian::Errors::InvalidRequestResourceId
               invalid_request_resource_id(exception)
-            elsif exception.is_a? ApiGuardian::Errors::InvalidUpdateActionError
+            elsif exception.is_a? ApiGuardian::Errors::InvalidUpdateAction
               invalid_update_action
-            elsif exception.is_a? ApiGuardian::Errors::ResetTokenUserMismatchError
+            elsif exception.is_a? ApiGuardian::Errors::ResetTokenUserMismatch
               reset_token_mismatch
-            elsif exception.is_a? ApiGuardian::Errors::ResetTokenExpiredError
+            elsif exception.is_a? ApiGuardian::Errors::ResetTokenExpired
               reset_token_expired
             elsif exception.is_a? ApiGuardian::Errors::PasswordRequired
               password_required

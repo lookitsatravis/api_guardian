@@ -16,6 +16,7 @@ require 'api_guardian/logs'
 require 'api_guardian/helpers/helpers'
 require 'api_guardian/configuration'
 require 'api_guardian/validation'
+require 'api_guardian/errors'
 require 'api_guardian/engine'
 
 require 'active_support/lazy_load_hooks'
@@ -43,25 +44,6 @@ module ApiGuardian
     end
 
     autoload :TwilioVoiceOtpHelper, 'api_guardian/concerns/twilio_voice_otp_helper'
-  end
-
-  module Errors
-    autoload :InvalidContentTypeError, 'api_guardian/errors/invalid_content_type_error'
-    autoload :InvalidPermissionNameError, 'api_guardian/errors/invalid_permission_name_error'
-    autoload :InvalidRequestBodyError, 'api_guardian/errors/invalid_request_body_error'
-    autoload :InvalidRequestResourceIdError, 'api_guardian/errors/invalid_request_resource_id_error'
-    autoload :InvalidRequestResourceTypeError, 'api_guardian/errors/invalid_request_resource_type_error'
-    autoload :InvalidUpdateActionError, 'api_guardian/errors/invalid_update_action_error'
-    autoload :ResetTokenExpiredError, 'api_guardian/errors/reset_token_expired_error'
-    autoload :ResetTokenUserMismatchError, 'api_guardian/errors/reset_token_user_mismatch_error'
-    autoload :PhoneNumberInvalid, 'api_guardian/errors/phone_number_invalid'
-    autoload :PasswordRequired, 'api_guardian/errors/password_required'
-    autoload :PasswordInvalid, 'api_guardian/errors/password_invalid'
-    autoload :TwoFactorRequired, 'api_guardian/errors/two_factor_required'
-    autoload :InvalidRegistrationProvider, 'api_guardian/errors/invalid_registration_provider'
-    autoload :RegistrationValidationFailed, 'api_guardian/errors/registration_validation_failed'
-    autoload :IdentityAuthorizationFailed, 'api_guardian/errors/identity_authorization_failed'
-    autoload :InvalidJwtSecret, 'api_guardian/errors/invalid_jwt_secret'
   end
 
   module Stores

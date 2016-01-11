@@ -53,8 +53,8 @@ RSpec.describe ApiGuardian::Role, type: :model do
       let!(:role) { create(:role_with_permissions) }
 
       it 'errors on invalid permisson' do
-        expect { role.can? 'invalid' }.to raise_error ApiGuardian::Errors::InvalidPermissionNameError
-        expect { role.cannot? 'invalid' }.to raise_error ApiGuardian::Errors::InvalidPermissionNameError
+        expect { role.can? 'invalid' }.to raise_error ApiGuardian::Errors::InvalidPermissionName
+        expect { role.cannot? 'invalid' }.to raise_error ApiGuardian::Errors::InvalidPermissionName
       end
 
       context 'with array of permissions' do
@@ -150,7 +150,7 @@ RSpec.describe ApiGuardian::Role, type: :model do
       let!(:role) { create(:role_with_permissions) }
 
       it 'errors on invalid permission' do
-        expect { role.add_permission 'invalid' }.to raise_error ApiGuardian::Errors::InvalidPermissionNameError
+        expect { role.add_permission 'invalid' }.to raise_error ApiGuardian::Errors::InvalidPermissionName
       end
 
       it 'allows permission to be added by name' do

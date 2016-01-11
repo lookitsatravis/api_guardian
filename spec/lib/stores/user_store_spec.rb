@@ -146,7 +146,7 @@ describe ApiGuardian::Stores::UserStore do
         allow_any_instance_of(ApiGuardian::Stores::UserStore).to receive(:find_by_reset_password_token).and_return(user)
 
         expect { ApiGuardian::Stores::UserStore.complete_reset_password(email: 'foo') }.to(
-          raise_error ApiGuardian::Errors::ResetTokenUserMismatchError
+          raise_error ApiGuardian::Errors::ResetTokenUserMismatch
         )
       end
 
@@ -157,7 +157,7 @@ describe ApiGuardian::Stores::UserStore do
         allow_any_instance_of(ApiGuardian::Stores::UserStore).to receive(:find_by_reset_password_token).and_return(user)
 
         expect { ApiGuardian::Stores::UserStore.complete_reset_password(email: 'bar') }.to(
-          raise_error ApiGuardian::Errors::ResetTokenExpiredError
+          raise_error ApiGuardian::Errors::ResetTokenExpired
         )
       end
 

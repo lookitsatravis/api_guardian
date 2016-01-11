@@ -19,7 +19,7 @@ module ApiGuardian
             end
 
             if action_name == 'update' && request.method != 'PATCH'
-              fail ApiGuardian::Errors::InvalidUpdateActionError, request.method
+              fail ApiGuardian::Errors::InvalidUpdateAction, request.method
             end
           end
 
@@ -27,7 +27,7 @@ module ApiGuardian
 
           def validate_content_type
             if request.body.read != '' && request.headers['Content-Type'] != 'application/vnd.api+json'
-              fail ApiGuardian::Errors::InvalidContentTypeError,
+              fail ApiGuardian::Errors::InvalidContentType,
                    "Invalid content type #{request.headers['Content-Type']}"
             end
           end
@@ -43,23 +43,23 @@ module ApiGuardian
 
           def validate_request_id
             top_params = params.fetch(:data)
-            fail ApiGuardian::Errors::InvalidRequestBodyError, 'id' unless top_params.fetch(:id, nil)
+            fail ApiGuardian::Errors::InvalidRequestBody, 'id' unless top_params.fetch(:id, nil)
 
             expected_request_id = params[:id]
             request_id = top_params.fetch(:id, nil)
 
-            fail ApiGuardian::Errors::InvalidRequestResourceIdError,
+            fail ApiGuardian::Errors::InvalidRequestResourceId,
                  request_id unless request_id == expected_request_id
           end
 
           def validate_request_type
             top_params = params.fetch(:data)
-            fail ApiGuardian::Errors::InvalidRequestBodyError, 'type' unless top_params.fetch(:type, nil)
+            fail ApiGuardian::Errors::InvalidRequestBody, 'type' unless top_params.fetch(:type, nil)
 
             expected_request_type = resource_name.pluralize.downcase
             request_type = top_params.fetch(:type, nil)
 
-            fail ApiGuardian::Errors::InvalidRequestResourceTypeError,
+            fail ApiGuardian::Errors::InvalidRequestResourceType,
                  expected_request_type unless request_type == expected_request_type
           end
         end
