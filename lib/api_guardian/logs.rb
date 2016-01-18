@@ -7,21 +7,44 @@ module ApiGuardian
       end
 
       class Formatter < ActiveSupport::Logger::SimpleFormatter
+        COLORS =
+        {
+          "black"   => 0,
+          "red"     => 1,
+          "green"   => 2,
+          "yellow"  => 3,
+          "blue"    => 4,
+          "purple"  => 5,
+          "magenta" => 5,
+          "cyan"    => 6,
+          "white"   => 7
+        }
+
+        COLORS.each_pair do |color, value|
+          define_method color do |text|
+            "\033[0;#{30+value}m#{text}\033[0m"
+          end
+
+          define_method "light_#{color}" do |text|
+            "\033[1;#{30+value}m#{text}\033[0m"
+          end
+        end
+
         def call(severity, _time, _progname, msg)
-          response = '[' + 'ApiGuardian'.cyan + '] '
+          response = '[' + cyan('ApiGuardian') + '] '
 
           request_id = ApiGuardian.current_request ? ApiGuardian.current_request.uuid : nil
-          response += '[' + request_id.light_green + '] ' if request_id
+          response += '[' + light_green(request_id) + '] ' if request_id
 
           case severity
           when 'WARN'
-            severity = severity.yellow
+            severity = yellow(severity)
           when 'ERROR'
-            severity = severity.light_red
+            severity = light_red(severity)
           when 'FATAL'
-            severity = severity.red
+            severity = red(severity)
           when 'INFO'
-            severity = severity.green
+            severity = green(severity)
           end
 
           msg = msg.is_a?(String) ? msg : msg.inspect
