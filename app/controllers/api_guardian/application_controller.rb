@@ -2,7 +2,7 @@ module ApiGuardian
   class ApplicationController < ActionController::API
     include ApiGuardian::Concerns::ApiErrors::Handler
 
-    append_before_filter :set_current_request
+    append_before_action :set_current_request
 
     rescue_from Exception, with: :api_error_handler
 
