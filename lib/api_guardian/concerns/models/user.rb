@@ -27,6 +27,7 @@ module ApiGuardian
           validates_with ApiGuardian::Validators::PasswordLengthValidator, if: :password
           validates_with ApiGuardian::Validators::PasswordScoreValidator, if: :password
 
+          before_save :enforce_role
           before_save :enforce_organization
           before_save :enforce_email_case
 
@@ -52,6 +53,12 @@ module ApiGuardian
 
           def enforce_email_case
             self.email = email.downcase if email
+          end
+
+          def enforce_role
+            unless role_id
+              self.role_id = ApiGuardian.configuration.role_class.default_role.id
+            end
           end
         end
       end
