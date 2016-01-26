@@ -1,5 +1,9 @@
 # ApiGuardian Documentation
 
+RDoc-style documentation available here:
+
+http://www.rubydoc.info/github/lookitsatravis/api_guardian/master
+
 ## Table of Contents
 
 * [Configuration](configuration/readme.md)
