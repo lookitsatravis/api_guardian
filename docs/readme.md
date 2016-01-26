@@ -4,7 +4,7 @@
 
 * [Configuration](configuration/readme.md)
   * [Access Token Expiration](configuration/readme.md#access-token-expiration)
-  * [Configuration JWT](configuration/readme.md#configuring-jwt)
+  * [Configuring JWT](configuration/readme.md#configuring-jwt)
   * [Customizing Models/Tables](configuration/readme.md#customizing-modelstables)
 * [Registration](registration/readme.md)
   * [Email](registration/readme.md#email)
