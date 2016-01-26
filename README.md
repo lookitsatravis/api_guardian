@@ -65,7 +65,10 @@ rake api_guardian:seed # not yet implemented, see db/seed.rb for example
 
 ### Finally
 
-See our [Documentation](docs/readme.md) for way more information on setup and usage.
+See our [Documentation](docs/readme.md) for way more information on setup and usage,
+or take a look at the RDoc formatted docs here:
+
+http://www.rubydoc.info/github/lookitsatravis/api_guardian/master
 
 ## Roadmap
 
