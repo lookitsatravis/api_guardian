@@ -67,26 +67,6 @@ rake api_guardian:seed # not yet implemented, see db/seed.rb for example
 
 See our [Documentation](docs/readme.md) for way more information on setup and usage.
 
-## Usage
-
-* Organization support
-* Seeds + Initial User + Initial Organization
-* Explain Roles/Permissions
-* Explain migrations
-  * How to add columns to the tables
-* Explain controllers
-  * subclassing ApiGuardian (why/how)
-* Explain polcies (why/how)
-* Password reset
-
-### Roles & Permissions
-
-To Do
-
-### Users
-
-To Do
-
 ## Roadmap
 
 * controller actions:
@@ -96,10 +76,6 @@ To Do
   * Users can belong to multiple organizations?
   * Different roles based on organization? Or permissions?
 * Configuring allowed CORS domains (to better protect insecure clients)
-* Add pepper/salt to bcrypt?
-  * https://github.com/plataformatec/devise/blob/master/lib/devise/encryptor.rb
-  * http://api.rubyonrails.org/classes/ActiveModel/SecurePassword/InstanceMethodsOnActivation.html
-  * https://github.com/thoughtbot/clearance/blob/master/lib/clearance/password_strategies/bcrypt.rb
 * omniauth
 * Account lockout (failed login attempts)
 * https://github.com/kickstarter/rack-attack

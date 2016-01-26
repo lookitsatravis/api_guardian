@@ -15,9 +15,21 @@
   * [Twitter Digits Authentication](authentication/readme.md#twitter-digits-authentication)
   * [Two-Factor Authentication](authentication/readme.md#two-factor-authentication)
 * [Authorization](authorization/readme.md)
-  * [Roles & Permissions](authorization/readme.md#roles-and-permissions)
+  * [Roles & Permissions](authorization/readme.md#roles--permissions)
   * [Users](authorization/readme.md#users)
   * [Policies](authorization/readme.md#policies)
+
+### To Complete
+
+* Organization
+* Seeds + Initial User + Initial Organization
+* Explain Roles/Permissions
+* Explain migrations
+  * How to add columns to the tables
+* Explain controllers
+  * subclassing ApiGuardian (why/how)
+* Explain policies (why/how)
+* Password reset
 
 ApiGuardian is copyright © 2016 Travis Vignon. It is free software, and may be
 redistributed under the terms specified in the [`MIT-LICENSE`](https://github.com/lookitsatravis/api_guardian/blob/master/MIT-LICENSE) file.
