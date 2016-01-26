@@ -480,5 +480,5 @@ See [CONTRIBUTING.md](CONTRIBUTING.md)
 
 ## License
 
-ApiGuardian is copyright © 2015 Travis Vignon. It is free software, and may be
+ApiGuardian is copyright © 2016 Travis Vignon. It is free software, and may be
 redistributed under the terms specified in the [`MIT-LICENSE`](MIT-LICENSE) file.
