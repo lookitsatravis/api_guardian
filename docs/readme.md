@@ -3,14 +3,14 @@
 ## Table of Contents
 
 * [Configuration](configuration/readme.md)
-  * [Access Token Expiration](configration/readme.md#access-token-expiration)
-  * [Configuration JWT](configration/readme.md#configuring-jwt)
-  * [Customizing Models/Tables](configuration/readme.md#customizing-models-tables)
+  * [Access Token Expiration](configuration/readme.md#access-token-expiration)
+  * [Configuration JWT](configuration/readme.md#configuring-jwt)
+  * [Customizing Models/Tables](configuration/readme.md#customizing-modelstables)
 * [Registration](registration/readme.md)
   * [Email](registration/readme.md#email)
   * [Twitter Digits](registration/readme.md#twitter-digits)
 * [Authentication](authentication/readme.md)
-  * [JSON Web Token Responses](authentication/readme.md#jwt-response)
+  * [JSON Web Token Responses](authentication/readme.md#jwt-responses)
   * [Email Authentication](authentication/readme.md#email-authentication)
   * [Twitter Digits Authentication](authentication/readme.md#twitter-digits-authentication)
   * [Two-Factor Authentication](authentication/readme.md#two-factor-authentication)

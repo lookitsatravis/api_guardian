@@ -55,7 +55,7 @@ ID and permissions are included along with some of the standard JWT claims.
 The JWT issuer and secret can (and should) be customized. Please see configuration
 for more.
 
-## Email Authenticating
+## Email Authentication
 
 To request an access token via email, the following fields are required.
 
@@ -67,7 +67,7 @@ To request an access token via email, the following fields are required.
 }
 ```
 
-## [Twitter Digits](https://get.digits.com) Authenticating
+## [Twitter Digits](https://get.digits.com) Authentication
 
 Digits also uses the `password` OAuth2 grant type. In this case, the username is
 the phone number returned from the Digits SDK. In order to conform to the OAuth2
