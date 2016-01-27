@@ -5,7 +5,7 @@ authenticating, an access token is returned which sent in all future requests as
 a header. *NOTE: Currently, ApiGuardian supports the `password` OAuth2 grant type. Future
 additions of the other grant types are on the road map.*
 
-Endpoint: POST `{engine_mount_path}/auth/token`
+Endpoint: POST `{engine_mount_path}/access/token`
 
 ## JWT Responses
 

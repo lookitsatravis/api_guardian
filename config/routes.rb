@@ -5,7 +5,7 @@ ApiGuardian::Engine.routes.draw do
   post '/complete-reset-password' => 'registration#complete_reset_password'
 
   # API v1
-  use_doorkeeper scope: 'auth' do
+  use_doorkeeper scope: 'access' do
     skip_controllers :applications, :authorized_applications, :authorizations, :token_info
   end
 

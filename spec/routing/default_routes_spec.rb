@@ -39,11 +39,11 @@ describe 'Default routes', type: :routing do
     # end
 
     it 'POST /auth/token routes to doorkeeper/tokens#create' do
-      expect(post('/auth/token')).to route_to('api_guardian/doorkeeper/tokens#create')
+      expect(post('/access/token')).to route_to('api_guardian/doorkeeper/tokens#create')
     end
 
     it 'POST /auth/revoke routes to doorkeeper/tokens#revoke' do
-      expect(post('/auth/revoke')).to route_to('api_guardian/doorkeeper/tokens#revoke')
+      expect(post('/access/revoke')).to route_to('api_guardian/doorkeeper/tokens#revoke')
     end
 
     # it 'GET /auth/token/info routes to doorkeeper/token_info#show' do
