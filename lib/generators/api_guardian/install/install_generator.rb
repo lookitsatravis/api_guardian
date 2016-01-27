@@ -53,6 +53,8 @@ module ApiGuardian
       end
 
       spec = Gem::Specification.find_by_name 'api_guardian'
+      $stdout.puts 'GEM SPEC FOR api_guardian'
+      $stdout.puts spec.inspect
       seed_data = `cat #{spec.gem_dir}/db/seeds.rb`
       append_file(
         'db/seeds.rb',
