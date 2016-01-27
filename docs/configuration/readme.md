@@ -117,6 +117,13 @@ end
 Keep in mind that if you do this, the table will need to have the same schema as
 `api_guardian_*`.
 
+### Migrations
+
+Along with the above info, you should remember that any new migrations need to
+be added to the proper table. If you are using ApiGuardian and you *haven't*
+customized the table name, then to add a column to the user model, you need to
+add it to `api_guardian_users` and not simply `users`.
+
 ## minimum_password_length
 
 ## validate_password_score
