@@ -26,14 +26,7 @@ http://www.rubydoc.info/github/lookitsatravis/api_guardian/master
 
 ### To Complete
 
-* Organization
-* Seeds + Initial User + Initial Organization
-* Explain Roles/Permissions
-* Explain migrations
-  * How to add columns to the tables
-* Explain controllers
-  * subclassing ApiGuardian (why/how)
-* Explain policies (why/how)
+* Organizations
 * Password reset
 
 ApiGuardian is copyright © 2016 Travis Vignon. It is free software, and may be
