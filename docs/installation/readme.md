@@ -44,12 +44,12 @@ rake db:seed
 
 You may find that you need to customize some of the included models (ex: `ApiGuardian::User`).
 We give you the flexibility out of the box to use custom classes that still behave
-the way ApiGuardian expects. See [Customizing Models/Tables](configuration/readme.md#customizing-modelstables)
+the way ApiGuardian expects. See [Customizing Models/Tables](../configuration/readme.md#customizing-modelstables)
 for more information.
 
 ## Controllers
 
-See much more information [here](authorization/readme.md#policies).
+See much more information [here](../authorization/readme.md#policies).
 
 ### `ApiGuardian::ApiController`
 
