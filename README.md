@@ -34,7 +34,7 @@ What doesn't it include?
 
 **Note: For now, your app must use a PostgreSQL database.** This is because ApiGuardian is using UUID primary keys for all records.
 
-## Installation
+## Quick Start
 
 ### First
 
@@ -52,13 +52,9 @@ gem 'active_model_serializers', git: 'https://github.com/rails-api/active_model_
 Run the following command. It will:
 
 * Add an initializer
-  * skip with `--skip-initializer` argument
 * Mount ApiGuardian in your routes file
-  * skip with `--skip-routes` argument
 * Copy migration files
-  * skip with `--skip-migrations` argument
 * Add seed data
-  * skip with `--skip-seed` argument
 
 ```sh
 rails generate api_guardian:install
@@ -77,6 +73,10 @@ rake db:seed
 ```
 
 ### Finally
+
+Make all of your API controllers extend `ApiGuardian::ApiController` and your
+policies extend `ApiGuardian::Policies::ApplicationPolicy`. What is a policy, you ask,
+and why should you care? Well, [I'm glad you asked](docs/authorization/readme.md)!
 
 See our [Documentation](docs/readme.md) for way more information on setup and usage,
 or take a look at the RDoc formatted docs here:

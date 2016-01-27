@@ -6,6 +6,7 @@ http://www.rubydoc.info/github/lookitsatravis/api_guardian/master
 
 ## Table of Contents
 
+* [Installation](installation/readme.md)
 * [Configuration](configuration/readme.md)
   * [Access Token Expiration](configuration/readme.md#access-token-expiration)
   * [Configuring JWT](configuration/readme.md#configuring-jwt)
