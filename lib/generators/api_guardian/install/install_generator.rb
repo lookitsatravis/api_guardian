@@ -5,6 +5,7 @@ module ApiGuardian
   class InstallGenerator < Rails::Generators::Base
     include Rails::Generators::Migration
     source_root File.expand_path('../templates', __FILE__)
+    class_option :skip_seed, type: :boolean, default: false, desc: 'Allow to skip seed file additions.'
 
     desc 'Creates an ApiGuardian initializer and copy locale files to your application.'
 
@@ -25,6 +26,22 @@ module ApiGuardian
       copy_migration 'create_api_guardian_role_permissions.rb'
       copy_migration 'create_api_guardian_identities.rb'
       copy_migration 'create_doorkeeper_tables.rb'
+    end
+
+    def add_seed_data
+      if options[:skip_seed]
+        ApiGuardian.logger.info 'Seed data skipped!'
+        return
+      end
+
+      spec = Gem::Specification.find_by_name 'api_guardian'
+      seed_data = `cat #{spec.gem_dir}/db/seeds.rb`
+      append_file(
+        'db/seeds.rb',
+        "\n\n######################################\n# ApiGuardian Seeds\n" \
+        "# Added at #{Time.now}\n######################################\n" \
+        + seed_data
+      )
     end
 
     def show_readme

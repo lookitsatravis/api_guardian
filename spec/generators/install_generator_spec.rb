@@ -13,6 +13,10 @@ describe 'ApiGuardian::InstallGenerator', type: :generator do
       ::File.expand_path('../templates/routes.rb', __FILE__),
       ::File.expand_path('config/routes.rb', Pathname.new(destination_root))
     )
+    FileUtils.copy_file(
+      ::File.expand_path('../templates/seeds.rb', __FILE__),
+      ::File.expand_path('db/seeds.rb', Pathname.new(destination_root))
+    )
     run_generator
   end
 
@@ -20,7 +24,7 @@ describe 'ApiGuardian::InstallGenerator', type: :generator do
     assert_file 'config/initializers/api_guardian.rb'
   end
 
-  it 'adds sample route' do
+  it 'adds route' do
     assert_file 'config/routes.rb', /mount ApiGuardian::Engine =>/
   end
 
@@ -39,5 +43,9 @@ describe 'ApiGuardian::InstallGenerator', type: :generator do
         end
       end
     }
+  end
+
+  it 'adds seed data' do
+    assert_file 'db/seeds.rb', /ApiGuardian Seeds/
   end
 end

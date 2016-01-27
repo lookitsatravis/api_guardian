@@ -2,7 +2,7 @@
 admin_role = ApiGuardian.configuration.role_class.create!(name: 'Super Admin')
 user_role = ApiGuardian.configuration.role_class.create!(name: 'User', default: true)
 
-# Permissions
+# Permissions - CHANGE THESE PERMISSIONS AT YOUR OWN RISK. THEY ARE INTENDED TO BE LEFT ALONE
 ApiGuardian.configuration.permission_class.create!(name: 'user:create', desc: 'Ability to create User resource.')
 ApiGuardian.configuration.permission_class.create!(name: 'user:read', desc: 'Ability to read User resource.')
 ApiGuardian.configuration.permission_class.create!(name: 'user:update', desc: 'Ability to update User resource.')
