@@ -49,18 +49,31 @@ gem 'active_model_serializers', git: 'https://github.com/rails-api/active_model_
 
 ### Next
 
-Run this command:
+Run the following command. It will:
+
+* Add an initializer
+  * skip with `--skip-initializer` argument
+* Mount ApiGuardian in your routes file
+  * skip with `--skip-routes` argument
+* Copy migration files
+  * skip with `--skip-migrations` argument
+* Add seed data
+  * skip with `--skip-seed` argument
 
 ```sh
 rails generate api_guardian:install
 ```
 
-This will add an initializer, mount the routes, and copy the migrations files.
 You will need to follow this with:
 
 ```sh
 rake db:migrate
-rake api_guardian:seed # not yet implemented, see db/seed.rb for example
+```
+
+Take a moment here to review your seed file and make any changes. And then:
+
+```sh
+rake db:seed
 ```
 
 ### Finally

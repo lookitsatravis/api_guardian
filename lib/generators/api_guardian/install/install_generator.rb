@@ -5,19 +5,37 @@ module ApiGuardian
   class InstallGenerator < Rails::Generators::Base
     include Rails::Generators::Migration
     source_root File.expand_path('../templates', __FILE__)
+    class_option :skip_initializer, type: :boolean, default: false, desc: 'Allow to skip initializer.'
+    class_option :skip_routes, type: :boolean, default: false, desc: 'Allow to skip routes.'
+    class_option :skip_migrations, type: :boolean, default: false, desc: 'Allow to skip migrations.'
     class_option :skip_seed, type: :boolean, default: false, desc: 'Allow to skip seed file additions.'
 
-    desc 'Creates an ApiGuardian initializer and copy locale files to your application.'
+    desc 'Adds an ApiGuardian initializer, migrations, seeds, and mounts routes for your application.'
 
     def copy_initializer
+      if options[:skip_initializer]
+        ApiGuardian.logger.info 'Initializer skipped!'
+        return
+      end
+
       template 'api_guardian.rb', 'config/initializers/api_guardian.rb'
     end
 
     def add_routes
+      if options[:skip_routes]
+        ApiGuardian.logger.info 'Routes skipped!'
+        return
+      end
+
       route 'mount ApiGuardian::Engine => \'/auth\''
     end
 
     def create_migrations
+      if options[:skip_migrations]
+        ApiGuardian.logger.info 'Migrations skipped!'
+        return
+      end
+
       copy_migration 'api_guardian_enable_uuid_extension.rb'
       copy_migration 'create_api_guardian_organizations.rb'
       copy_migration 'create_api_guardian_roles.rb'

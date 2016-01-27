@@ -7,8 +7,6 @@ Next steps:
 
     rake db:migrate
 
-2. Add ApiGuardian Seeds (initial roles and permissions)
-
-    rake api_guardian:seed
+2. Enjoy?
 
 *******************************************************************************
