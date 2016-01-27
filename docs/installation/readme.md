@@ -40,6 +40,17 @@ Take a moment here to review your seed file and make any changes. And then:
 rake db:seed
 ```
 
+## Routing
+
+ApiGuardian by default is mounted to '/auth'. So all ApiGuardian endpoints are prefixed
+by '/auth'. Like:
+
+* `/auth/register`
+* `/auth/access/token`
+* `/auth/users`
+
+You can easily change this in your route file.
+
 ## Models
 
 You may find that you need to customize some of the included models (ex: `ApiGuardian::User`).

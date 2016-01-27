@@ -7,6 +7,9 @@ http://www.rubydoc.info/github/lookitsatravis/api_guardian/master
 ## Table of Contents
 
 * [Installation](installation/readme.md)
+  * [Routing](installation/readme.md#routing)
+  * [Models](installation/readme.md#models)
+  * [Controllers](installation/readme.md#controllers)
 * [Configuration](configuration/readme.md)
   * [Access Token Expiration](configuration/readme.md#access-token-expiration)
   * [Configuring JWT](configuration/readme.md#configuring-jwt)
