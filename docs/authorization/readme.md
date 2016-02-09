@@ -185,6 +185,24 @@ This is simply sugar to save a bit of boilerplate.
 strong parameters concepts and examples. It's an array of symbols representing the
 allowed attributes for a model.
 
+##### Request Validation and Customizing Content Types
+
+The JSON API spec says that clients have to use `application/vnd.api+json` content types. So, all requests are validated to to be sure that they meet this format. However, you may also find that you need to deviate from the JSON API spec a bit when doing things like uploading files. JSON API doesn't have anything to say about files, so in this case, we have the ability to add allowed content types for a given action on a controller. Simply do the following:
+
+```rb
+class CarsController < ApiGuardian::ApiController
+  allow_content_type 'multipart/form-data', actions: [:create]
+
+  # ...
+
+  def create
+    # Now the create action will still pass validation with a different content type.
+  end
+
+  # ...
+end
+```
+
 #### ApplicationPolicy
 
 `ApiGuardian::Policies::ApplicationPolicy` has special Magic® which allows it to automatically map controller

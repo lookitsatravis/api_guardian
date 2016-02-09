@@ -2,6 +2,8 @@ module Test
   class Dummy
     include ControllerConcernTestHelpers
     include ApiGuardian::Concerns::ApiRequest::Validator
+
+    allow_content_type 'multipart/form-data', actions: [:test]
   end
 end
 
@@ -22,12 +24,30 @@ describe ApiGuardian::Concerns::ApiRequest::Validator, type: :request do
       let(:method) { nil }
       let(:headers) { {} }
 
-      it 'validates the content type' do
-        expect { dummy_class.validate_api_request }.to raise_error ApiGuardian::Errors::InvalidContentType
+      context 'content type' do
+        it 'should be validated' do
+          expect { dummy_class.validate_api_request }.to raise_error ApiGuardian::Errors::InvalidContentType
 
-        allow_any_instance_of(ActionDispatch::Request).to receive(:headers).and_return(get_headers)
+          allow_any_instance_of(ActionDispatch::Request).to receive(:headers).and_return(get_headers)
 
-        expect { dummy_class.validate_api_request }.not_to raise_error
+          expect { dummy_class.validate_api_request }.not_to raise_error
+        end
+
+        context 'when explicitly set for an action' do
+          it 'should be validated' do
+            dummy_class.action_name = 'test'
+
+            add_header 'Content-Type', 'multipart/form-data2'
+
+            allow_any_instance_of(ActionDispatch::Request).to receive(:headers).and_return(get_headers)
+
+            expect { dummy_class.validate_api_request }.to raise_error ApiGuardian::Errors::InvalidContentType
+
+            add_header 'Content-Type', 'multipart/form-data'
+
+            expect { dummy_class.validate_api_request }.not_to raise_error
+          end
+        end
       end
 
       context 'PUT request' do

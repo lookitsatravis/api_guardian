@@ -6,6 +6,16 @@ module ApiGuardian
       module Validator
         extend ActiveSupport::Concern
 
+        module ClassMethods
+          def allowed_content_types
+            @allowed_content_types ||= {}
+          end
+
+          def allow_content_type(type, options)
+            allowed_content_types[type] = options
+          end
+        end
+
         included do
           def validate_api_request
             validate_content_type
@@ -26,10 +36,26 @@ module ApiGuardian
           protected
 
           def validate_content_type
-            if request.body.read != '' && request.headers['Content-Type'] != 'application/vnd.api+json'
-              fail ApiGuardian::Errors::InvalidContentType,
-                   "Invalid content type #{request.headers['Content-Type']}"
+            if request.body.read != ''
+              allowed = determine_content_types
+
+              unless allowed.include? request.headers['Content-Type']
+                fail ApiGuardian::Errors::InvalidContentType,
+                     "Invalid content type #{request.headers['Content-Type']}"
+              end
             end
+          end
+
+          def determine_content_types
+            allowed = ['application/vnd.api+json']
+
+            self.class.allowed_content_types.each do |type, options|
+              if options && options[:actions] && options[:actions].include?(action_name.to_sym)
+                allowed.push type.to_s
+              end
+            end
+
+            allowed
           end
 
           def validate_post_request
