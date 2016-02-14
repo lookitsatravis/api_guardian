@@ -29,7 +29,7 @@ What doesn't it include?
 
 ## Requirements
 
-* Ruby >= 2.0
+* Ruby >= 2.1
 * PostgreSQL >= 9.3 (JSON and uuid-ossp support)
 
 **Note: For now, your app must use a PostgreSQL database.** This is because ApiGuardian is using UUID primary keys for all records.
@@ -107,6 +107,9 @@ http://www.rubydoc.info/github/lookitsatravis/api_guardian/master
 * Fix for JWT storage: https://github.com/doorkeeper-gem/doorkeeper/wiki/How-to-fix-PostgreSQL-error-on-index-row-size
 * Cache
 * SSO
+* Review Auth0 feature set
+* remove postgres dependency
+* remove
 * Documentation
   * Microservice usage
   * Request logging
