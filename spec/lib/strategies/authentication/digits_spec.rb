@@ -47,7 +47,7 @@ describe ApiGuardian::Strategies::Authentication::Digits do
 
       it 'authorizes digits data and return user' do
         validation_result = instance_double(ApiGuardian::ValidationResult)
-        response = instance_double(HTTParty::Response)
+        response = instance_double(Net::HTTPResponse)
         expect(ApiGuardian::Stores::UserStore).to(
           receive(:find_identity_by_provider).and_return(identity)
         )
@@ -55,7 +55,7 @@ describe ApiGuardian::Strategies::Authentication::Digits do
         expect_any_instance_of(ApiGuardian::Helpers::Digits).to receive(:validate).and_return(validation_result)
         expect(validation_result).to receive(:succeeded).and_return true
         expect_any_instance_of(ApiGuardian::Helpers::Digits).to receive(:authorize!).and_return(response)
-        expect(response).to receive(:parsed_response).twice.and_return({})
+        expect(response).to receive(:body).and_return('{}')
         expect(identity).to receive(:update_attributes)
 
         result = klass.authenticate(user, 'test')

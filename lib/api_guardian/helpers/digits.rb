@@ -1,5 +1,4 @@
 require 'uri'
-require 'httparty'
 
 module ApiGuardian
   module Helpers
@@ -27,8 +26,15 @@ module ApiGuardian
       end
 
       def authorize!
-        response = HTTParty.get(auth_url, headers: { 'Authorization' => auth_header })
-        unless response.code == 200
+        uri = URI(auth_url)
+
+        response = Net::HTTP.start(uri.hostname, uri.port, use_ssl: uri.scheme == 'https') do |http|
+          request = Net::HTTP::Get.new(uri)
+          request['Authorization'] = auth_header
+          http.request(request)
+        end
+
+        unless response.code.to_i == 200
           ApiGuardian.logger.error "Digits authorization failed! #{response}"
           fail ApiGuardian::Errors::IdentityAuthorizationFailed, "Digits API responded with #{response.code}. Expected 200!"
         end

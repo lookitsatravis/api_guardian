@@ -13,7 +13,7 @@ module ApiGuardian
           if client.validate.succeeded
             begin
               response = client.authorize!
-              update_digits_identity(identity, response)
+              update_digits_identity(identity, JSON.parse(response.body))
               return user
             rescue
             end
@@ -29,8 +29,8 @@ module ApiGuardian
 
         def self.update_digits_identity(identity, response)
           identity.update_attributes(
-            provider_uid: response.parsed_response['id_str'],
-            tokens: response.parsed_response['access_token']
+            provider_uid: response['id_str'],
+            tokens: response['access_token']
           )
         end
       end

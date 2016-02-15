@@ -18,8 +18,8 @@ module ApiGuardian
 
           response = digits_client(attributes).authorize!
 
-          data = create_user_data_from_response(response.parsed_response)
-          identity_data = create_identity_data_from_response(response.parsed_response)
+          data = create_user_data_from_response(JSON.parse(response.body))
+          identity_data = create_identity_data_from_response(JSON.parse(response.body))
 
           # create user
           instance = store.new(nil)

@@ -34,7 +34,6 @@ Gem::Specification.new do |s|
   s.add_dependency 'twilio-ruby', '~> 4.9'
   s.add_dependency 'activejob', '>= 4.2'
   s.add_dependency 'actionmailer', '>= 4.2'
-  s.add_dependency 'httparty', '~> 0.13'
   s.add_dependency 'acts_as_tenant', '~> 0.3'
   # s.add_dependency 'active_model_serializers', '0.10.0.rc3'
   s.add_development_dependency 'rspec-rails', '~> 3.4'
@@ -50,4 +49,5 @@ Gem::Specification.new do |s|
   s.add_development_dependency 'fuubar', '~> 2.0'
   s.add_development_dependency 'rubocop', '~> 0.35'
   s.add_development_dependency 'generator_spec', '~> 0.9'
+  s.add_development_dependency 'webmock', '~> 1.22'
 end

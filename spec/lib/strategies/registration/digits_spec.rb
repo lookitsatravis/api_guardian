@@ -33,10 +33,10 @@ describe ApiGuardian::Strategies::Registration::Digits do
         attributes = {}
         user = mock_model(ApiGuardian::User)
         role = mock_model(ApiGuardian::Role)
-        mock_response = instance_double(HTTParty::Response)
+        mock_response = instance_double(Net::HTTPResponse)
         expect_any_instance_of(ApiGuardian::Helpers::Digits).to receive(:validate).and_return(ApiGuardian::ValidationResult.new(true))
         expect_any_instance_of(ApiGuardian::Helpers::Digits).to receive(:authorize!).and_return(mock_response)
-        expect(mock_response).to receive(:parsed_response).twice.and_return({})
+        expect(mock_response).to receive(:body).twice.and_return('{}')
         store = double(ApiGuardian::Stores::UserStore)
         expect(ApiGuardian::Stores::UserStore).to receive(:new).and_return(store)
         expect(ApiGuardian::Stores::RoleStore).to receive(:default_role).and_return(role)
