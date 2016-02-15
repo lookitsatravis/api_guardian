@@ -103,19 +103,34 @@ http://www.rubydoc.info/github/lookitsatravis/api_guardian/master
     * 16 one time use codes
     * Ability to regenerate a new batch of codes
 * Activity/Events (User signed in, User authenticated at...)
-* Sessions/Devices (attach to tokens)
+* Sessions/Devices (attach to tokens, but how?)
 * Fix for JWT storage: https://github.com/doorkeeper-gem/doorkeeper/wiki/How-to-fix-PostgreSQL-error-on-index-row-size
 * Cache
 * SSO
 * Review Auth0 feature set
-* remove postgres dependency
-* remove
 * Documentation
   * Microservice usage
   * Request logging
 * Remove dependency on PostgreSQL
   * Use serialize for attributes in models
   * https://github.com/jashmenn/activeuuid
+* Ability to swap AMS adapter
+  * Error rendering needs to match this setting
+* Toggle custom logger off
+* Add test for custom logger
+* Soft deleting and cascade deleting
+* A role can't be destroyed if users still belong to it
+* Remove dependencies on gems
+  * What could be moved to core?
+    * pundit
+    * doorkeeper
+    * otp
+    * acts_as_tenant
+    * Phony
+  * What could feasibly be added as an "addon" package
+    * Paranoia
+    * zxcvbn-js
+    * twilio-ruby
 
 ## Getting Help
 
