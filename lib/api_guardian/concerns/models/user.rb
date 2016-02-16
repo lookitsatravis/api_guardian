@@ -41,6 +41,7 @@ module ApiGuardian
             !reset_password_sent_at.nil? && 24.hours.ago <= reset_password_sent_at
           end
 
+            !reset_password_sent_at.nil? && 24.hours.ago <= reset_password_sent_at
           end
 
           protected
