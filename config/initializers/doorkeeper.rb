@@ -1,4 +1,4 @@
-::Doorkeeper.configure do
+Doorkeeper.configure do
   # Change the ORM that doorkeeper will use (needs plugins)
   orm :active_record
 
@@ -31,7 +31,7 @@
 
   # Use a custom class for generating the access token.
   # https://github.com/doorkeeper-gem/doorkeeper#custom-access-token-generator
-  access_token_generator '::Doorkeeper::JWT'
+  access_token_generator 'Doorkeeper::JWT'
 
   # Reuse access token for the same resource owner within an application (disabled by default)
   # Rationale: https://github.com/doorkeeper-gem/doorkeeper/issues/383
@@ -107,7 +107,7 @@
   realm ApiGuardian.configuration.realm
 end
 
-::Doorkeeper::JWT.configure do
+Doorkeeper::JWT.configure do
   # Set the payload for the JWT token. This should contain unique information
   # about the user.
   token_payload do |opts|
