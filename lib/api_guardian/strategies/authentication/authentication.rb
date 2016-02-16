@@ -3,6 +3,7 @@ module ApiGuardian
     module Authentication
       class Base
         def self.authenticate(user)
+          return unless user
           fail ApiGuardian::Errors::UserInactive unless user.active?
         end
       end
