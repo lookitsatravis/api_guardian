@@ -18,6 +18,8 @@ require 'codeclimate-test-reporter'
 require 'generator_spec'
 require 'webmock/rspec'
 
+WebMock.disable_net_connect!(:allow => "codeclimate.com")
+
 Rails.backtrace_cleaner.remove_silencers!
 ActiveRecord::Migration.maintain_test_schema!
 
