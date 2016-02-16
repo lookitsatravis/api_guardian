@@ -37,10 +37,14 @@ module ApiGuardian
           end
 
           # Instance Methods
-          def reset_password_token_valid?
-            !reset_password_sent_at.nil? && 24.hours.ago <= reset_password_sent_at
+          def authenticate(unencrypted_password)
+            return false if password_digest.blank?
+            bcrypt = ::BCrypt::Password.new(password_digest)
+            password = ::BCrypt::Engine.hash_secret(unencrypted_password, bcrypt.salt)
+            ApiGuardian.secure_compare(password, password_digest) && self
           end
 
+          def reset_password_token_valid?
             !reset_password_sent_at.nil? && 24.hours.ago <= reset_password_sent_at
           end
 
