@@ -53,6 +53,20 @@ describe ApiGuardian::Strategies::Authentication::TwoFactor do
         expect(result).to be true
       end
 
+      it 'returns false supplied otp is invalid' do
+        mock_headers = instance_double(ActionDispatch::Http::Headers)
+        expect(ApiGuardian.configuration).to receive(:enable_2fa).and_return(true)
+        expect(user).to receive(:otp_enabled).and_return true
+        expect(ApiGuardian.configuration).to receive(:otp_header_name).and_return('X-TEST')
+        expect(mock_request).to receive(:headers).and_return(mock_headers)
+        expect(mock_headers).to receive(:[]).with('X-TEST').and_return('000')
+        expect(user).to receive(:authenticate_otp).with('000', drift: 30).and_return false
+
+        result = ApiGuardian::Strategies::Authentication::TwoFactor.authenticate_request(user, mock_request)
+
+        expect(result).to be false
+      end
+
       it 'should authenticate otp header value' do
         password = Faker::Internet.password(32)
 

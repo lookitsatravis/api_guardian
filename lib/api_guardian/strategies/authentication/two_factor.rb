@@ -17,7 +17,7 @@ module ApiGuardian
 
             valid = user.authenticate_otp otp_code, drift: 30
             ApiGuardian.logger.warn 'OTP code invalid' unless valid
-            valid
+            return valid
           end
 
           true
