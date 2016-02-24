@@ -6,6 +6,12 @@ describe ApiGuardian::Strategies::Authentication::Digits do
     let(:identity) { create(:identity, user: user, provider: :digits) }
 
     describe '.authenticate' do
+      it 'fails if user is nil' do
+        result = klass.authenticate(nil, '')
+
+        expect(result).to eq nil
+      end
+
       it 'fails if digits identity does not exist' do
         expect(ApiGuardian::Stores::UserStore).to(
           receive(:find_identity_by_provider).and_return(nil)
