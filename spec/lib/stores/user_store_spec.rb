@@ -32,17 +32,33 @@ describe ApiGuardian::Stores::UserStore do
         expect(attributes[:email_confirmed_at]).to be_a(DateTime)
         expect(attributes[:active]).to eq true
       end
+
+      it 'should allow for not confirming email' do
+        attributes = {}
+        role = mock_model(ApiGuardian::Role)
+        expect(role).to receive(:id).and_return(1)
+        expect(ApiGuardian::Stores::RoleStore).to receive(:default_role).and_return(role)
+        expect_any_instance_of(ApiGuardian::User).to receive(:valid?).and_return(true)
+        expect_any_instance_of(ApiGuardian::User).to receive(:save!).and_return(true)
+
+        subject.create(attributes, confirm_email: false)
+
+        expect(attributes[:role_id]).to eq 1
+        expect(attributes[:email_confirmed_at]).to eq nil
+        expect(attributes[:active]).to eq true
+      end
     end
 
     describe '#create_with_identity' do
       it 'should create user and then identity with bang' do
         attrs = {}
         id_attrs = {}
+        create_options = {}
         mock_user = mock_model(ApiGuardian::User)
-        expect_any_instance_of(ApiGuardian::Stores::UserStore).to receive(:create).and_return(mock_user)
+        expect_any_instance_of(ApiGuardian::Stores::UserStore).to receive(:create).with(attrs, create_options).and_return(mock_user)
         expect(mock_user).to receive_message_chain('identities.create!').with(id_attrs)
 
-        subject.create_with_identity(attrs, id_attrs)
+        subject.create_with_identity(attrs, id_attrs, create_options)
       end
     end
 

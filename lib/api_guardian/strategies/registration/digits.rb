@@ -23,7 +23,7 @@ module ApiGuardian
 
           # create user
           instance = store.new(nil)
-          user = instance.create_with_identity(data, identity_data)
+          user = instance.create_with_identity(data, identity_data, confirm_email: false)
 
           # TODO: put user created event onto queue
 

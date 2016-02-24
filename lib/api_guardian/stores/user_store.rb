@@ -10,15 +10,21 @@ module ApiGuardian
         ApiGuardian.configuration.user_class.find_by_reset_password_token(token)
       end
 
-      def create(attributes)
+      def create(attributes, options = {})
+        defaults = {
+          confirm_email: true
+        }
+
+        options = defaults.merge(options)
+
         attributes[:role_id] = ApiGuardian::Stores::RoleStore.default_role.id
-        attributes[:email_confirmed_at] = DateTime.now.utc
+        attributes[:email_confirmed_at] = DateTime.now.utc if options[:confirm_email]
         attributes[:active] = true
         super attributes
       end
 
-      def create_with_identity(attributes, id_attributes)
-        user = create(attributes)
+      def create_with_identity(attributes, id_attributes, create_options)
+        user = create(attributes, create_options)
         user.identities.create!(id_attributes)
         user
       end
