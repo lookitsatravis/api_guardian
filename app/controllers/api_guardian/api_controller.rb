@@ -51,8 +51,9 @@ module ApiGuardian
     end
 
     def resource_store
+      scope = action_name == 'index' ? policy_scope(resource_class) : nil
       @resource_store ||= ('ApiGuardian::Stores::' + resource_name + 'Store').
-                          constantize.new(policy_scope(resource_class))
+                          constantize.new(scope)
     end
 
     def resource_name
