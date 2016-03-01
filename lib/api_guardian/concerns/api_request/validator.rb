@@ -51,7 +51,7 @@ module ApiGuardian
 
             self.class.allowed_content_types.each do |type, options|
               if options && options[:actions] && options[:actions].include?(action_name.to_sym)
-                allowed.push type.to_s
+                allowed.push type.split(';').first.to_s
               end
             end
 
