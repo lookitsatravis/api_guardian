@@ -60,7 +60,7 @@ module ApiGuardian
     end
 
     def resource_class
-      @resource_class ||= ApiGuardian.configuration.send("#{resource_name.downcase}_class")
+      @resource_class ||= find_resource_class
     end
 
     # :nocov:
@@ -123,6 +123,17 @@ module ApiGuardian
       fail ApiGuardian::Errors::ResourceStoreMissing, "Could not find a resource store " \
            "for #{resource_name}. Have you created one? You can override `#resource_store` " \
            "in your controller in order to set it up specifically."
+    end
+
+    def find_resource_class
+      if Object.const_defined?(resource_name)
+        return resource_name.constantize
+      elsif ApiGuardian.configuration.respond_to? "#{resource_name.downcase}_class"
+        return ApiGuardian.configuration.send("#{resource_name.downcase}_class")
+      else
+        fail ApiGuardian::Errors::ResourceClassMissing, "Could not find a resource class (model) " \
+             "for #{resource_name}. Have you created one?"
+      end
     end
 
     def class_exists?(class_name)

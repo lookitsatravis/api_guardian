@@ -55,6 +55,8 @@ module ApiGuardian
               user_inactive
             elsif exception.is_a? ApiGuardian::Errors::ResourceStoreMissing
               resource_store_missing(exception)
+            elsif exception.is_a? ApiGuardian::Errors::ResourceClassMissing
+              resource_class_missing(exception)
             else
               generic_error_handler(exception)
             end
@@ -236,6 +238,13 @@ module ApiGuardian
           def resource_store_missing(exception)
             render_error(
               500, 'resource_store_missing', 'Resource Store Missing',
+              exception.message
+            )
+          end
+
+          def resource_class_missing(exception)
+            render_error(
+              500, 'resource_class_missing', 'Resource Class Missing',
               exception.message
             )
           end
