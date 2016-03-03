@@ -53,6 +53,8 @@ module ApiGuardian
               invalid_jwt_secret(exception)
             elsif exception.is_a? ApiGuardian::Errors::UserInactive
               user_inactive
+            elsif exception.is_a? ApiGuardian::Errors::ResourceStoreMissing
+              resource_store_missing(exception)
             else
               generic_error_handler(exception)
             end
@@ -228,6 +230,13 @@ module ApiGuardian
           def user_inactive
             render_error(
               401, 'user_inactive', 'User Inactive', 'User Inactive'
+            )
+          end
+
+          def resource_store_missing(exception)
+            render_error(
+              500, 'resource_store_missing', 'Resource Store Missing',
+              exception.message
             )
           end
         end

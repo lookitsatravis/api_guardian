@@ -42,7 +42,11 @@ RSpec.describe ApiGuardian::ApiController do
 
         expect(result2).to be_a Dummy2Store
 
-        expect { dummy3_class.resource_store }.to raise_error NameError
+        expect { dummy3_class.resource_store }.to raise_error(
+          ApiGuardian::Errors::ResourceStoreMissing, "Could not find a resource store " \
+               "for Dummy3. Have you created one? You can override `#resource_store` " \
+               "in your controller in order to set it up specifically."
+        )
       end
     end
   end

@@ -108,16 +108,25 @@ module ApiGuardian
     end
 
     def find_and_init_store(scope)
-      store = nil
-      begin
-        # Check for app-specfic store
-        store = (resource_name + 'Store').constantize
-      rescue NameError
-        # Check for ApiGuardian Store
-        store = ('ApiGuardian::Stores::' + resource_name + 'Store').constantize
+      # Check for app-specfic store
+      store = class_exists?(resource_name + 'Store') ?
+        resource_name + 'Store' : nil
+
+      # Check for ApiGuardian Store
+      unless store
+        store = class_exists?('ApiGuardian::Stores::' + resource_name + 'Store') ?
+          'ApiGuardian::Stores::' + resource_name + 'Store' : nil
       end
 
-      store.new(scope)
+      return store.constantize.new(scope) if store
+
+      fail ApiGuardian::Errors::ResourceStoreMissing, "Could not find a resource store " \
+           "for #{resource_name}. Have you created one? You can override `#resource_store` " \
+           "in your controller in order to set it up specifically."
+    end
+
+    def class_exists?(class_name)
+      eval("defined?(#{class_name}) && #{class_name}.is_a?(Class)") == true
     end
   end
 end
