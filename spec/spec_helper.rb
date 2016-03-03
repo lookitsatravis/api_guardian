@@ -55,6 +55,8 @@ Dir[Rails.root.parent.parent.join('lib/**/*.rb')].each do |f|
   require f unless f.include? "install/templates"
 end
 
+ApiGuardian::Engine.eager_load!
+
 # Load support files
 Dir["#{File.dirname(__FILE__)}/support/**/*.rb"].each { |f| require f }
 
