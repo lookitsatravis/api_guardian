@@ -48,6 +48,16 @@ describe ApiGuardian::Concerns::ApiRequest::Validator, type: :request do
             expect { dummy_class.validate_api_request }.not_to raise_error
           end
         end
+
+        it 'should validate content types with semi-colons' do
+          dummy_class.action_name = 'test'
+
+          add_header 'Content-Type', 'multipart/form-data; boundary=---------asdfqwerty'
+
+          allow_any_instance_of(ActionDispatch::Request).to receive(:headers).and_return(get_headers)
+
+          expect { dummy_class.validate_api_request }.not_to raise_error
+        end
       end
 
       context 'PUT request' do

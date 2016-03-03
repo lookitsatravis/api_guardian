@@ -39,7 +39,10 @@ module ApiGuardian
             if request.body.read != ''
               allowed = determine_content_types
 
-              unless allowed.include? request.headers['Content-Type']
+              content_type = request.headers['Content-Type']
+              content_type = content_type.split(';').first.to_s if content_type
+
+              unless allowed.include? content_type
                 fail ApiGuardian::Errors::InvalidContentType,
                      "Invalid content type #{request.headers['Content-Type']}"
               end
