@@ -108,6 +108,8 @@ class WidgetStore < ApiGuardian::Stores::Base
 end
 ```
 
+You would create `widget_store.rb` file in `app/stores` directory.
+
 Now, when you hit your `WidgetsController`, ApiGuardian will use `WidgetStore` to
 interact with your models instead of interacting with them directly. This flexibility
 will allow you to extend the Store or the Model (or both) with extra functionality
