@@ -9,9 +9,9 @@ http://www.rubydoc.info/github/lookitsatravis/api_guardian/master
 * [Installation](installation/readme.md)
   * [Routing](installation/readme.md#routing)
   * [Models](installation/readme.md#models)
-  * [Controllers](installation/readme.md#controllers)
-    * [Stores](installation/readme.md#stores)
+  * [Controllers](installation/readme.md#controllers--such)
     * [Policies](installation/readme.md#policies)
+    * [Stores](installation/readme.md#stores)
     * [Serializers](installation/readme.md#serializers)
 * [Configuration](configuration/readme.md)
   * [Access Token Expiration](configuration/readme.md#access-token-expiration)
@@ -34,6 +34,8 @@ http://www.rubydoc.info/github/lookitsatravis/api_guardian/master
 
 * Organizations
 * Password reset
+
+---
 
 ApiGuardian is copyright © 2016 Travis Vignon. It is free software, and may be
 redistributed under the terms specified in the [`MIT-LICENSE`](https://github.com/lookitsatravis/api_guardian/blob/master/MIT-LICENSE) file.

@@ -40,5 +40,7 @@ To register a user using Digits, the following fields are required.
 }
 ```
 
+---
+
 ApiGuardian is copyright © 2016 Travis Vignon. It is free software, and may be
 redistributed under the terms specified in the [`MIT-LICENSE`](https://github.com/lookitsatravis/api_guardian/blob/master/MIT-LICENSE) file.

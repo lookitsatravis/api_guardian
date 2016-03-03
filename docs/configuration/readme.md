@@ -136,5 +136,7 @@ add it to `api_guardian_users` and not simply `users`.
 
 See [Two-Factor Authentication](../authentication/readme.md#two-factor-authentication)
 
+---
+
 ApiGuardian is copyright © 2016 Travis Vignon. It is free software, and may be
 redistributed under the terms specified in the [`MIT-LICENSE`](https://github.com/lookitsatravis/api_guardian/blob/master/MIT-LICENSE) file.

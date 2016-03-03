@@ -117,7 +117,7 @@ method, and keep all of that code our of your controller. In the future, you'll
 even be able to swap out your model implementation (to Mongoid, for example), and
 hopefully leave the majority of your code (especially controllers) alone.
 
-### But I Don't Want To Use A Store
+#### But I Don't Want To Use A Store
 
 Well, you don't have to! You can instead create your own base controller and only
 use the features of ApiGuardian you want (like error handling). But, you won't
