@@ -52,8 +52,7 @@ module ApiGuardian
 
     def resource_store
       scope = action_name == 'index' ? policy_scope(resource_class) : nil
-      @resource_store ||= ('ApiGuardian::Stores::' + resource_name + 'Store').
-                          constantize.new(scope)
+      @resource_store ||= find_and_init_store(scope)
     end
 
     def resource_name
@@ -106,6 +105,19 @@ module ApiGuardian
 
     def set_current_request
       ApiGuardian.current_request = request
+    end
+
+    def find_and_init_store(scope)
+      store = nil
+      begin
+        # Check for app-specfic store
+        store = (resource_name + 'Store').constantize
+      rescue NameError
+        # Check for ApiGuardian Store
+        store = ('ApiGuardian::Stores::' + resource_name + 'Store').constantize
+      end
+
+      store.new(scope)
     end
   end
 end
