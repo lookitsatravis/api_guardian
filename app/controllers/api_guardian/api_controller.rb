@@ -126,7 +126,7 @@ module ApiGuardian
     end
 
     def find_resource_class
-      if Object.const_defined?(resource_name)
+      if class_exists?(resource_name)
         return resource_name.constantize
       elsif ApiGuardian.configuration.respond_to? "#{resource_name.downcase}_class"
         return ApiGuardian.configuration.send("#{resource_name.downcase}_class")
@@ -137,7 +137,7 @@ module ApiGuardian
     end
 
     def class_exists?(class_name)
-      eval("defined?(#{class_name}) && #{class_name}.is_a?(Class)") == true
+      class_name.constantize.is_a?(Class) rescue false
     end
   end
 end
