@@ -51,7 +51,9 @@ end
 Dir[Rails.root.parent.parent.join('app/controllers/**/*.rb')].each { |f| require f }
 Dir[Rails.root.parent.parent.join('app/models/**/*.rb')].each { |f| require f }
 Dir[Rails.root.parent.parent.join('app/serializers/**/*.rb')].each { |f| require f }
-Dir[Rails.root.parent.parent.join('lib/**/*.rb')].each { |f| require f }
+Dir[Rails.root.parent.parent.join('lib/**/*.rb')].each do |f|
+  require f unless f.include? "install/templates"
+end
 
 # Load support files
 Dir["#{File.dirname(__FILE__)}/support/**/*.rb"].each { |f| require f }
