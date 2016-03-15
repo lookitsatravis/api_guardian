@@ -87,7 +87,7 @@ module ApiGuardian
   end
 
   class << self
-    attr_accessor :current_request
+    attr_accessor :current_request, :current_user
     attr_writer :configuration
 
     def zxcvbn_tester

@@ -97,6 +97,7 @@ module ApiGuardian
 
     def set_current_user
       @current_user = ApiGuardian.configuration.user_class.find(doorkeeper_token.resource_owner_id) if doorkeeper_token
+      ApiGuardian.current_user = @current_user
     end
 
     def prep_response
