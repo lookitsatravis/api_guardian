@@ -56,9 +56,9 @@ module ApiGuardian
       protected
 
       def resource_name
-        return record.new.class.name.demodulize.downcase if record.respond_to? :new
+        return record.new.class.name.demodulize.underscore if record.respond_to? :new
 
-        record.class.name.demodulize.downcase
+        record.class.name.demodulize.underscore
       end
     end
   end
