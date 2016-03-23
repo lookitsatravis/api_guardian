@@ -65,7 +65,7 @@ module ApiGuardian
 
     # :nocov:
     def includes
-      fail 'This needs to be overriden by a child of the API ApplicationController.'
+      []
     end
     # :nocov:
 
@@ -79,7 +79,7 @@ module ApiGuardian
 
     # :nocov:
     def create_params
-      fail 'This needs to be overriden by a child of the API ApplicationController.'
+      []
     end
     # :nocov:
 
@@ -89,7 +89,7 @@ module ApiGuardian
 
     # :nocov:
     def update_params
-      fail 'This needs to be overriden by a child of the API ApplicationController.'
+      []
     end
     # :nocov:
 
