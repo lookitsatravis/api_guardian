@@ -43,7 +43,17 @@ module ApiGuardian
       protected
 
       def resource_class
-        @resource_class ||= self.class.name.gsub('Stores::', '').gsub('Store', '').classify.constantize
+        @resource_class ||= find_resource_class
+      end
+
+      def find_resource_class
+        class_name = self.class.name.gsub('Stores::', '').gsub('Store', '').classify
+
+        if class_name.include? 'ApiGuardian::'
+          class_name = ApiGuardian.configuration.send(class_name.gsub('ApiGuardian::', '').underscore + '_class').to_s
+        end
+
+        class_name.constantize
       end
     end
   end
