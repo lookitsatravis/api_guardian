@@ -34,6 +34,7 @@ module ApiGuardian
 
       def update(resource, attributes)
         resource.update_attributes!(attributes)
+        resource
       end
 
       def destroy(resource)
