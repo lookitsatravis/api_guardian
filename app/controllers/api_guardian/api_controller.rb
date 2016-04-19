@@ -109,21 +109,25 @@ module ApiGuardian
     end
 
     def find_and_init_store(scope)
+      store = nil
+
       # Check for app-specfic store
-      store = class_exists?(resource_name + 'Store') ?
-        resource_name + 'Store' : nil
+      if class_exists?(resource_name + 'Store')
+        store = resource_name + 'Store'
+      end
 
       # Check for ApiGuardian Store
       unless store
-        store = class_exists?('ApiGuardian::Stores::' + resource_name + 'Store') ?
-          'ApiGuardian::Stores::' + resource_name + 'Store' : nil
+        if class_exists?('ApiGuardian::Stores::' + resource_name + 'Store')
+          store = 'ApiGuardian::Stores::' + resource_name + 'Store'
+        end
       end
 
       return store.constantize.new(scope) if store
 
-      fail ApiGuardian::Errors::ResourceStoreMissing, "Could not find a resource store " \
+      fail ApiGuardian::Errors::ResourceStoreMissing, 'Could not find a resource store ' \
            "for #{resource_name}. Have you created one? You can override `#resource_store` " \
-           "in your controller in order to set it up specifically."
+           'in your controller in order to set it up specifically.'
     end
 
     def find_resource_class
@@ -132,13 +136,15 @@ module ApiGuardian
       elsif ApiGuardian.configuration.respond_to? "#{resource_name.downcase}_class"
         return ApiGuardian.configuration.send("#{resource_name.downcase}_class")
       else
-        fail ApiGuardian::Errors::ResourceClassMissing, "Could not find a resource class (model) " \
+        fail ApiGuardian::Errors::ResourceClassMissing, 'Could not find a resource class (model) ' \
              "for #{resource_name}. Have you created one?"
       end
     end
 
     def class_exists?(class_name)
-      class_name.constantize.is_a?(Class) rescue false
+      class_name.constantize.is_a?(Class)
+    rescue
+      false
     end
   end
 end

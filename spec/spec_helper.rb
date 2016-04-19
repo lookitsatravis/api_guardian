@@ -18,7 +18,7 @@ require 'codeclimate-test-reporter'
 require 'generator_spec'
 require 'webmock/rspec'
 
-WebMock.disable_net_connect!(:allow => "codeclimate.com")
+WebMock.disable_net_connect!(allow: 'codeclimate.com')
 
 Rails.backtrace_cleaner.remove_silencers!
 ActiveRecord::Migration.maintain_test_schema!
@@ -52,7 +52,7 @@ Dir[Rails.root.parent.parent.join('app/controllers/**/*.rb')].each { |f| require
 Dir[Rails.root.parent.parent.join('app/models/**/*.rb')].each { |f| require f }
 Dir[Rails.root.parent.parent.join('app/serializers/**/*.rb')].each { |f| require f }
 Dir[Rails.root.parent.parent.join('lib/**/*.rb')].each do |f|
-  require f unless f.include? "install/templates"
+  require f unless f.include? 'install/templates'
 end
 
 # Load support files

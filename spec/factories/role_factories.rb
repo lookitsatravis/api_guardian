@@ -1,6 +1,6 @@
 FactoryGirl.define do
   factory :role, class: ApiGuardian::Role do |f|
-    f.sequence(:name) { |n| Faker::Lorem.word + "#{n}" }
+    f.sequence(:name) { |n| Faker::Lorem.word + n.to_s }
     f.default false
 
     factory :default_role do

@@ -11,7 +11,7 @@ module ApiGuardian
     class ConfigurationError < RuntimeError
     end
 
-    AVAILABLE_2FA_METHODS = %w(sms voice google_auth email)
+    AVAILABLE_2FA_METHODS = %w(sms voice google_auth email).freeze
 
     attr_writer :user_class, :role_class, :permission_class, :role_permission_class,
                 :identity_class, :organization_class, :minimum_password_length,
@@ -66,7 +66,7 @@ module ApiGuardian
     end
 
     def minimum_password_score=(score)
-      if (0..4).include?(score)
+      if (0..4).cover?(score)
         if score < 3
           ApiGuardian.logger.warn 'A password score of less than 3 is not recommended.'
         end

@@ -83,10 +83,10 @@ RSpec.describe ApiGuardian::Role, type: :model do
           granted_perm = role.role_permissions.where(granted: true).first.permission
           nongranted_perm = role.role_permissions.where(granted: false).first.permission
 
-          expect(role.can? granted_perm.name).to be true
-          expect(role.cannot? granted_perm.name).to be false
-          expect(role.can? nongranted_perm.name).to be false
-          expect(role.cannot? nongranted_perm.name).to be true
+          expect(role.can?(granted_perm.name)).to be true
+          expect(role.cannot?(granted_perm.name)).to be false
+          expect(role.can?(nongranted_perm.name)).to be false
+          expect(role.cannot?(nongranted_perm.name)).to be true
         end
       end
     end

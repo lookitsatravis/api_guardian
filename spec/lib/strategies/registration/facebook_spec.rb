@@ -63,7 +63,7 @@ describe ApiGuardian::Strategies::Registration::Facebook do
           expect(result).to be_a Hash
           expect(result[:provider]).to eq 'facebook'
           expect(result[:provider_uid]).to eq '54321'
-          expect(result[:tokens]).to eq({ access_token: '12345' })
+          expect(result[:tokens]).to eq(access_token: '12345')
         end
       end
     end

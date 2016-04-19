@@ -51,7 +51,7 @@ describe 'ApiGuardian::RolesController' do
 
         allow_any_instance_of(ApiGuardian::Stores::RoleStore).to receive(:update).and_return(role)
 
-        data = { data: { type: 'roles', id: "#{role.id}", attributes: { name: Faker::Lorem.word, default: false } } }
+        data = { data: { type: 'roles', id: role.id.to_s, attributes: { name: Faker::Lorem.word, default: false } } }
 
         patch "/roles/#{role.id}", data.to_json, get_headers
 

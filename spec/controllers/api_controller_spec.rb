@@ -59,9 +59,9 @@ RSpec.describe ApiGuardian::ApiController do
         expect(result2).to be_a BarStore
 
         expect { dummy3_class.resource_store }.to raise_error(
-          ApiGuardian::Errors::ResourceStoreMissing, "Could not find a resource store " \
-          "for Baz. Have you created one? You can override `#resource_store` " \
-          "in your controller in order to set it up specifically."
+          ApiGuardian::Errors::ResourceStoreMissing, 'Could not find a resource store ' \
+          'for Baz. Have you created one? You can override `#resource_store` ' \
+          'in your controller in order to set it up specifically.'
         )
       end
     end
@@ -77,8 +77,8 @@ RSpec.describe ApiGuardian::ApiController do
         expect(result2.to_s).to eq 'Bar'
 
         expect { dummy3_class.resource_class }.to raise_error(
-          ApiGuardian::Errors::ResourceClassMissing, "Could not find a resource class " \
-          "(model) for Baz. Have you created one?"
+          ApiGuardian::Errors::ResourceClassMissing, 'Could not find a resource class ' \
+          '(model) for Baz. Have you created one?'
         )
 
         # And with user, which is provided by ApiGuardian

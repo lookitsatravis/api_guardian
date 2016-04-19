@@ -20,7 +20,7 @@ module ApiGuardian
     class ResetTokenUserMismatch < Error; end
     class TwoFactorRequired < Error; end
     class UserInactive < Error; end
-    class ResourceStoreMissing < Error; end;
-    class ResourceClassMissing < Error; end;
+    class ResourceStoreMissing < Error; end
+    class ResourceClassMissing < Error; end
   end
 end

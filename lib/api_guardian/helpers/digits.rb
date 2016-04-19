@@ -66,7 +66,7 @@ module ApiGuardian
       def validate_auth_url
         fail StandardError, 'Digits Auth URL invalid or missing' unless auth_url
         domain = URI.parse(auth_url).host
-        unless domain.match('api.digits.com')
+        unless domain =~ /api.digits.com/
           fail StandardError, 'Auth url is for invalid domain. Must match "api.digits.com".'
         end
       end

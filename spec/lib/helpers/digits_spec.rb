@@ -68,26 +68,24 @@ describe ApiGuardian::Helpers::Digits do
 
     describe '#authorize!' do
       it 'should authorize digits request' do
-        stub_request(:get, auth_url)
-          .to_return(status: 200)
+        stub_request(:get, auth_url).to_return(status: 200)
 
         expect(subject.authorize!).to be_a Net::HTTPResponse
 
-        expect(WebMock).to have_requested(:get, auth_url)
-          .with(headers: {'Authorization' => auth_header}).once
+        expect(WebMock).to have_requested(:get, auth_url).
+          with(headers: { 'Authorization' => auth_header }).once
       end
 
       it 'fails when HTTP response is not 200' do
-        stub_request(:get, auth_url)
-          .to_return(status: 400)
+        stub_request(:get, auth_url).to_return(status: 400)
 
         expect { subject.authorize! }.to raise_error(
           ApiGuardian::Errors::IdentityAuthorizationFailed,
           'Digits API responded with 400. Expected 200!'
         )
 
-        expect(WebMock).to have_requested(:get, auth_url)
-          .with(headers: {'Authorization' => auth_header}).once
+        expect(WebMock).to have_requested(:get, auth_url).
+          with(headers: { 'Authorization' => auth_header }).once
       end
     end
   end

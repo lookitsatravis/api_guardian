@@ -12,13 +12,7 @@ module ApiGuardian
             if Rails.env.production?
               render json: { errors: [error] }, status: status
             else
-              if exception
-                render json: { errors: [error], exception: exception.class.name,
-                               message: exception.message, trace: exception.backtrace[0, 10] },
-                       status: status
-              else
-                render json: { errors: [error] }, status: status
-              end
+              non_production_render error, exception, status
             end
           end
 
@@ -33,6 +27,16 @@ module ApiGuardian
               title: title || 'Unknown',
               detail: detail || 'An unknown error has occurred and has been logged.'
             }
+          end
+
+          def non_production_render(error, exception, status)
+            if exception
+              render json: { errors: [error], exception: exception.class.name,
+                             message: exception.message, trace: exception.backtrace[0, 10] },
+                     status: status
+            else
+              render json: { errors: [error] }, status: status
+            end
           end
 
           def render(**_)

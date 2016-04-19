@@ -65,6 +65,11 @@ module ApiGuardian
       readme 'README' if behavior == :invoke
     end
 
+    # for generating a timestamp when using `create_migration`
+    def self.next_migration_number(dir)
+      ActiveRecord::Generators::Base.next_migration_number(dir)
+    end
+
     private
 
     # Inspired from thoughtbot/clearance install process
@@ -95,11 +100,6 @@ module ApiGuardian
 
     def migration_name_without_timestamp(file)
       file.sub(%r{^.*(db/migrate/)(?:\d+_)?}, '')
-    end
-
-    # for generating a timestamp when using `create_migration`
-    def self.next_migration_number(dir)
-      ActiveRecord::Generators::Base.next_migration_number(dir)
     end
   end
 end

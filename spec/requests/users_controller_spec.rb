@@ -51,7 +51,7 @@ describe 'ApiGuardian::UsersController' do
 
         allow_any_instance_of(ApiGuardian::Stores::UserStore).to receive(:update).and_return(user)
 
-        data = { data: { type: 'users', id: "#{user.id}", attributes: { name: Faker::Lorem.word, default: false } } }
+        data = { data: { type: 'users', id: user.id.to_s, attributes: { name: Faker::Lorem.word, default: false } } }
 
         patch "/users/#{user.id}", data.to_json, get_headers
 
@@ -79,7 +79,7 @@ describe 'ApiGuardian::UsersController' do
 
         allow_any_instance_of(ApiGuardian::Stores::UserStore).to receive(:add_phone).and_return(user)
 
-        data = { data: { type: 'users', id: "#{user.id}", attributes: { phone_number: Faker::PhoneNumber.phone_number } } }
+        data = { data: { type: 'users', id: user.id.to_s, attributes: { phone_number: Faker::PhoneNumber.phone_number } } }
 
         post "/users/#{user.id}/add_phone", data.to_json, get_headers
 
@@ -94,7 +94,7 @@ describe 'ApiGuardian::UsersController' do
 
         allow_any_instance_of(ApiGuardian::Stores::UserStore).to receive(:verify_phone).and_return(false)
 
-        data = { data: { type: 'users', id: "#{user.id}", attributes: { otp: '000' } } }
+        data = { data: { type: 'users', id: user.id.to_s, attributes: { otp: '000' } } }
 
         post "/users/#{user.id}/verify_phone", data.to_json, get_headers
 
@@ -107,7 +107,7 @@ describe 'ApiGuardian::UsersController' do
 
         allow_any_instance_of(ApiGuardian::Stores::UserStore).to receive(:verify_phone).and_return(true)
 
-        data = { data: { type: 'users', id: "#{user.id}", attributes: { otp: '000' } } }
+        data = { data: { type: 'users', id: user.id.to_s, attributes: { otp: '000' } } }
 
         post "/users/#{user.id}/verify_phone", data.to_json, get_headers
 
