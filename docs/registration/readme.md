@@ -40,6 +40,21 @@ To register a user using Digits, the following fields are required.
 }
 ```
 
+## Facebook
+
+Facebook registration assumes that a Facebook OAuth access token has been acquired
+from some other client library. All that you'll need to pass in is the access token
+and ApiGuardian will take care of validating it and creating a user.
+
+To register a user via Facebook, the following fields are required.
+
+```json
+{
+  "type": "facebook",
+  "access_token": "access_token_returned_from_facebook_sdk",
+}
+```
+
 ---
 
 ApiGuardian is copyright © 2016 Travis Vignon. It is free software, and may be

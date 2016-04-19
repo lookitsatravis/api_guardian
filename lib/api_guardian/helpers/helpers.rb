@@ -1,4 +1,5 @@
 require 'api_guardian/helpers/digits'
+require 'api_guardian/helpers/facebook'
 
 module ApiGuardian
   module Helpers

@@ -20,6 +20,7 @@ http://www.rubydoc.info/github/lookitsatravis/api_guardian/master
 * [Registration](registration/readme.md)
   * [Email](registration/readme.md#email)
   * [Twitter Digits](registration/readme.md#twitter-digits)
+  * [Facebook](registration/readme.md#facebook)
 * [Authentication](authentication/readme.md)
   * [JSON Web Token Responses](authentication/readme.md#jwt-responses)
   * [Email Authentication](authentication/readme.md#email-authentication)
