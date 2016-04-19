@@ -149,6 +149,8 @@ module ApiGuardian
         fail ConfigurationError.new('access_token_expires_in must be a valid ActiveSupport::Duration.')
       end
       @access_token_expires_in = value
+
+      regenerate_doorkeeper_config
     end
 
     def realm
@@ -157,6 +159,8 @@ module ApiGuardian
 
     def realm=(value)
       @realm = value.to_s
+
+      regenerate_doorkeeper_config
     end
 
     def jwt_issuer
@@ -165,6 +169,8 @@ module ApiGuardian
 
     def jwt_issuer=(value)
       @jwt_issuer = value.to_s
+
+      regenerate_doorkeeper_config
     end
 
     def jwt_secret
@@ -185,6 +191,8 @@ module ApiGuardian
         fail ConfigurationError.new("#{value} is not a valid encryption method. See https://github.com/jwt/ruby-jwt")
       end
       @jwt_encryption_method = value
+
+      regenerate_doorkeeper_config
     end
 
     def client_password_reset_url
@@ -194,6 +202,14 @@ module ApiGuardian
     def client_password_reset_url=(value)
       fail ConfigurationError.new("#{value} is not a valid URL for client_password_reset_url!") unless value =~ URI.regexp
       @client_password_reset_url = value
+
+      regenerate_doorkeeper_config
+    end
+
+    protected
+
+    def regenerate_doorkeeper_config
+      load File.join(ApiGuardian.root, 'config', 'initializers', 'doorkeeper.rb')
     end
   end
 end

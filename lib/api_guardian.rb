@@ -100,6 +100,11 @@ module ApiGuardian
       end
       @twilio_client ||= ::Twilio::REST::Client.new configuration.twilio_id, configuration.twilio_token
     end
+
+    def root
+      spec = Gem::Specification.find_by_name('api_guardian')
+      spec.gem_dir
+    end
   end
 
   module_function
