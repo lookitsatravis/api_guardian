@@ -2,7 +2,7 @@ describe ApiGuardian::Strategies::Registration::Digits do
   let(:base_klass) { ApiGuardian::Strategies::Registration::Base }
   let(:klass) { ApiGuardian::Strategies::Registration::Digits }
 
-  it 'registers email registration strategy' do
+  it 'registers digits registration strategy' do
     expect(base_klass.providers[:digits]).to be_a klass
   end
 
