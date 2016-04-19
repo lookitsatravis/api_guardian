@@ -102,7 +102,7 @@ module ApiGuardian
     end
 
     def root
-      spec = Gem::Specification.find_by_name('api_guardian')
+      spec = Gem::Specification.find_all_by_name('api_guardian').first
       spec.gem_dir
     end
   end
