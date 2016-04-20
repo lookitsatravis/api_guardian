@@ -1,12 +1,30 @@
 # Configure Rails Environment
 ENV['RAILS_ENV'] = 'test'
 
+require 'simplecov'
+
+SimpleCov.start do
+  add_group 'Controllers', 'app/controllers'
+  add_group 'Models', 'app/models'
+  add_group 'Serializers', 'app/serializers'
+  add_group 'Engine::Concerns', 'lib/api_guardian/concerns'
+  add_group 'Engine::Doorkeeper', 'lib/api_guardian/doorkeeper'
+  add_group 'Engine::Errors', 'lib/api_guardian/errors'
+  add_group 'Engine::Jobs', 'lib/api_guardian/jobs'
+  add_group 'Engine::Mailers', 'lib/api_guardian/mailers'
+  add_group 'Engine::Policies', 'lib/api_guardian/policies'
+  add_group 'Engine::Stores', 'lib/api_guardian/stores'
+  add_group 'Engine::Strategies', 'lib/api_guardian/strategies'
+  add_group 'Engine::Validators', 'lib/api_guardian/validators'
+  add_filter 'db'
+  add_filter 'spec'
+end
+
 require File.expand_path('../dummy/config/environment.rb', __FILE__)
 require 'capybara/rspec'
 require 'pundit/rspec'
 require 'rspec/rails'
 require 'factory_girl_rails'
-require 'simplecov'
 require 'coveralls'
 require 'faker'
 require 'database_cleaner'
@@ -29,31 +47,6 @@ if ENV['IS_CODESHIP']
 end
 
 CodeClimate::TestReporter.start
-
-SimpleCov.start do
-  add_group 'Controllers', 'app/controllers'
-  add_group 'Models', 'app/models'
-  add_group 'Serializers', 'app/serializers'
-  add_group 'Engine::Concerns', 'lib/api_guardian/concerns'
-  add_group 'Engine::Doorkeeper', 'lib/api_guardian/doorkeeper'
-  add_group 'Engine::Errors', 'lib/api_guardian/errors'
-  add_group 'Engine::Jobs', 'lib/api_guardian/jobs'
-  add_group 'Engine::Mailers', 'lib/api_guardian/mailers'
-  add_group 'Engine::Policies', 'lib/api_guardian/policies'
-  add_group 'Engine::Stores', 'lib/api_guardian/stores'
-  add_group 'Engine::Strategies', 'lib/api_guardian/strategies'
-  add_group 'Engine::Validators', 'lib/api_guardian/validators'
-  add_filter 'db'
-  add_filter 'spec'
-end
-
-# Eager load for code coverages purposes
-Dir[Rails.root.parent.parent.join('app/controllers/**/*.rb')].each { |f| require f }
-Dir[Rails.root.parent.parent.join('app/models/**/*.rb')].each { |f| require f }
-Dir[Rails.root.parent.parent.join('app/serializers/**/*.rb')].each { |f| require f }
-Dir[Rails.root.parent.parent.join('lib/**/*.rb')].each do |f|
-  require f unless f.include? 'install/templates'
-end
 
 # Load support files
 Dir["#{File.dirname(__FILE__)}/support/**/*.rb"].each { |f| require f }
