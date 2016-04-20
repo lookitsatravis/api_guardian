@@ -5,15 +5,15 @@ module ApiGuardian
       class Facebook < Base
         provides_registration_for :facebook
 
-        allowed_api_parameters :access_token
+        allowed_api_parameters :access_token, :password, :password_confirmation
 
         def register(store, attributes)
           super(attributes)
 
           response = facebook_client(attributes).authorize!
 
-          data = create_user_data_from_response(response)
-          identity_data = create_identity_data_from_response(response, attributes[:access_token])
+          data = build_user_attributes_from_response(response, attributes)
+          identity_data = build_identity_attributes_from_response(response, attributes[:access_token])
 
           # create user
           instance = store.new(nil)
@@ -24,25 +24,25 @@ module ApiGuardian
           user
         end
 
-        def create_user_data_from_response(response)
-          password = SecureRandom.hex(32)
-
+        def build_user_attributes_from_response(response, attributes)
           first_name = response['name'].split.first
           last_name = response['name'].split.count > 1 ? response['name'].split[1..-1].join(' ') : ''
+
+          # TODO: Check to see if this user already exists by email.
 
           {
             first_name: first_name,
             last_name: last_name,
-            email: response['email'] + '.facebook',
+            email: response['email'],
             email_confirmed_at: DateTime.now.utc,
             role_id: ApiGuardian::Stores::RoleStore.default_role.id,
             active: true,
-            password: password,
-            password_confirmation: password
+            password: attributes[:password],
+            password_confirmation: attributes[:password_confirmation]
           }
         end
 
-        def create_identity_data_from_response(response, access_token)
+        def build_identity_attributes_from_response(response, access_token)
           {
             provider: 'facebook',
             provider_uid: response['id'],

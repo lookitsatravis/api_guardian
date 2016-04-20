@@ -44,7 +44,7 @@ describe ApiGuardian::Strategies::Registration::Facebook do
           expect(result).to be_a Hash
           expect(result[:first_name]).to eq 'Travis'
           expect(result[:last_name]).to eq 'Vignon'
-          expect(result[:email]).to eq 'test@example.com.facebook'
+          expect(result[:email]).to eq 'test@example.com'
           expect(result[:email_confirmed_at]).to be_a DateTime
           expect(result[:role_id]).to eq role.id
           expect(result[:active]).to eq true
