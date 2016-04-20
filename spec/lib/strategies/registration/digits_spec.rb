@@ -64,12 +64,12 @@ describe ApiGuardian::Strategies::Registration::Digits do
         }
       end
 
-      describe '#create_user_data_from_response' do
+      describe '#build_user_attributes_from_response' do
         it 'should build user data hash' do
           role = mock_model(ApiGuardian::Role)
           expect(ApiGuardian::Stores::RoleStore).to receive(:default_role).and_return(role)
 
-          result = subject.create_user_data_from_response(attributes)
+          result = subject.build_user_attributes_from_response(attributes)
 
           expect(result).to be_a Hash
           expect(result[:phone_number]).to eq '18005551234'
@@ -84,9 +84,9 @@ describe ApiGuardian::Strategies::Registration::Digits do
         end
       end
 
-      describe '#create_identity_data_from_response' do
+      describe '#build_identity_attributes_from_response' do
         it 'should build identity data hash' do
-          result = subject.create_identity_data_from_response(attributes)
+          result = subject.build_identity_attributes_from_response(attributes)
 
           expect(result).to be_a Hash
           expect(result[:provider]).to eq 'digits'

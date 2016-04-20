@@ -18,8 +18,8 @@ module ApiGuardian
 
           response = digits_client(attributes).authorize!
 
-          data = create_user_data_from_response(JSON.parse(response.body))
-          identity_data = create_identity_data_from_response(JSON.parse(response.body))
+          data = build_user_attributes_from_response(JSON.parse(response.body))
+          identity_data = build_identity_attributes_from_response(JSON.parse(response.body))
 
           # create user
           instance = store.new(nil)
@@ -30,7 +30,7 @@ module ApiGuardian
           user
         end
 
-        def create_user_data_from_response(response)
+        def build_user_attributes_from_response(response)
           password = SecureRandom.hex(32)
 
           {
@@ -43,7 +43,7 @@ module ApiGuardian
           }
         end
 
-        def create_identity_data_from_response(response)
+        def build_identity_attributes_from_response(response)
           {
             provider: 'digits',
             provider_uid: response['id_str'],
