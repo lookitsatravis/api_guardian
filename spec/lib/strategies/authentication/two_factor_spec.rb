@@ -72,11 +72,11 @@ describe ApiGuardian::Strategies::Authentication::TwoFactor do
 
         user = create(:user, password: password, password_confirmation: password)
 
-        result = ApiGuardian::Strategies::Authentication::Password.authenticate user, password
+        result = ApiGuardian::Strategies::Authentication::Email.new.authenticate email: user.email, password: password
 
         expect(result).to eq user
 
-        result = ApiGuardian::Strategies::Authentication::Password.authenticate user, 'password'
+        result = ApiGuardian::Strategies::Authentication::Email.new.authenticate email: user.email, password: 'password'
 
         expect(result).to eq nil
       end

@@ -130,7 +130,7 @@ module ApiGuardian
           fail ApiGuardian::Errors::PasswordRequired
         end
 
-        unless ApiGuardian::Strategies::Authentication::Password.authenticate(user, password)
+        unless ApiGuardian::Strategies::Authentication::Email.new.authenticate(email: user.email, password: password)
           fail ApiGuardian::Errors::PasswordInvalid
         end
       end

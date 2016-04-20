@@ -118,7 +118,7 @@ describe ApiGuardian::Stores::UserStore do
         expect_any_instance_of(ActionController::Parameters).to receive(:extract!).with(:type).and_return(ActionController::Parameters.new)
         expect_any_instance_of(ActionController::Parameters).to receive(:fetch).with(:type).and_return('test')
         mock_strategy = double(ApiGuardian::Strategies::Registration::Email)
-        expect(ApiGuardian::Strategies::Registration).to receive(:find).and_return(mock_strategy)
+        expect(ApiGuardian::Strategies::Registration).to receive(:find_strategy).and_return(mock_strategy)
         expect(mock_strategy).to receive(:register)
 
         ApiGuardian::Stores::UserStore.register(ActionController::Parameters.new)
@@ -222,7 +222,7 @@ describe ApiGuardian::Stores::UserStore do
 
       it 'fails if password is invalid' do
         user = mock_model(ApiGuardian::User)
-        expect(ApiGuardian::Strategies::Authentication::Password).to(
+        expect_any_instance_of(ApiGuardian::Strategies::Authentication::Email).to(
           receive(:authenticate).and_return(nil)
         )
 

@@ -34,12 +34,12 @@ describe ApiGuardian::Strategies::Registration::Facebook do
     end
 
     describe 'data hash creation' do
-      describe '#create_user_data_from_response' do
+      describe '#build_user_attributes_from_response' do
         it 'should build user data hash' do
           role = mock_model(ApiGuardian::Role)
           expect(ApiGuardian::Stores::RoleStore).to receive(:default_role).and_return(role)
 
-          result = subject.create_user_data_from_response(mock_response)
+          result = subject.build_user_attributes_from_response(mock_response, {password: 'password', password_confirmation: 'password'})
 
           expect(result).to be_a Hash
           expect(result[:first_name]).to eq 'Travis'
@@ -48,17 +48,14 @@ describe ApiGuardian::Strategies::Registration::Facebook do
           expect(result[:email_confirmed_at]).to be_a DateTime
           expect(result[:role_id]).to eq role.id
           expect(result[:active]).to eq true
-          expect(result[:password]).to be_a String
-          expect(result[:password].length).to be 64
-          expect(result[:password_confirmation]).to be_a String
-          expect(result[:password_confirmation].length).to be 64
-          expect(result[:password_confirmation]).to eq result[:password]
+          expect(result[:password]).to eq 'password'
+          expect(result[:password_confirmation]).to eq 'password'
         end
       end
 
-      describe '#create_identity_data_from_response' do
+      describe '#build_identity_attributes_from_response' do
         it 'should build identity data hash' do
-          result = subject.create_identity_data_from_response(mock_response, '12345')
+          result = subject.build_identity_attributes_from_response(mock_response, '12345')
 
           expect(result).to be_a Hash
           expect(result[:provider]).to eq 'facebook'

@@ -19,7 +19,7 @@ describe 'Registration' do
       mock_strategy = double(ApiGuardian::Strategies::Registration::Email)
       expect_any_instance_of(ActionController::Parameters).to receive(:require).with(:type)
       expect_any_instance_of(ActionController::Parameters).to receive(:fetch).with(:type, nil).and_return('test')
-      expect(ApiGuardian::Strategies::Registration).to receive(:find).with('test').and_return(mock_strategy)
+      expect(ApiGuardian::Strategies::Registration).to receive(:find_strategy).with('test').and_return(mock_strategy)
       expect(mock_strategy).to receive(:params).and_return([])
       expect_any_instance_of(ActionController::Parameters).to receive(:permit).with(:type, *[])
       expect(ApiGuardian::Stores::UserStore).to receive(:register).and_return(true)

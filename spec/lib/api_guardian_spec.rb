@@ -1,41 +1,19 @@
 describe ApiGuardian do
   describe 'methods' do
     describe '.authenticate' do
-      it 'can handle email authentication' do
-        username = 'test'
-        password = SecureRandom.hex(32)
-        user = create(:user)
-        expect(ApiGuardian::Helpers).to receive(:email_address?).with(username).and_return true
-        expect(ApiGuardian::User).to receive(:find_by).with(email: username).and_return(user)
-        expect(ApiGuardian::Strategies::Authentication::Password).to receive(:authenticate).with(user, password).and_return(user)
+      it 'finds provider and initiates authentication' do
+        options = { foo: 'bar' }
+        mock_strategy = instance_double(ApiGuardian::Strategies::Authentication::Email)
 
-        result = ApiGuardian.authenticate(username, password)
+        expect(ApiGuardian::Strategies::Authentication).to(
+          receive(:find_strategy).and_return(mock_strategy)
+        )
 
-        expect(result).to eq user
-      end
+        expect(ApiGuardian.logger).to receive(:info).with 'Authenticating via email'
 
-      it 'can handle digits authentication' do
-        username = 'test'
-        password = SecureRandom.hex(32)
-        user = create(:user)
-        expect(ApiGuardian::Helpers).to receive(:email_address?).with(username).and_return false
-        expect(ApiGuardian::Helpers).to receive(:phone_number?).with(username).and_return true
-        expect(ApiGuardian::User).to receive(:find_by).with(phone_number: username).and_return(user)
-        expect(ApiGuardian::Strategies::Authentication::Digits).to receive(:authenticate).with(user, password).and_return(user)
+        expect(mock_strategy).to receive(:authenticate).with(options)
 
-        result = ApiGuardian.authenticate(username, password)
-
-        expect(result).to eq user
-      end
-
-      it 'returns nil otherwise' do
-        username = 'test'
-        expect(ApiGuardian::Helpers).to receive(:email_address?).with(username).and_return false
-        expect(ApiGuardian::Helpers).to receive(:phone_number?).with(username).and_return false
-
-        result = ApiGuardian.authenticate(username, '')
-
-        expect(result).to eq nil
+        ApiGuardian.authenticate(:email, options)
       end
     end
   end
