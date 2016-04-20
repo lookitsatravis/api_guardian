@@ -44,3 +44,4 @@ end
 require 'api_guardian/strategies/authentication/two_factor'
 require 'api_guardian/strategies/authentication/email'
 require 'api_guardian/strategies/authentication/digits'
+require 'api_guardian/strategies/authentication/facebook'
