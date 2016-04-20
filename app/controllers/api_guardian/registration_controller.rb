@@ -41,7 +41,7 @@ module ApiGuardian
 
     def find_strategy(provider)
       fail ApiGuardian::Errors::InvalidRegistrationProvider, 'Provider must be a string' unless provider.is_a? String
-      ApiGuardian::Strategies::Registration.find provider
+      ApiGuardian::Strategies::Registration.find_strategy provider
     end
   end
 end

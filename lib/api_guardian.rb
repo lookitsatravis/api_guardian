@@ -69,9 +69,12 @@ module ApiGuardian
     module Registration
       module_function
 
-      def self.find(provider)
+      def self.find_strategy(provider)
         strategy = Base.providers[provider.to_sym]
-        fail ApiGuardian::Errors::InvalidRegistrationProvider, "Could not find provider '#{provider}'" unless strategy
+        fail(
+          ApiGuardian::Errors::InvalidRegistrationProvider,
+          "Could not find registration provider '#{provider}'. Available: " + Base.providers.keys.join(', ')
+        ) unless strategy
         strategy
       end
     end
