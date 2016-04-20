@@ -25,6 +25,7 @@ Gem::Specification.new do |s|
   s.add_dependency 'rack-cors', '~> 0.4'
   s.add_dependency 'doorkeeper', '~> 3.0'
   s.add_dependency 'doorkeeper-jwt', '~> 0.1'
+  s.add_dependency 'doorkeeper-grants_assertion', '~> 0.0.1'
   s.add_dependency 'bcrypt', '~> 3.1'
   s.add_dependency 'kaminari', '~> 0.16'
   s.add_dependency 'pg', '~> 0.18'
