@@ -41,6 +41,6 @@ module ApiGuardian
   end
 end
 
-require 'api_guardian/strategies/authentication/password'
 require 'api_guardian/strategies/authentication/two_factor'
+require 'api_guardian/strategies/authentication/email'
 require 'api_guardian/strategies/authentication/digits'
