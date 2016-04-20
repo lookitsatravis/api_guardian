@@ -67,13 +67,33 @@ To request an access token via email, the following fields are required.
 }
 ```
 
-## [Twitter Digits](https://get.digits.com) Authentication
+## Third Party Authentication
 
-Digits also uses the `password` OAuth2 grant type. In this case, the username is
-the phone number returned from the Digits SDK. In order to conform to the OAuth2
-spec, a special step is needed to transform the Digits auth URL and Header into
-a "password". To do this, you must Base64 encode the auth URL and the auth Header
-joined by a semicolon. Example in JavaScript ([Digits web SDK docs](https://docs.fabric.io/web/digits/index.html)):
+Utilizing a third-party service with ApiGuardian is straightforward. We make use
+of the `assertion` OAuth2 grant type ([IETF Standard](https://tools.ietf.org/html/rfc7521)).
+ApiGuardian requires an additional parameter (`assertion_type`) to indicate the provider,
+and then all authentication details are passed into the `assertion` parameter.
+
+### Facebook Authentication
+
+The assertion for Facebook is any valid Facebook OAuth access token. These can be
+returned via any mobile or web SDK. ApiGuardian will extract the relevant identifiers
+after validating the token and, if valid, will allow a user to authenticate.
+
+To request an access token via Twitter Digits, the following fields are required.
+
+```js
+{
+    "assertion_type": "facebook",
+    "assertion": "your_facebook_oauth_access_token",
+    "grant_type": "assertion"
+}
+```
+
+### [Twitter Digits](https://get.digits.com) Authentication
+
+The assertion for Twitter Digits is a Base64 encoded string of the the auth URL and the auth Header
+(both returned by the Digits SDK/API) joined by a semicolon. Example in JavaScript ([Digits web SDK docs](https://docs.fabric.io/web/digits/index.html)):
 
 ```js
 Digits.init({ consumerKey: 'yourConsumerKey' });
@@ -86,7 +106,7 @@ function onLogin(loginResponse){
   var authHeader = oAuthHeaders['X-Verify-Credentials-Authorization'];
   var encodedPassword = window.btoa([apiUrl, authHeader].join(';'))
 
-  //encodedPassword is what you need to supply as the "password" to authenticate with Digits.
+  //encodedPassword is what you need to supply as the "assertion" to authenticate with Digits.
 }
 ```
 
@@ -94,9 +114,9 @@ To request an access token via Twitter Digits, the following fields are required
 
 ```js
 {
-    "username": "+18005551234", //As returned from Digits SDK
-    "password": "base_64_encoded_url_and_header",
-    "grant_type": "password"
+    "assertion_type": "digits",
+    "assertion": "base_64_encoded_url_and_header",
+    "grant_type": "assertion"
 }
 ```
 

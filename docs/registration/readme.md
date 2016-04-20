@@ -20,7 +20,24 @@ To register a user via email, the following fields are required.
 }
 ```
 
-## [Twitter Digits](https://get.digits.com)
+## Third-Party Registration
+
+### Facebook
+
+Facebook registration assumes that a Facebook OAuth access token has been acquired
+from some other client library. All that you'll need to pass in is the access token
+and ApiGuardian will take care of validating it and creating a user.
+
+To register a user via Facebook, the following fields are required.
+
+```json
+{
+  "type": "facebook",
+  "access_token": "access_token_returned_from_facebook_sdk",
+}
+```
+
+### [Twitter Digits](https://get.digits.com)
 
 Twitter Digits is a very simple method for a user to register for an app using
 only their phone number. Digits handles the phone number validation and 2FA using
@@ -37,21 +54,6 @@ To register a user using Digits, the following fields are required.
   "type": "digits",
   "auth_url": "auth_url_returned_from_digits_sdk",
   "auth_header": "auth_header_returned_from_digits_sdk"
-}
-```
-
-## Facebook
-
-Facebook registration assumes that a Facebook OAuth access token has been acquired
-from some other client library. All that you'll need to pass in is the access token
-and ApiGuardian will take care of validating it and creating a user.
-
-To register a user via Facebook, the following fields are required.
-
-```json
-{
-  "type": "facebook",
-  "access_token": "access_token_returned_from_facebook_sdk",
 }
 ```
 
