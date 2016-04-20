@@ -88,7 +88,7 @@ describe ApiGuardian::Strategies::Authentication::Digits do
 
         expect(identity).to receive(:provider_uid).and_return('cbba')
 
-        expect{subject.authenticate('')}.to(
+        expect { subject.authenticate('') }.to(
           raise_error(ApiGuardian::Errors::IdentityAuthorizationFailed)
         )
       end

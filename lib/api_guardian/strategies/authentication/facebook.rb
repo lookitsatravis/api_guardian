@@ -27,12 +27,12 @@ module ApiGuardian
           # Verify user is active (which is all that super does)
           super(user: user)
 
-          update_identity(identity, response, access_token)
+          update_identity(identity, access_token)
 
           user
         end
 
-        def update_identity(identity, response, access_token)
+        def update_identity(identity, access_token)
           identity.update_attributes(
             tokens: { access_token: access_token }
           )

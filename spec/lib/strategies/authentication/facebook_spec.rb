@@ -59,7 +59,7 @@ describe ApiGuardian::Strategies::Authentication::Facebook do
 
         expect(identity).to receive(:provider_uid).and_return('cba')
 
-        expect{subject.authenticate('')}.to(
+        expect { subject.authenticate('') }.to(
           raise_error(ApiGuardian::Errors::IdentityAuthorizationFailed)
         )
       end
