@@ -17,7 +17,7 @@ require 'api_guardian/helpers/helpers'
 require 'api_guardian/configuration'
 require 'api_guardian/validation'
 require 'api_guardian/errors'
-require 'api_guardian/encryption'
+# require 'api_guardian/encryption'
 require 'api_guardian/engine'
 
 require 'active_support/lazy_load_hooks'
