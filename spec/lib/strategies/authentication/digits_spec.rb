@@ -1,70 +1,123 @@
 describe ApiGuardian::Strategies::Authentication::Digits do
+  let(:base_klass) { ApiGuardian::Strategies::Authentication::Base }
   let(:klass) { ApiGuardian::Strategies::Authentication::Digits }
 
+  it 'registers digits authentication strategy' do
+    expect(base_klass.providers[:digits]).to be_a klass
+  end
+
   describe 'methods' do
-    let(:user) { create(:user) }
-    let(:identity) { create(:identity, user: user, provider: :digits) }
+    let(:user) { mock_model(ApiGuardian::User) }
+    let(:identity) { mock_model(ApiGuardian::Identity) }
+    let(:body) { { 'phone_number' => 'test', 'id_str' => 'abc' } }
+    let(:mock_response) { instance_double(Net::HTTPResponse) }
 
-    describe '.authenticate' do
-      it 'fails if user is nil' do
-        result = klass.authenticate(nil, '')
+    describe '#authenticate' do
+      it 'fails if auth response is invalid' do
+        expect_any_instance_of(ApiGuardian::ValidationResult).to(
+          receive(:succeeded).and_return(false)
+        )
+
+        result = subject.authenticate('')
 
         expect(result).to eq nil
       end
 
-      it 'fails if digits identity does not exist' do
-        expect(ApiGuardian::Stores::UserStore).to(
-          receive(:find_identity_by_provider).and_return(nil)
+      it 'fails if no user can be found via auth response' do
+        expect_any_instance_of(ApiGuardian::ValidationResult).to(
+          receive(:succeeded).and_return(true)
+        )
+        expect_any_instance_of(ApiGuardian::Helpers::Digits).to(
+          receive(:authorize!).and_return(mock_response)
         )
 
-        result = klass.authenticate(user, '')
+        expect(mock_response).to receive(:body).and_return('{}')
+        expect(JSON).to receive(:parse).and_return(body)
+
+        expect(ApiGuardian.configuration.user_class).to(
+          receive(:find_by).and_return(nil)
+        )
+
+        result = subject.authenticate('')
 
         expect(result).to eq nil
       end
 
-      it 'returns nil if digits data does not validate' do
-        validation_result = instance_double(ApiGuardian::ValidationResult)
-        expect(ApiGuardian::Stores::UserStore).to(
-          receive(:find_identity_by_provider).and_return(identity)
+      it 'fails if no identity can be found for a user' do
+        expect_any_instance_of(ApiGuardian::ValidationResult).to(
+          receive(:succeeded).and_return(true)
         )
-        expect(Base64).to receive(:decode64).with('test').and_return('test')
-        expect_any_instance_of(ApiGuardian::Helpers::Digits).to receive(:validate).and_return(validation_result)
-        expect(validation_result).to receive(:succeeded).and_return false
+        expect_any_instance_of(ApiGuardian::Helpers::Digits).to(
+          receive(:authorize!).and_return(mock_response)
+        )
 
-        result = klass.authenticate(user, 'test')
+        expect(mock_response).to receive(:body).and_return('{}')
+        expect(JSON).to receive(:parse).and_return(body)
+
+        expect(ApiGuardian.configuration.user_class).to(
+          receive(:find_by).and_return(user)
+        )
+
+        expect(ApiGuardian::Stores::UserStore).to(
+          receive(:find_identity_by_provider).with(user, :digits).and_return(nil)
+        )
+
+        result = subject.authenticate('')
 
         expect(result).to eq nil
       end
 
-      it 'returns nil if digits authorize! fails' do
-        validation_result = instance_double(ApiGuardian::ValidationResult)
-        expect(ApiGuardian::Stores::UserStore).to(
-          receive(:find_identity_by_provider).and_return(identity)
+      it 'fails if found identity does not match auth identity' do
+        expect_any_instance_of(ApiGuardian::ValidationResult).to(
+          receive(:succeeded).and_return(true)
         )
-        expect(Base64).to receive(:decode64).with('test').and_return('test')
-        expect_any_instance_of(ApiGuardian::Helpers::Digits).to receive(:validate).and_return(validation_result)
-        expect(validation_result).to receive(:succeeded).and_return true
-        expect_any_instance_of(ApiGuardian::Helpers::Digits).to receive(:authorize!).and_raise(StandardError)
+        expect_any_instance_of(ApiGuardian::Helpers::Digits).to(
+          receive(:authorize!).and_return(mock_response)
+        )
 
-        result = klass.authenticate(user, 'test')
+        expect(mock_response).to receive(:body).and_return('{}')
+        expect(JSON).to receive(:parse).and_return(body)
 
-        expect(result).to eq nil
+        expect(ApiGuardian.configuration.user_class).to(
+          receive(:find_by).and_return(user)
+        )
+
+        expect(ApiGuardian::Stores::UserStore).to(
+          receive(:find_identity_by_provider).with(user, :digits).and_return(identity)
+        )
+
+        expect(identity).to receive(:provider_uid).and_return('cbba')
+
+        expect{subject.authenticate('')}.to(
+          raise_error(ApiGuardian::Errors::IdentityAuthorizationFailed)
+        )
       end
 
-      it 'authorizes digits data and return user' do
-        validation_result = instance_double(ApiGuardian::ValidationResult)
-        response = instance_double(Net::HTTPResponse)
-        expect(ApiGuardian::Stores::UserStore).to(
-          receive(:find_identity_by_provider).and_return(identity)
+      it 'updates the user identity and returns user on success' do
+        expect_any_instance_of(ApiGuardian::ValidationResult).to(
+          receive(:succeeded).and_return(true)
         )
-        expect(Base64).to receive(:decode64).with('test').and_return('test')
-        expect_any_instance_of(ApiGuardian::Helpers::Digits).to receive(:validate).and_return(validation_result)
-        expect(validation_result).to receive(:succeeded).and_return true
-        expect_any_instance_of(ApiGuardian::Helpers::Digits).to receive(:authorize!).and_return(response)
-        expect(response).to receive(:body).and_return('{}')
+        expect_any_instance_of(ApiGuardian::Helpers::Digits).to(
+          receive(:authorize!).and_return(mock_response)
+        )
+
+        expect(mock_response).to receive(:body).and_return('{}')
+        expect(JSON).to receive(:parse).and_return(body)
+
+        expect(ApiGuardian.configuration.user_class).to(
+          receive(:find_by).and_return(user)
+        )
+
+        expect(ApiGuardian::Stores::UserStore).to(
+          receive(:find_identity_by_provider).with(user, :digits).and_return(identity)
+        )
+
+        expect(identity).to receive(:provider_uid).and_return('abc')
+
+        expect(user).to receive(:active?).and_return true
         expect(identity).to receive(:update_attributes)
 
-        result = klass.authenticate(user, 'test')
+        result = subject.authenticate('')
 
         expect(result).to eq user
       end
