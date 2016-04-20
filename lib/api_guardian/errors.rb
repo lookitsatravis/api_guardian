@@ -7,6 +7,7 @@ module ApiGuardian
     class InvalidContentType < Error; end
     class InvalidJwtSecret < Error; end
     class InvalidPermissionName < Error; end
+    class InvalidAuthenticationProvider < Error; end
     class InvalidRegistrationProvider < Error; end
     class InvalidRequestBody < Error; end
     class InvalidRequestResourceId < Error; end

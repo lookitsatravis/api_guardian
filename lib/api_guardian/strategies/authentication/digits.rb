@@ -2,7 +2,9 @@ module ApiGuardian
   module Strategies
     module Authentication
       class Digits < Base
-        def self.authenticate(user, auth_hash)
+        provides_authentication_for :digits
+
+        def authenticate(user, auth_hash)
           super(user)
           return nil unless user
 
@@ -24,12 +26,12 @@ module ApiGuardian
           nil
         end
 
-        def self.parse_digits_data(auth_hash)
+        def parse_digits_data(auth_hash)
           decoded = Base64.decode64(auth_hash)
           decoded.split(';')
         end
 
-        def self.update_digits_identity(identity, response)
+        def update_digits_identity(identity, response)
           identity.update_attributes(
             provider_uid: response['id_str'],
             tokens: response['access_token']

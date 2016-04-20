@@ -57,6 +57,8 @@ module ApiGuardian
               resource_store_missing(exception)
             elsif exception.is_a? ApiGuardian::Errors::ResourceClassMissing
               resource_class_missing(exception)
+            elsif exception.is_a? ApiGuardian::Errors::InvalidAuthenticationProvider
+              malformed_request(exception)
             else
               generic_error_handler(exception)
             end

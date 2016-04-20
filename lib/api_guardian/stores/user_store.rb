@@ -64,7 +64,7 @@ module ApiGuardian
 
       def self.register(attributes)
         provider = attributes.extract!(:type).fetch(:type)
-        strategy = ApiGuardian::Strategies::Registration.find provider
+        strategy = ApiGuardian::Strategies::Registration.find_strategy provider
         strategy.register(self, attributes)
       end
 

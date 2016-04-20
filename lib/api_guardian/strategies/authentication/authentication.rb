@@ -2,9 +2,21 @@ module ApiGuardian
   module Strategies
     module Authentication
       class Base
-        def self.authenticate(user)
-          return unless user
-          fail ApiGuardian::Errors::UserInactive unless user.active?
+        class << self
+          # rubocop:disable ClassVars
+          def providers
+            @@providers ||= {}
+          end
+          # rubocop:enable ClassVars
+
+          def provides_authentication_for(provider)
+            providers[provider.to_sym] = new
+          end
+        end
+
+        def authenticate(options = {})
+          return unless options[:user]
+          fail ApiGuardian::Errors::UserInactive unless options[:user].active?
         end
       end
     end
@@ -12,18 +24,10 @@ module ApiGuardian
 
   module_function
 
-  def authenticate(username, password)
-    if Helpers.email_address? username
-      ApiGuardian.logger.info 'Authenticating via email/password'
-      user = ApiGuardian.configuration.user_class.find_by(email: username)
-      return Strategies::Authentication::Password.authenticate(user, password)
-    elsif Helpers.phone_number? username
-      ApiGuardian.logger.info 'Authenticating via digits'
-      user = ApiGuardian.configuration.user_class.find_by(phone_number: username)
-      return Strategies::Authentication::Digits.authenticate(user, password)
-    end
-
-    nil
+  def authenticate(provider = :email, options = nil)
+    strategy = Strategies::Authentication.find_strategy provider
+    ApiGuardian.logger.info "Authenticating via #{provider}"
+    strategy.authenticate options
   end
 
   # constant-time comparison algorithm to prevent timing attacks

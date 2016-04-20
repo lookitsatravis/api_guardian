@@ -8,6 +8,8 @@ module ApiGuardian
       rescue_from ApiGuardian::Errors::TwoFactorRequired, with: :two_factor_required
       rescue_from ApiGuardian::Errors::InvalidJwtSecret, with: :invalid_jwt_secret
       rescue_from ApiGuardian::Errors::UserInactive, with: :user_inactive
+      rescue_from ApiGuardian::Errors::InvalidAuthenticationProvider, with: :malformed_request
+      rescue_from ApiGuardian::Errors::IdentityAuthorizationFailed, with: :identity_authorization_failed
 
       append_before_filter :set_current_request
 

@@ -4,7 +4,10 @@ Doorkeeper.configure do
 
   # This block will be called to check whether the resource owner is authenticated or not.
   resource_owner_from_credentials do
-    owner = ApiGuardian.authenticate(params[:username], params[:password])
+    owner = ApiGuardian.authenticate(:email, email: params[:username], password: params[:password])
+    ApiGuardian.logger.warn 'User not found or credentials are invalid.' unless owner
+    owner
+  end
 
   resource_owner_from_assertion do
     owner = ApiGuardian.authenticate(params[:assertion_type], params[:assertion])
