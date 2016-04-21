@@ -51,6 +51,19 @@ describe ApiGuardian::Strategies::Registration::Facebook do
           expect(result[:password]).to eq 'password'
           expect(result[:password_confirmation]).to eq 'password'
         end
+
+        it 'should generate strong password if one is not provided' do
+          role = mock_model(ApiGuardian::Role)
+          expect(ApiGuardian::Stores::RoleStore).to receive(:default_role).and_return(role)
+
+          result = subject.build_user_attributes_from_response(mock_response)
+
+          expect(result[:password]).to be_a String
+          expect(result[:password].length).to eq 64
+          expect(result[:password_confirmation]).to be_a String
+          expect(result[:password_confirmation].length).to eq 64
+          expect(result[:password_confirmation]).to eq result[:password]
+        end
       end
 
       describe '#build_identity_attributes_from_response' do

@@ -24,11 +24,11 @@ module ApiGuardian
           user
         end
 
-        def build_user_attributes_from_response(response, attributes)
+        def build_user_attributes_from_response(response, attributes = {})
           first_name = response['name'].split.first
           last_name = response['name'].split.count > 1 ? response['name'].split[1..-1].join(' ') : ''
 
-          # TODO: Check to see if this user already exists by email.
+          password, password_confirmation = prep_passwords attributes
 
           {
             first_name: first_name,
@@ -37,8 +37,8 @@ module ApiGuardian
             email_confirmed_at: DateTime.now.utc,
             role_id: ApiGuardian::Stores::RoleStore.default_role.id,
             active: true,
-            password: attributes[:password],
-            password_confirmation: attributes[:password_confirmation]
+            password: password,
+            password_confirmation: password_confirmation
           }
         end
 

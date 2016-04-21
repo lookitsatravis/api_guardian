@@ -18,7 +18,7 @@ module ApiGuardian
 
           response = digits_client(attributes).authorize!
 
-          data = build_user_attributes_from_response(JSON.parse(response.body))
+          data = build_user_attributes_from_response(JSON.parse(response.body), attributes)
           identity_data = build_identity_attributes_from_response(JSON.parse(response.body))
 
           # create user
@@ -30,8 +30,8 @@ module ApiGuardian
           user
         end
 
-        def build_user_attributes_from_response(response)
-          password = SecureRandom.hex(32)
+        def build_user_attributes_from_response(response, attributes = {})
+          password, password_confirmation = prep_passwords attributes
 
           {
             phone_number: response['phone_number'],
@@ -39,7 +39,7 @@ module ApiGuardian
             role_id: ApiGuardian::Stores::RoleStore.default_role.id,
             active: true,
             password: password,
-            password_confirmation: password
+            password_confirmation: password_confirmation
           }
         end
 

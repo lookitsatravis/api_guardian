@@ -11,7 +11,7 @@ Endpoint: POST `{engine_mount_path}/register`
 
 To register a user via email, the following fields are required.
 
-```json
+```js
 {
   "type": "email",
   "email": "person@example.com",
@@ -23,8 +23,9 @@ To register a user via email, the following fields are required.
 ## Third-Party Registration
 
 Each third-party registration strategy makes use of a handful of fields to provide
-the proper data for creating a user. *Note: Password is provided so that the user
-can also sign in via email on return trips*
+the proper data for creating a user. *Note: Password can be optionally provided so
+that the user can also sign in via email on return trips. If it is not provided
+then a strong, random password will be generated for them*
 
 ### Facebook
 
@@ -34,12 +35,12 @@ and ApiGuardian will take care of validating it and creating a user.
 
 To register a user via Facebook, the following fields are required.
 
-```json
+```js
 {
   "type": "facebook",
   "access_token": "access_token_returned_from_facebook_sdk",
-  "password": "somepassword",
-  "password_confirmation": "somepassword"
+  "password": "somepassword", // Optional
+  "password_confirmation": "somepassword" // Optional
 }
 ```
 
@@ -55,13 +56,13 @@ as an Identity for that user.
 
 To register a user using Digits, the following fields are required.
 
-```json
+```js
 {
   "type": "digits",
   "auth_url": "auth_url_returned_from_digits_sdk",
   "auth_header": "auth_header_returned_from_digits_sdk",
-  "password": "somepassword",
-  "password_confirmation": "somepassword"
+  "password": "somepassword", // Optional
+  "password_confirmation": "somepassword" // Optional
 }
 ```
 

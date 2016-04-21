@@ -42,6 +42,17 @@ module ApiGuardian
         def params
           self.class.params
         end
+
+        def prep_passwords(attributes)
+          password = attributes[:password]
+          password_confirmation = attributes[:password_confirmation]
+
+          unless password && password_confirmation
+            password = password_confirmation = SecureRandom.hex(32)
+          end
+
+          return password, password_confirmation
+        end
       end
     end
   end
