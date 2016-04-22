@@ -228,6 +228,67 @@ curl -X POST \
 
 If done properly, you should be rewarded with an access token. If the OTP is incorrect or has expired, you will simply get a 401 http status invalid_grant response and you must start again.
 
+## Password Reset
+
+Initiating a password reset is fairly simple, though it does require some setup. It is important to know that ApiGuardian is not designed to handle the password reset forms, your clients should do that. ApiGuardian is only responsible for sending the reset link out, and receiving the reset complete request.
+
+### Setup
+
+You need update the ApiGuardian config in `config/initializers/api_guardian.rb`:
+
+```rb
+ApiGuardian.configure do |config|
+
+  # ...
+
+  config.client_password_reset_url = 'http://my.webapp.example.com'
+
+  # ...
+
+end
+```
+
+This value will be used in the reset password email as the link to your client for handling the request.
+
+### Initiate password reset email
+
+Simple post an email address like so:
+
+```sh
+curl -X POST \
+-H "Content-Type: application/json" \
+-d \
+'{
+    "email": "some_email"
+}' \
+"http://localhost:3000/api/v1/reset-password"
+```
+
+*Note: `204` status code represents success, `404` will be sent if no user can be found.
+Other errors are possible, but these are the main two to watch out for.*
+
+### Complete password reset
+
+Once you're ready to reset the user's password, you'll need to make the following
+request:
+
+```sh
+curl -X POST \
+-H "Content-Type: application/json" \
+-d \
+'{
+    "email": "some_email",
+    "token": "token_query_param_here",
+    "password": "newpassword",
+    "password_confirmation": "newpassword"
+}' \
+"http://localhost:3000/api/v1/complete-reset-password"
+```
+
+*Note: `204` status code represents success, `404` will be sent if no user can be found.
+Other errors can occur if the token is invalid or doesn't match the provided email, or
+if new password information is invalid.*
+
 ---
 
 ApiGuardian is copyright © 2016 Travis Vignon. It is free software, and may be

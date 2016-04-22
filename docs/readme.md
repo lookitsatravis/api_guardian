@@ -29,6 +29,7 @@ http://www.rubydoc.info/github/lookitsatravis/api_guardian/master
     * [Facebook Authentication](authentication/readme.md#facebook-authentication)
     * [Twitter Digits Authentication](authentication/readme.md#twitter-digits-authentication)
   * [Two-Factor Authentication](authentication/readme.md#two-factor-authentication)
+  * [Password Reset](authentication/readme.md#password-reset)
 * [Authorization](authorization/readme.md)
   * [Roles & Permissions](authorization/readme.md#roles--permissions)
   * [Users](authorization/readme.md#users)
