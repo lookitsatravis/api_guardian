@@ -32,7 +32,11 @@ module ControllerConcernTestHelpers
     end
 
     def resource_name
-      'User'
+      @resource_name || 'User'
+    end
+
+    def resource_name=(value)
+      @resource_name = value.to_s
     end
   end
 end

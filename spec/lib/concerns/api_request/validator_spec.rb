@@ -87,6 +87,9 @@ describe ApiGuardian::Concerns::ApiRequest::Validator, type: :request do
           expect { dummy_class.validate_api_request }.to raise_error ApiGuardian::Errors::InvalidRequestResourceType, 'users'
           allow_any_instance_of(ActionController::Parameters).to receive(:fetch).with(:type, nil).and_return('users')
           expect { dummy_class.validate_api_request }.not_to raise_error
+          dummy_class.resource_name = 'MyModel'
+          allow_any_instance_of(ActionController::Parameters).to receive(:fetch).with(:type, nil).and_return('my-models')
+          expect { dummy_class.validate_api_request }.not_to raise_error
         end
       end
 
@@ -121,6 +124,9 @@ describe ApiGuardian::Concerns::ApiRequest::Validator, type: :request do
           allow_any_instance_of(ActionController::Parameters).to receive(:fetch).with(:type, nil).and_return('test')
           expect { dummy_class.validate_api_request }.to raise_error ApiGuardian::Errors::InvalidRequestResourceType, 'users'
           allow_any_instance_of(ActionController::Parameters).to receive(:fetch).with(:type, nil).and_return('users')
+          expect { dummy_class.validate_api_request }.not_to raise_error
+          dummy_class.resource_name = 'MyModel'
+          allow_any_instance_of(ActionController::Parameters).to receive(:fetch).with(:type, nil).and_return('my-models')
           expect { dummy_class.validate_api_request }.not_to raise_error
 
           # Turn the warning back on after this test
