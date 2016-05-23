@@ -43,8 +43,6 @@ Put this in your Gemfile:
 ```rb
 # Include ApiGuardian from edge
 gem 'api_guardian', git: 'https://github.com/lookitsatravis/api_guardian'
-# You must also include the prerelease version of active_model_serializers
-gem 'active_model_serializers', git: 'https://github.com/rails-api/active_model_serializers.git'
 ```
 
 ### Next
