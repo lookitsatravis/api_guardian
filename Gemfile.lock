@@ -1,12 +1,3 @@
-GIT
-  remote: https://github.com/rails-api/active_model_serializers
-  revision: daabb89fe0fda8b7e6fd49819437f787bf0e60bb
-  specs:
-    active_model_serializers (0.10.0.rc4)
-      actionpack (>= 4.0)
-      activemodel (>= 4.0)
-      railties (>= 4.0)
-
 PATH
   remote: .
   specs:
