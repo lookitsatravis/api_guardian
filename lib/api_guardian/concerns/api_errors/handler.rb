@@ -21,6 +21,8 @@ module ApiGuardian
               record_invalid(exception)
             elsif exception.is_a? ActiveRecord::RecordNotFound
               render_not_found
+            elsif exception.is_a? ActiveRecord::RecordNotDestroyed
+              render_not_destroyed(exception)
             elsif exception.is_a? ApiGuardian::Errors::InvalidContentType
               invalid_content_type
             elsif exception.is_a? ApiGuardian::Errors::InvalidRequestBody
@@ -125,6 +127,10 @@ module ApiGuardian
               404, 'not_found', 'Not Found', 'Resource or endpoint missing: ' +
               request.original_url
             )
+          end
+
+          def render_not_destroyed(exception)
+            record_invalid(exception)
           end
 
           def generic_error_handler(exception)

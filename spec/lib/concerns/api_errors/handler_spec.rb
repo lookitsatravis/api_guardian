@@ -47,6 +47,9 @@ describe ApiGuardian::Concerns::ApiErrors::Handler, type: :request do
         expect { dummy_class.api_error_handler(ActiveRecord::RecordNotFound.new('test')) }.not_to raise_error
       end
 
+      it 'handles ActiveRecord::RecordNotDestroyed' do
+      end
+
       it 'handles InvalidContentType' do
         expect_any_instance_of(Test::Dummy).to receive(:render_error).with(
           415, 'invalid_content_type', 'Invalid Content Type', 'Supported content types are: application/vnd.api+json'
