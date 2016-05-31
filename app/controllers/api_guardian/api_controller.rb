@@ -93,6 +93,10 @@ module ApiGuardian
     end
     # :nocov:
 
+    def set_policy_scope(new_scope = nil)
+      resource_store.set_policy_scope new_scope
+    end
+
     private
 
     def set_current_user
