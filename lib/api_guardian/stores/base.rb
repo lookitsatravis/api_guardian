@@ -3,16 +3,22 @@ module ApiGuardian
     class Base
       delegate :new, to: :resource_class
 
+      attr_reader :scope
+
       def initialize(scope = nil)
         @scope = scope
       end
 
+      def set_policy_scope(scope = nil)
+        @scope = scope
+      end
+
       def all
-        @scope.all
+        scope.all
       end
 
       def paginate(page = 1, per_page = 25)
-        @scope.page(page).per(per_page)
+        scope.page(page).per(per_page)
       end
 
       def find(id)

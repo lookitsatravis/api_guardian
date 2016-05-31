@@ -17,6 +17,16 @@ describe ApiGuardian::Stores::Base do
       allow_any_instance_of(ApiGuardian::Stores::Base).to receive(:resource_class).and_return(user)
     end
 
+    describe '#set_policy_scope' do
+      it 'allows updating of policy scope' do
+        expect(subject.scope).to eq scope
+
+        subject.set_policy_scope nil
+
+        expect(subject.scope).to eq nil
+      end
+    end
+
     describe '#all' do
       it 'returns objects via scope' do
         expect(scope).to receive(:all)
