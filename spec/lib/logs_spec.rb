@@ -1,24 +1,24 @@
 describe ApiGuardian::Logging::Logger::Formatter do
   describe 'initialization' do
     it 'should create methods for each supported color' do
-      expect(subject.respond_to? 'black').to eq true
-      expect(subject.respond_to? 'light_black').to eq true
-      expect(subject.respond_to? 'red').to eq true
-      expect(subject.respond_to? 'light_red').to eq true
-      expect(subject.respond_to? 'green').to eq true
-      expect(subject.respond_to? 'light_green').to eq true
-      expect(subject.respond_to? 'yellow').to eq true
-      expect(subject.respond_to? 'light_yellow').to eq true
-      expect(subject.respond_to? 'blue').to eq true
-      expect(subject.respond_to? 'light_blue').to eq true
-      expect(subject.respond_to? 'purple').to eq true
-      expect(subject.respond_to? 'light_purple').to eq true
-      expect(subject.respond_to? 'magenta').to eq true
-      expect(subject.respond_to? 'light_magenta').to eq true
-      expect(subject.respond_to? 'cyan').to eq true
-      expect(subject.respond_to? 'light_cyan').to eq true
-      expect(subject.respond_to? 'white').to eq true
-      expect(subject.respond_to? 'light_white').to eq true
+      expect(subject.respond_to?('black')).to eq true
+      expect(subject.respond_to?('light_black')).to eq true
+      expect(subject.respond_to?('red')).to eq true
+      expect(subject.respond_to?('light_red')).to eq true
+      expect(subject.respond_to?('green')).to eq true
+      expect(subject.respond_to?('light_green')).to eq true
+      expect(subject.respond_to?('yellow')).to eq true
+      expect(subject.respond_to?('light_yellow')).to eq true
+      expect(subject.respond_to?('blue')).to eq true
+      expect(subject.respond_to?('light_blue')).to eq true
+      expect(subject.respond_to?('purple')).to eq true
+      expect(subject.respond_to?('light_purple')).to eq true
+      expect(subject.respond_to?('magenta')).to eq true
+      expect(subject.respond_to?('light_magenta')).to eq true
+      expect(subject.respond_to?('cyan')).to eq true
+      expect(subject.respond_to?('light_cyan')).to eq true
+      expect(subject.respond_to?('white')).to eq true
+      expect(subject.respond_to?('light_white')).to eq true
     end
   end
 

@@ -51,7 +51,7 @@ module ApiGuardian
             password = password_confirmation = SecureRandom.hex(32)
           end
 
-          return password, password_confirmation
+          [password, password_confirmation]
         end
       end
     end

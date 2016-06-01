@@ -19,10 +19,7 @@ module ApiGuardian
     attr_reader :current_user
 
     def index
-      @resources = should_paginate? ?
-        resource_store.paginate(page_params[:number], page_params[:size]) :
-        resource_store.all
-
+      @resources = should_paginate? ? resource_store.paginate(page_params[:number], page_params[:size]) : resource_store.all
       render json: @resources, include: includes
     end
 
@@ -101,7 +98,7 @@ module ApiGuardian
     end
 
     def should_paginate?
-      params[:paginate] != "false"
+      params[:paginate] != 'false'
     end
 
     private

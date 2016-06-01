@@ -2,7 +2,7 @@ module Doorkeeper
   class Config
     class Builder
       def do_not_reuse_access_token
-        @config.instance_variable_set("@reuse_access_token", false)
+        @config.instance_variable_set('@reuse_access_token', false)
       end
     end
   end
