@@ -13,10 +13,15 @@ module ApiGuardian
 
     AVAILABLE_2FA_METHODS = %w(sms voice google_auth email).freeze
 
+    attr_reader :reuse_access_token
     attr_writer :user_class, :role_class, :permission_class, :role_permission_class,
                 :identity_class, :organization_class, :minimum_password_length,
                 :twilio_id, :twilio_token, :mail_from_address, :jwt_secret,
                 :jwt_secret_key_path
+
+    def initialize
+      @reuse_access_token = true
+    end
 
     def user_class
       klass = @user_class ||= 'ApiGuardian::User'
@@ -159,6 +164,12 @@ module ApiGuardian
 
     def realm=(value)
       @realm = value.to_s
+
+      regenerate_doorkeeper_config
+    end
+
+    def reuse_access_token=(value)
+      @reuse_access_token = value
 
       regenerate_doorkeeper_config
     end

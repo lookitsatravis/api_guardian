@@ -1,3 +1,13 @@
+module Doorkeeper
+  class Config
+    class Builder
+      def do_not_reuse_access_token
+        @config.instance_variable_set("@reuse_access_token", false)
+      end
+    end
+  end
+end
+
 Doorkeeper.configure do
   # Change the ORM that doorkeeper will use (needs plugins)
   orm :active_record
@@ -41,7 +51,11 @@ Doorkeeper.configure do
 
   # Reuse access token for the same resource owner within an application (disabled by default)
   # Rationale: https://github.com/doorkeeper-gem/doorkeeper/issues/383
-  reuse_access_token
+  if ApiGuardian.configuration.reuse_access_token
+    reuse_access_token
+  else
+    do_not_reuse_access_token
+  end
 
   # Issue access tokens with refresh token (disabled by default)
   use_refresh_token
