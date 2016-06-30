@@ -1,5 +1,5 @@
 module ApiGuardian
-  class Permission < ActiveRecord::Base
+  class Permission < ApplicationRecord
     include ApiGuardian::Concerns::Models::Permission
   end
 end

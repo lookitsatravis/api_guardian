@@ -115,8 +115,8 @@ end
 module ActionDispatch
   module Integration
     module RequestHelpers
-      def options(path, parameters = nil, headers_or_env = nil)
-        process :options, path, parameters, headers_or_env
+      def options(path, *args)
+        process_with_kwargs(:get, path, *args)
       end
     end
   end

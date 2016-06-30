@@ -17,11 +17,9 @@ module ApiGuardian
             ApiGuardian.configuration.registration.add_config_option key
           end
 
-          # rubocop:disable ClassVars
           def providers
             @@providers ||= {}
           end
-          # rubocop:enable ClassVars
 
           def provides_registration_for(provider)
             providers[provider.to_sym] = new

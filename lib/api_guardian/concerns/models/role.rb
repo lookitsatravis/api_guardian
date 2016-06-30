@@ -29,26 +29,10 @@ module ApiGuardian
           # Instance Methods
           def can?(action)
             if action.is_a?(Array)
-              grants = []
-              action.each do |a|
-                perm = ApiGuardian.configuration.permission_class.find_by_name(action)
-                fail ApiGuardian::Errors::InvalidPermissionName, "Permission '#{a}' is not valid." unless perm
-
-                role_permissions.includes(:permission).find_each do |rp|
-                  grants.push rp.granted if rp.permission.name == a
-                end
-              end
-              return grants.include? true if grants.count > 0 # otherwise this permission wasn't found at all
+              array_permission_check action
             else
-              perm = ApiGuardian.configuration.permission_class.find_by_name(action)
-              fail ApiGuardian::Errors::InvalidPermissionName, "Permission '#{action}' is not valid." unless perm
-
-              role_permissions.includes(:permission).find_each do |rp|
-                return rp.granted if rp.permission.name == action
-              end
+              single_permission_check action
             end
-
-            false
           end
 
           def cannot?(action)
@@ -100,6 +84,35 @@ module ApiGuardian
                 rp.update_attribute(:granted, false)
               end
             end
+          end
+
+          private
+
+          def array_permission_check(action)
+            grants = []
+            action.each do |a|
+              perm = ApiGuardian.configuration.permission_class.find_by_name(action)
+              fail ApiGuardian::Errors::InvalidPermissionName, "Permission '#{a}' is not valid." unless perm
+
+              role_permissions.includes(:permission).find_each do |rp|
+                grants.push rp.granted if rp.permission.name == a
+              end
+            end
+
+            return grants.include? true if grants.count > 0 # otherwise this permission wasn't found at all
+
+            false
+          end
+
+          def single_permission_check(action)
+            perm = ApiGuardian.configuration.permission_class.find_by_name(action)
+            fail ApiGuardian::Errors::InvalidPermissionName, "Permission '#{action}' is not valid." unless perm
+
+            role_permissions.includes(:permission).find_each do |rp|
+              return rp.granted if rp.permission.name == action
+            end
+
+            false
           end
         end
       end

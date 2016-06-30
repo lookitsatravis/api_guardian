@@ -10,7 +10,7 @@ describe 'ApiGuardian::PermissionsController' do
       it 'returns a list of permissions' do
         add_user_permission('permission:read')
 
-        get '/permissions', {}, get_headers
+        get '/permissions', params: {}, headers: get_headers
 
         expect(response).to have_http_status(:ok)
       end

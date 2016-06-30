@@ -10,7 +10,7 @@ describe 'ApiGuardian::RolesController' do
       it 'returns a list of roles' do
         add_user_permission('role:read')
 
-        get '/roles', {}, get_headers
+        get '/roles', params: {}, headers: get_headers
 
         expect(response).to have_http_status(:ok)
       end
@@ -25,7 +25,7 @@ describe 'ApiGuardian::RolesController' do
 
         data = { data: { type: 'roles', attributes: { name: '', default: false, permissions: [] } } }
 
-        post '/roles', data.to_json, get_headers
+        post '/roles', params: data.to_json, headers: get_headers
 
         expect(response).to have_http_status(:created)
       end
@@ -38,7 +38,7 @@ describe 'ApiGuardian::RolesController' do
 
         allow_any_instance_of(ApiGuardian::Stores::RoleStore).to receive(:find).and_return(role)
 
-        get "/roles/#{role.id}", {}, get_headers
+        get "/roles/#{role.id}", params: {}, headers: get_headers
 
         expect(response).to have_http_status(:ok)
       end
@@ -53,7 +53,7 @@ describe 'ApiGuardian::RolesController' do
 
         data = { data: { type: 'roles', id: role.id.to_s, attributes: { name: Faker::Lorem.word, default: false } } }
 
-        patch "/roles/#{role.id}", data.to_json, get_headers
+        patch "/roles/#{role.id}", params: data.to_json, headers: get_headers
 
         expect(response).to have_http_status(:ok)
       end
@@ -66,7 +66,7 @@ describe 'ApiGuardian::RolesController' do
 
         allow_any_instance_of(ApiGuardian::Stores::RoleStore).to receive(:destroy).and_return(role)
 
-        delete "/roles/#{role.id}", {}, get_headers
+        delete "/roles/#{role.id}", params: {}, headers: get_headers
 
         expect(response).to have_http_status(:no_content)
       end

@@ -10,7 +10,7 @@ describe 'ApiGuardian::UsersController' do
       it 'returns a list of users' do
         add_user_permission('user:read')
 
-        get '/users', {}, get_headers
+        get '/users', params: {}, headers: get_headers
 
         expect(response).to have_http_status(:ok)
       end
@@ -25,7 +25,7 @@ describe 'ApiGuardian::UsersController' do
 
         data = { data: { type: 'users', attributes: { name: '', default: false, permissions: [] } } }
 
-        post '/users', data.to_json, get_headers
+        post '/users', params: data.to_json, headers: get_headers
 
         expect(response).to have_http_status(:created)
       end
@@ -38,7 +38,7 @@ describe 'ApiGuardian::UsersController' do
 
         allow_any_instance_of(ApiGuardian::Stores::UserStore).to receive(:find).and_return(user)
 
-        get "/users/#{user.id}", {}, get_headers
+        get "/users/#{user.id}", params: {}, headers: get_headers
 
         expect(response).to have_http_status(:ok)
       end
@@ -53,7 +53,7 @@ describe 'ApiGuardian::UsersController' do
 
         data = { data: { type: 'users', id: user.id.to_s, attributes: { name: Faker::Lorem.word, default: false } } }
 
-        patch "/users/#{user.id}", data.to_json, get_headers
+        patch "/users/#{user.id}", params: data.to_json, headers: get_headers
 
         expect(response).to have_http_status(:ok)
       end
@@ -66,7 +66,7 @@ describe 'ApiGuardian::UsersController' do
 
         allow_any_instance_of(ApiGuardian::Stores::UserStore).to receive(:destroy).and_return(user)
 
-        delete "/users/#{user.id}", {}, get_headers
+        delete "/users/#{user.id}", params: {}, headers: get_headers
 
         expect(response).to have_http_status(:no_content)
       end
@@ -81,7 +81,7 @@ describe 'ApiGuardian::UsersController' do
 
         data = { data: { type: 'users', id: user.id.to_s, attributes: { phone_number: Faker::PhoneNumber.phone_number } } }
 
-        post "/users/#{user.id}/add_phone", data.to_json, get_headers
+        post "/users/#{user.id}/add_phone", params: data.to_json, headers: get_headers
 
         expect(response).to have_http_status(:no_content)
       end
@@ -96,7 +96,7 @@ describe 'ApiGuardian::UsersController' do
 
         data = { data: { type: 'users', id: user.id.to_s, attributes: { otp: '000' } } }
 
-        post "/users/#{user.id}/verify_phone", data.to_json, get_headers
+        post "/users/#{user.id}/verify_phone", params: data.to_json, headers: get_headers
 
         expect(response).to have_http_status(:unprocessable_entity)
       end
@@ -109,7 +109,7 @@ describe 'ApiGuardian::UsersController' do
 
         data = { data: { type: 'users', id: user.id.to_s, attributes: { otp: '000' } } }
 
-        post "/users/#{user.id}/verify_phone", data.to_json, get_headers
+        post "/users/#{user.id}/verify_phone", params: data.to_json, headers: get_headers
 
         expect(response).to have_http_status(:ok)
       end

@@ -3,11 +3,9 @@ module ApiGuardian
     module Authentication
       class Base
         class << self
-          # rubocop:disable ClassVars
           def providers
             @@providers ||= {}
           end
-          # rubocop:enable ClassVars
 
           def provides_authentication_for(provider)
             providers[provider.to_sym] = new

@@ -1,6 +1,6 @@
 module ApiGuardian
   module Jobs
-    class SendSms < ActiveJob::Base
+    class SendSms < ApplicationJob
       queue_as :default
 
       def perform(user, body)

@@ -1,4 +1,3 @@
-require 'rails-api'
 require 'active_job'
 require 'action_mailer'
 require 'pundit'
@@ -95,6 +94,7 @@ module ApiGuardian
   end
 
   module Jobs
+    autoload :ApplicationJob, 'api_guardian/jobs/application_job'
     autoload :SendOtp, 'api_guardian/jobs/send_otp'
     autoload :SendSms, 'api_guardian/jobs/send_sms'
   end

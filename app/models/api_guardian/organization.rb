@@ -1,5 +1,5 @@
 module ApiGuardian
-  class Organization < ActiveRecord::Base
+  class Organization < ApplicationRecord
     include ApiGuardian::Concerns::Models::Organization
   end
 end

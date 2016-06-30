@@ -29,7 +29,7 @@ describe ApiGuardian::Stores::UserStore do
         subject.create(attributes)
 
         expect(attributes[:role_id]).to eq 1
-        expect(attributes[:email_confirmed_at]).to be_a(DateTime)
+        expect(attributes[:email_confirmed_at]).to be_a(Time)
         expect(attributes[:active]).to eq true
       end
 

@@ -3,10 +3,8 @@ module Test
   end
 end
 
-# rubocop:disable ClassAndModuleChildren
 class ApiGuardian::Stores::FooStore < ApiGuardian::Stores::Base
 end
-# rubocop:enable ClassAndModuleChildren
 
 class Foo < ActiveRecord::Base
 end

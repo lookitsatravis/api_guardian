@@ -73,7 +73,7 @@ describe ApiGuardian::Strategies::Registration::Digits do
 
           expect(result).to be_a Hash
           expect(result[:phone_number]).to eq '18005551234'
-          expect(result[:phone_number_confirmed_at]).to be_a DateTime
+          expect(result[:phone_number_confirmed_at]).to be_a Time
           expect(result[:role_id]).to eq role.id
           expect(result[:active]).to eq true
           expect(result[:password]).to eq 'password'

@@ -1,5 +1,5 @@
 module ApiGuardian
-  class User < ActiveRecord::Base
+  class User < ApplicationRecord
     include ApiGuardian::Concerns::Models::User
   end
 end

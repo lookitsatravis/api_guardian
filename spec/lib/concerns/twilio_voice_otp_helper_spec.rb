@@ -42,14 +42,13 @@ describe ApiGuardian::Concerns::TwilioVoiceOtpHelper, type: :request do
   # Methods
   describe 'methods' do
     before(:each) do
-      allow_any_instance_of(ActionDispatch::Http::Headers).to receive(:[]).and_return('test')
+      mock_headers = instance_double(ActionDispatch::Http::Headers)
+      allow(mock_headers).to receive(:[]).and_return('test')
       allow_any_instance_of(ActionDispatch::Request).to receive(:headers).and_return(mock_headers)
       allow_any_instance_of(ActionDispatch::Request).to receive(:url).and_return('http://example.com')
       allow_any_instance_of(ActionDispatch::Request).to receive(:request_parameters).and_return({})
       allow_any_instance_of(ApiGuardian::Configuration).to receive(:twilio_token).and_return('ABC')
     end
-
-    let(:mock_headers) { ActionDispatch::Http::Headers.new }
 
     describe '#voice_otp' do
       it 'fails if twilio validator fails' do

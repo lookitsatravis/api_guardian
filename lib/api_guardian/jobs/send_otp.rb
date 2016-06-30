@@ -1,6 +1,6 @@
 module ApiGuardian
   module Jobs
-    class SendOtp < ActiveJob::Base
+    class SendOtp < ApplicationJob
       queue_as :default
 
       def perform(user, force = false)

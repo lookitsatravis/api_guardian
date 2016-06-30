@@ -35,21 +35,27 @@ module ApiGuardian
           request_id = ApiGuardian.current_request ? ApiGuardian.current_request.uuid : nil
           response += '[' + light_green(request_id) + '] ' if request_id
 
-          case severity
-          when 'WARN'
-            severity = yellow(severity)
-          when 'ERROR'
-            severity = light_red(severity)
-          when 'FATAL'
-            severity = red(severity)
-          when 'INFO'
-            severity = green(severity)
-          end
-
           msg = msg.is_a?(String) ? msg : msg.inspect
 
-          response += "[#{severity}] #{msg}\n"
+          response += "[#{formatted_severity(severity)}] #{msg}\n"
           response
+        end
+
+        private
+
+        def formatted_severity(severity)
+          case severity
+          when 'WARN'
+            yellow(severity)
+          when 'ERROR'
+            light_red(severity)
+          when 'FATAL'
+            red(severity)
+          when 'INFO'
+            green(severity)
+          else
+            severity
+          end
         end
       end
     end

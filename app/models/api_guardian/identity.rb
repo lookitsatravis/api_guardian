@@ -1,5 +1,5 @@
 module ApiGuardian
-  class Identity < ActiveRecord::Base
+  class Identity < ApplicationRecord
     include ApiGuardian::Concerns::Models::Identity
   end
 end

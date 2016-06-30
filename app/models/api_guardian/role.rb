@@ -1,5 +1,5 @@
 module ApiGuardian
-  class Role < ActiveRecord::Base
+  class Role < ApplicationRecord
     include ApiGuardian::Concerns::Models::Role
   end
 end

@@ -10,7 +10,7 @@ describe 'Registration' do
       expect_any_instance_of(ActionController::Parameters).to receive(:require).with(:type)
       expect_any_instance_of(ActionController::Parameters).to receive(:fetch).with(:type, nil).and_return([])
 
-      post '/register', {}, headers
+      post '/register', params: {}, headers: headers
 
       expect(response).to have_http_status(400)
     end
@@ -24,7 +24,7 @@ describe 'Registration' do
       expect_any_instance_of(ActionController::Parameters).to receive(:permit).with(:type, *[])
       expect(ApiGuardian::Stores::UserStore).to receive(:register).and_return(true)
 
-      post '/register', {}, headers
+      post '/register', params: {}, headers: headers
 
       expect(response).to have_http_status(:created)
       # TODO: Validate JSON output
@@ -79,7 +79,7 @@ describe 'Registration' do
       allow_any_instance_of(ActionController::Parameters).to receive(:fetch).and_return({})
       expect(ApiGuardian::Stores::UserStore).to receive(:reset_password).and_return(true)
 
-      post '/reset-password', {}, headers
+      post '/reset-password', params: {}, headers: headers
 
       expect(response).to have_http_status(:no_content)
     end
@@ -89,7 +89,7 @@ describe 'Registration' do
       allow_any_instance_of(ActionController::Parameters).to receive(:fetch).and_return({})
       expect(ApiGuardian::Stores::UserStore).to receive(:reset_password).and_return(false)
 
-      post '/reset-password', {}, headers
+      post '/reset-password', params: {}, headers: headers
 
       validate_not_found '/reset-password'
     end
@@ -99,7 +99,7 @@ describe 'Registration' do
     it 'completes the password reset process' do
       expect(ApiGuardian::Stores::UserStore).to receive(:complete_reset_password).and_return(true)
 
-      post '/complete-reset-password', {}, headers
+      post '/complete-reset-password', params: {}, headers: headers
 
       expect(response).to have_http_status(:no_content)
     end
@@ -107,7 +107,7 @@ describe 'Registration' do
     it 'renders not found when user is missing' do
       expect(ApiGuardian::Stores::UserStore).to receive(:complete_reset_password).and_return(false)
 
-      post '/complete-reset-password', {}, headers
+      post '/complete-reset-password', params: {}, headers: headers
 
       validate_not_found '/complete-reset-password'
     end

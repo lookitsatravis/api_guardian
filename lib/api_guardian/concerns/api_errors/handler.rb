@@ -10,6 +10,8 @@ module ApiGuardian
         include ApiErrors::Renderer
 
         included do
+          # rubocop:disable CyclomaticComplexity
+          # rubocop:disable MethodLength
           def api_error_handler(exception)
             ApiGuardian.logger.error 'ApiError: ' + exception.class.name + ' - ' + exception.message
 
@@ -65,6 +67,8 @@ module ApiGuardian
               generic_error_handler(exception)
             end
           end
+          # rubocop:enable CyclomaticComplexity
+          # rubocop:enable MethodLength
 
           def doorkeeper_unauthorized_render_options(_)
             error = construct_error(

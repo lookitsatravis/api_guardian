@@ -11,7 +11,7 @@ module ApiGuardian
       rescue_from ApiGuardian::Errors::InvalidAuthenticationProvider, with: :malformed_request
       rescue_from ApiGuardian::Errors::IdentityAuthorizationFailed, with: :identity_authorization_failed
 
-      append_before_filter :set_current_request
+      append_before_action :set_current_request
 
       def set_current_request
         ApiGuardian.current_request = request
