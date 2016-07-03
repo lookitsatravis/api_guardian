@@ -22,7 +22,7 @@ Gem::Specification.new do |s|
   s.add_dependency 'rails', '>= 5.0', '< 5.1'
   s.add_dependency 'active_model_otp', '~> 1.2'
   s.add_dependency 'active_model_serializers', '~> 0.10.1'
-  s.add_dependency 'acts_as_tenant', '~> 0.3'
+  # s.add_dependency 'acts_as_tenant', '~> 0.3'
   s.add_dependency 'bcrypt', '~> 3.1'
   s.add_dependency 'doorkeeper-grants_assertion', '~> 0.0.1'
   s.add_dependency 'doorkeeper-jwt', '~> 0.1'
