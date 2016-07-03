@@ -13,13 +13,15 @@ module ApiGuardian
 
     AVAILABLE_2FA_METHODS = %w(sms voice google_auth email).freeze
 
-    attr_reader :reuse_access_token
+    attr_reader :validate_password_score, :enable_2fa, :reuse_access_token
     attr_writer :user_class, :role_class, :permission_class, :role_permission_class,
                 :identity_class, :organization_class, :minimum_password_length,
                 :twilio_id, :twilio_token, :mail_from_address, :jwt_secret,
                 :jwt_secret_key_path
 
     def initialize
+      @validate_password_score = true
+      @enable_2fa = false
       @reuse_access_token = true
     end
 
@@ -57,10 +59,6 @@ module ApiGuardian
       @minimum_password_length ||= 8
     end
 
-    def validate_password_score
-      @validate_password_score ||= true
-    end
-
     def validate_password_score=(value)
       fail ConfigurationError.new('validate_password_score must be a boolean!') unless [true, false].include? value
       @validate_password_score = value
@@ -92,10 +90,6 @@ module ApiGuardian
     def otp_header_name=(value)
       fail ConfigurationError.new('otp_header_name must be a valid string!') unless value.is_a?(String) && value.present?
       @otp_header_name = value
-    end
-
-    def enable_2fa
-      @enable_2fa ||= false
     end
 
     def enable_2fa=(value)
