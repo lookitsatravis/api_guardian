@@ -9,7 +9,6 @@ require 'phony'
 require 'twilio-ruby'
 require 'active_model_otp'
 require 'active_model_serializers'
-require 'acts_as_tenant'
 require 'api_guardian/version'
 require 'api_guardian/logs'
 require 'api_guardian/helpers/helpers'
@@ -40,7 +39,6 @@ module ApiGuardian
       autoload :Permission, 'api_guardian/concerns/models/permission'
       autoload :RolePermission, 'api_guardian/concerns/models/role_permission'
       autoload :Identity, 'api_guardian/concerns/models/identity'
-      autoload :Organization, 'api_guardian/concerns/models/organization'
     end
 
     autoload :TwilioVoiceOtpHelper, 'api_guardian/concerns/twilio_voice_otp_helper'

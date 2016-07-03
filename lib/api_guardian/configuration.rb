@@ -15,9 +15,8 @@ module ApiGuardian
 
     attr_reader :validate_password_score, :enable_2fa, :reuse_access_token
     attr_writer :user_class, :role_class, :permission_class, :role_permission_class,
-                :identity_class, :organization_class, :minimum_password_length,
-                :twilio_id, :twilio_token, :mail_from_address, :jwt_secret,
-                :jwt_secret_key_path
+                :identity_class, :minimum_password_length, :twilio_id, :twilio_token,
+                :mail_from_address, :jwt_secret, :jwt_secret_key_path
 
     def initialize
       @validate_password_score = true
@@ -47,11 +46,6 @@ module ApiGuardian
 
     def identity_class
       klass = @identity_class ||= 'ApiGuardian::Identity'
-      klass.constantize
-    end
-
-    def organization_class
-      klass = @organization_class ||= 'ApiGuardian::Organization'
       klass.constantize
     end
 

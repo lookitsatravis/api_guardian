@@ -62,7 +62,6 @@ The following models can be customized using the same method:
 
 * User
 * Identity
-* Organization
 * Role*
 * Permission*
 * RolePermission*
@@ -92,7 +91,6 @@ ApiGuardian.configure do |config|
   # config.permission_class = 'Permission'
   # config.role_permission_class = 'RolePermission'
   # config.identity_class = 'Identity'
-  # config.organization_class = 'Organization'
 
   # ...
 end

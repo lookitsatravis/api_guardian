@@ -10,12 +10,10 @@ module ApiGuardian
           self.table_name = 'api_guardian_users'
 
           acts_as_paranoid
-          acts_as_tenant :organization
           has_secure_password
           has_one_time_password
 
           belongs_to :role, class_name: ApiGuardian.configuration.role_class.to_s
-          belongs_to :organization, class_name: ApiGuardian.configuration.organization_class.to_s
           has_many :identities, class_name: ApiGuardian.configuration.identity_class.to_s
 
           delegate :can?, :cannot?, to: :role
@@ -28,7 +26,6 @@ module ApiGuardian
           validates_with ApiGuardian::Validators::PasswordScoreValidator, if: :password
 
           before_save :enforce_role
-          before_save :enforce_organization
           before_save :enforce_email_case
 
           # Class Methods
@@ -49,14 +46,6 @@ module ApiGuardian
           end
 
           protected
-
-          def enforce_organization
-            unless organization_id
-              org = ApiGuardian.configuration.organization_class.first
-              fail 'Organization is not set and no default exists!' unless org
-              self.organization_id = org.id
-            end
-          end
 
           def enforce_email_case
             self.email = email.downcase if email

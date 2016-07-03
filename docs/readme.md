@@ -37,7 +37,6 @@ http://www.rubydoc.info/github/lookitsatravis/api_guardian/master
 
 ### To Complete
 
-* Organizations
 * Password reset
 
 ---

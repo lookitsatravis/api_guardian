@@ -37,7 +37,6 @@ module ApiGuardian
       end
 
       copy_migration 'api_guardian_enable_uuid_extension.rb'
-      copy_migration 'create_api_guardian_organizations.rb'
       copy_migration 'create_api_guardian_roles.rb'
       copy_migration 'create_api_guardian_users.rb'
       copy_migration 'create_api_guardian_permissions.rb'

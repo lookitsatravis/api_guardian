@@ -24,15 +24,12 @@ ApiGuardian.configuration.permission_class.create!(name: 'permission:manage', de
 admin_role.create_default_permissions true
 user_role.create_default_permissions false
 
-# Organization
-org = ApiGuardian.configuration.organization_class.create!(name: 'Default')
-
 # User
 old_score = ApiGuardian.configuration.minimum_password_score
 ApiGuardian.configuration.minimum_password_score = 0
 ApiGuardian.configuration.user_class.create!(
   first_name: 'Test', last_name: 'User', email: 'test@example.com',
   password: 'password', password_confirmation: 'password', role: admin_role,
-  active: true, email_confirmed_at: DateTime.now.utc, organization_id: org.id
+  active: true, email_confirmed_at: DateTime.now.utc
 )
 ApiGuardian.configuration.minimum_password_score = old_score
