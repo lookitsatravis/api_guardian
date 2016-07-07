@@ -2,10 +2,6 @@ module ApiGuardian
   class RolesController < ApiController
     protected
 
-    def includes
-      []
-    end
-
     def create_params
       [
         :name, :default
