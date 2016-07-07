@@ -51,8 +51,7 @@ module ApiGuardian
     end
 
     def resource_store
-      scope = action_name == 'index' ? policy_scope(resource_class) : nil
-      @resource_store ||= find_and_init_store(scope)
+      @resource_store ||= find_and_init_store
     end
 
     def resource_name
@@ -61,6 +60,10 @@ module ApiGuardian
 
     def resource_class
       @resource_class ||= find_resource_class
+    end
+
+    def resource_policy
+      @resource_policy ||= action_name == 'index' ? policy_scope(resource_class) : nil
     end
 
     # :nocov:
@@ -93,8 +96,8 @@ module ApiGuardian
     end
     # :nocov:
 
-    def set_policy_scope(new_scope = nil)
-      resource_store.set_policy_scope new_scope
+    def set_policy(new_policy = nil)
+      @resource_policy = new_policy
     end
 
     def should_paginate?
@@ -116,7 +119,7 @@ module ApiGuardian
       ApiGuardian.current_request = request
     end
 
-    def find_and_init_store(scope)
+    def find_and_init_store
       store = nil
 
       # Check for app-specfic store
@@ -131,7 +134,7 @@ module ApiGuardian
         end
       end
 
-      return store.constantize.new(scope) if store
+      return store.constantize.new(resource_policy) if store
 
       fail ApiGuardian::Errors::ResourceStoreMissing, 'Could not find a resource store ' \
            "for #{resource_name}. Have you created one? You can override `#resource_store` " \
