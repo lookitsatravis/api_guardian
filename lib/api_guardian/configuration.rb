@@ -22,7 +22,7 @@ module ApiGuardian
       @validate_password_score = true
       @enable_2fa = false
       @reuse_access_token = true
-      @allow_guest_authentication = true
+      @allow_guest_authentication = false
     end
 
     def user_class

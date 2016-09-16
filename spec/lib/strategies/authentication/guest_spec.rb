@@ -20,6 +20,7 @@ describe ApiGuardian::Strategies::Authentication::Guest do
 
       it 'should authenticate a user anonymously' do
         create(:role, default: true)
+        ApiGuardian.configuration.allow_guest_authentication = true
         result = klass.new.authenticate
         expect(result).to be_a ApiGuardian.configuration.user_class
         expect(result.guest?).to eq true
