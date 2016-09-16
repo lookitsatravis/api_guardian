@@ -127,6 +127,7 @@ Anonymous authentication is possible with ApiGuardian and it uses the same `asse
 ```json
 {
     "assertion_type": "guest",
+    "assertion": "guest",
     "grant_type": "assertion"
 }
 ```

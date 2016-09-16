@@ -1,6 +1,12 @@
 describe ApiGuardian::Strategies::Authentication do
   describe 'methods' do
     describe '.find_strategy' do
+      it 'fails if a strategy is nil' do
+        expect { ApiGuardian::Strategies::Authentication.find_strategy(nil) }.to(
+          raise_error ApiGuardian::Errors::InvalidAuthenticationProvider
+        )
+      end
+
       it 'finds a registered strategy' do
         mock_array = double([])
         expect(ApiGuardian::Strategies::Authentication::Base).to receive(:providers).and_return(mock_array)

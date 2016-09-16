@@ -74,6 +74,11 @@ module ApiGuardian
           "Could not find authentication provider '#{provider}'. Available: " + Base.providers.keys.join(', ')
         ) unless strategy
         strategy
+      rescue NoMethodError
+        fail(
+          ApiGuardian::Errors::InvalidAuthenticationProvider,
+          "Could not find authentication provider '#{provider}'. Available: " + Base.providers.keys.join(', ')
+        )
       end
     end
 

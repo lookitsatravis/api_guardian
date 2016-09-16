@@ -4,7 +4,7 @@ module ApiGuardian
       class Guest < Base
         provides_authentication_for :guest
 
-        def authenticate
+        def authenticate(_options = {})
           unless ApiGuardian.configuration.allow_guest_authentication
             fail ApiGuardian::Errors::GuestAuthenticationDisabled
           end
