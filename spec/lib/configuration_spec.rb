@@ -190,6 +190,21 @@ describe ApiGuardian::Configuration do
         expect { subject.client_password_reset_url = 'http://test.com' }.not_to raise_error
       end
     end
+
+    describe '.allow_guest_authentication=' do
+      it 'fails if the value is not a boolean' do
+        expect { subject.allow_guest_authentication = -1 }.to(
+          raise_error(ApiGuardian::Configuration::ConfigurationError)
+        )
+
+        expect { subject.allow_guest_authentication = [] }.to(
+          raise_error(ApiGuardian::Configuration::ConfigurationError)
+        )
+
+        expect { subject.allow_guest_authentication = true }.not_to raise_error
+        expect { subject.allow_guest_authentication = false }.not_to raise_error
+      end
+    end
   end
 end
 

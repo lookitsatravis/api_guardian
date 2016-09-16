@@ -13,7 +13,7 @@ module ApiGuardian
 
     AVAILABLE_2FA_METHODS = %w(sms voice google_auth email).freeze
 
-    attr_reader :validate_password_score, :enable_2fa, :reuse_access_token
+    attr_reader :validate_password_score, :enable_2fa, :reuse_access_token, :allow_guest_authentication
     attr_writer :user_class, :role_class, :permission_class, :role_permission_class,
                 :identity_class, :minimum_password_length, :twilio_id, :twilio_token,
                 :mail_from_address, :jwt_secret, :jwt_secret_key_path
@@ -22,6 +22,7 @@ module ApiGuardian
       @validate_password_score = true
       @enable_2fa = false
       @reuse_access_token = true
+      @allow_guest_authentication = true
     end
 
     def user_class
@@ -131,6 +132,11 @@ module ApiGuardian
 
     def registration
       @registration_config ||= Registration.new
+    end
+
+    def allow_guest_authentication=(value)
+      fail ConfigurationError.new('allow_guest_authentication must be a boolean!') unless [true, false].include? value
+      @allow_guest_authentication = value
     end
 
     def access_token_expires_in
