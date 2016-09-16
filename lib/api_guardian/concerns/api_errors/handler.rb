@@ -63,6 +63,8 @@ module ApiGuardian
               resource_class_missing(exception)
             elsif exception.is_a? ApiGuardian::Errors::InvalidAuthenticationProvider
               malformed_request(exception)
+            elsif exception.is_a? ApiGuardian::Errors::GuestAuthenticationDisabled
+              guest_authentication_disabled
             else
               generic_error_handler(exception)
             end
@@ -258,6 +260,12 @@ module ApiGuardian
             render_error(
               500, 'resource_class_missing', 'Resource Class Missing',
               exception.message
+            )
+          end
+
+          def guest_authentication_disabled
+            render_error(
+              401, 'guest_authentication_disabled', 'Guest Authentication Disabled', 'Guest Authentication Disabled'
             )
           end
         end

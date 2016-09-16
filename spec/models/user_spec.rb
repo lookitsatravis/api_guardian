@@ -94,5 +94,15 @@ RSpec.describe ApiGuardian::User, type: :model do
         expect(user3.email).to eq 'lowercase@example.com'
       end
     end
+
+    describe '#guest?' do
+      it 'determines if a user is a guest based on email address' do
+        user = create(:user, email: 'something@example.com')
+        expect(user.guest?).to eq false
+
+        user = create(:user, email: 'guest@application-guest.com')
+        expect(user.guest?).to eq true
+      end
+    end
   end
 end

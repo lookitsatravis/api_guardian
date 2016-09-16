@@ -187,6 +187,13 @@ describe ApiGuardian::Concerns::ApiErrors::Handler, type: :request do
         expect { dummy_class.api_error_handler(ApiGuardian::Errors::ResourceClassMissing.new('test message')) }.not_to raise_error
       end
 
+      it 'handles GuestAuthenticationDisabled' do
+        expect_any_instance_of(Test::Dummy).to receive(:render_error).with(
+          401, 'guest_authentication_disabled', 'Guest Authentication Disabled', 'Guest Authentication Disabled'
+        )
+        expect { dummy_class.api_error_handler(ApiGuardian::Errors::GuestAuthenticationDisabled.new('test message')) }.not_to raise_error
+      end
+
       it 'handles generic errors' do
         exception = StandardError.new('')
         expect_any_instance_of(Test::Dummy).to receive(:render_error).with(

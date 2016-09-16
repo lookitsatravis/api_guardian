@@ -17,6 +17,9 @@ ApiGuardian.configure do |config|
   # that 2FA codes be sent through email.
   # config.available_2fa_methods = %w(sms voice google_auth email)
 
+  # Allow anonymous user authentication
+  # config.allow_guest_authentication = true
+
   # 2FA header name. This header is used to validate a OTP and can be customized
   # to have the app name, for example.
   # config.otp_header_name = 'AG-2FA-TOKEN'
