@@ -191,6 +191,21 @@ describe ApiGuardian::Configuration do
       end
     end
 
+    describe '.reuse_access_token=' do
+      it 'fails if the value is not a boolean' do
+        expect { subject.reuse_access_token = -1 }.to(
+          raise_error(ApiGuardian::Configuration::ConfigurationError)
+        )
+
+        expect { subject.reuse_access_token = [] }.to(
+          raise_error(ApiGuardian::Configuration::ConfigurationError)
+        )
+
+        expect { subject.reuse_access_token = true }.not_to raise_error
+        expect { subject.reuse_access_token = false }.not_to raise_error
+      end
+    end
+
     describe '.allow_guest_authentication=' do
       it 'fails if the value is not a boolean' do
         expect { subject.allow_guest_authentication = -1 }.to(

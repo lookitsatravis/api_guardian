@@ -163,6 +163,7 @@ module ApiGuardian
     end
 
     def reuse_access_token=(value)
+      fail ConfigurationError.new('reuse_access_token must be a boolean!') unless [true, false].include? value
       @reuse_access_token = value
 
       regenerate_doorkeeper_config
