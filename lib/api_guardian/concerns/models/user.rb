@@ -46,7 +46,11 @@ module ApiGuardian
           end
 
           def guest?
-            self.email.include? "application-guest.com"
+            if email
+              self.email.include? "application-guest.com"
+            else
+              false
+            end
           end
 
           protected
