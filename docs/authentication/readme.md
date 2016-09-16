@@ -57,7 +57,7 @@ for more.
 
 ## Email Authentication
 
-To request an access token via email, the following fields are required.
+To request an access token via email address, the following fields are required.
 
 ```json
 {
@@ -118,6 +118,26 @@ To request an access token via Twitter Digits, the following fields are required
     "assertion": "base_64_encoded_url_and_header",
     "grant_type": "assertion"
 }
+```
+
+## Guest Authentication
+
+Anonymous authentication is possible with ApiGuardian and it uses the same `assertion` grant as third-party authentication. Guest users will be created using the same default role as any other registered user. The difference is that the guest user record is created at the time of authentication, instead of requiring a separate registration step. To request an access token for an anonymous user, the following fields are required.
+
+```json
+{
+    "assertion_type": "guest",
+    "grant_type": "assertion"
+}
+```
+
+To disable this feature, update the ApiGuardian config in `config/initializers/api_guardian.rb`:
+
+```rb
+ApiGuardian.configure do |config|
+  # Allow anonymous user authentication
+  config.allow_guest_authentication = false
+end
 ```
 
 ## Two-Factor Authentication
