@@ -35,7 +35,7 @@ module ApiGuardian
         end
 
         unless response.code.to_i == 200
-          ApiGuardian.logger.error "Digits authorization failed! #{response}"
+          ApiGuardian.logger.error "Digits authorization failed! #{response.body}"
           fail ApiGuardian::Errors::IdentityAuthorizationFailed, "Digits API responded with #{response.code}. Expected 200!"
         end
         response
