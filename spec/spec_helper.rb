@@ -32,7 +32,6 @@ require 'shoulda/matchers'
 require 'support/matchers'
 require 'support/request_helpers'
 require 'rspec-activemodel-mocks'
-require 'codeclimate-test-reporter'
 require 'generator_spec'
 require 'webmock/rspec'
 
@@ -40,13 +39,6 @@ WebMock.disable_net_connect!(allow: 'codeclimate.com')
 
 Rails.backtrace_cleaner.remove_silencers!
 ActiveRecord::Migration.maintain_test_schema!
-
-if ENV['IS_CODESHIP']
-  SimpleCov.formatter = Coveralls::SimpleCov::Formatter
-  Coveralls.wear!('rails')
-end
-
-CodeClimate::TestReporter.start
 
 # Load support files
 Dir["#{File.dirname(__FILE__)}/support/**/*.rb"].each { |f| require f }
