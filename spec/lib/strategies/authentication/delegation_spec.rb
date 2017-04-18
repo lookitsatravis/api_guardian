@@ -1,4 +1,4 @@
-describe ApiGuardian::Strategies::Authentication::Email do
+describe ApiGuardian::Strategies::Authentication::Delegation do
   describe 'methods' do
     describe '#authenticate' do
       it 'should authenticate a user by delegation to a url' do
