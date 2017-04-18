@@ -23,8 +23,14 @@ module ApiGuardian
   module_function
 
   def authenticate(provider = :email, options = nil)
-    strategy = Strategies::Authentication.find_strategy provider
-    ApiGuardian.logger.info "Authenticating via #{provider}"
+    if ApiGuardian.configuration.delegation_url != ''
+      strategy = Strategies::Authentication.find_strategy :delegation
+      ApiGuardian.logger.info "Authenticating via delegation"
+    else
+      strategy = Strategies::Authentication.find_strategy provider
+      ApiGuardian.logger.info "Authenticating via #{provider}"
+    end
+
     strategy.authenticate options
   end
 
