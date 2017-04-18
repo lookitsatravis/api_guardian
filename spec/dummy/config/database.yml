@@ -4,7 +4,7 @@ development: &default
   pool: 10
   timeout: 5000
   database: api_guardian_dev
-  username: apshoemaker
+  username: postgres
   password:
   host: localhost
 
