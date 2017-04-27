@@ -29,7 +29,7 @@ Gem::Specification.new do |s|
   s.add_dependency 'doorkeeper', '~> 4.2'
   s.add_dependency 'kaminari', '~> 0.17'
   s.add_dependency 'koala', '~> 2.5'
-  s.add_dependency 'paranoia', '~> 2.3'
+  # s.add_dependency 'paranoia', '~> 2.3'
   s.add_dependency 'pg', '~> 0.18'
   s.add_dependency 'phony', '~> 2.15'
   s.add_dependency 'pundit', '~> 1.1'
