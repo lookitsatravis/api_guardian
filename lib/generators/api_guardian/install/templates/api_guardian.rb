@@ -61,4 +61,11 @@ ApiGuardian.configure do |config|
   # internal route for the user to reset their password, and the functionality
   # must be provided by the client.
   # config.client_password_reset_url = 'https://myapp.com'
+
+  # The delegation url is a convention based method of delegating authentication to
+  # another server or system providing an implementation of password grant oauth.
+  # The delegation_url will provide a light weight single
+  # sign on solution with a central authentication authority.  The default for
+  # this config item is an empty string.
+  # config.delegation_url = ''
 end
