@@ -6,6 +6,7 @@ describe 'ApiGuardian::InstallGenerator', type: :generator do
 
   before :each do
     prepare_destination
+    allow(Rails).to receive(:root).and_return(Pathname(destination_root))
     FileUtils.mkdir(::File.expand_path('config', Pathname(destination_root)))
     FileUtils.mkdir(::File.expand_path('db', Pathname(destination_root)))
     FileUtils.mkdir(::File.expand_path('migrate', Pathname(destination_root + '/db')))
