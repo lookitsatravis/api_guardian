@@ -65,7 +65,15 @@ module ApiGuardian
       def self.register(attributes)
         provider = attributes.extract!(:type).fetch(:type)
         strategy = ApiGuardian::Strategies::Registration.find_strategy provider
-        strategy.register(self, attributes)
+        user = strategy.register(self, attributes)
+
+        # If this is a new user, execute after register lambda
+        # This won't be the case if register is called and an existing user was found and returned.
+        unless user.previous_changes[:id].nil?
+          ApiGuardian.configuration.after_user_registered.call(user)
+        end
+
+        user
       end
 
       def self.reset_password(email)

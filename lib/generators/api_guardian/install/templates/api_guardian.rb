@@ -61,4 +61,11 @@ ApiGuardian.configure do |config|
   # internal route for the user to reset their password, and the functionality
   # must be provided by the client.
   # config.client_password_reset_url = 'https://myapp.com'
+
+  # Often, applications will want to send emails or do other things specific to
+  # registration. You can use this block to hook into what happens after a user is
+  # registered.
+  # config.after_user_registered = lambda do |user|
+  #   MyMailer.welcome(user).deliver_later
+  # end
 end

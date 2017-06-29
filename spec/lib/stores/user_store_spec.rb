@@ -115,11 +115,31 @@ describe ApiGuardian::Stores::UserStore do
 
     describe '.register' do
       it 'passes attributes to registration strategy' do
+        mock_user = mock_model(ApiGuardian::User)
+        previous_changes = ActiveSupport::HashWithIndifferentAccess.new
         expect_any_instance_of(ActionController::Parameters).to receive(:extract!).with(:type).and_return(ActionController::Parameters.new)
         expect_any_instance_of(ActionController::Parameters).to receive(:fetch).with(:type).and_return('test')
         mock_strategy = double(ApiGuardian::Strategies::Registration::Email)
         expect(ApiGuardian::Strategies::Registration).to receive(:find_strategy).and_return(mock_strategy)
-        expect(mock_strategy).to receive(:register)
+        expect(mock_strategy).to receive(:register).and_return(mock_user)
+        expect(mock_user).to receive(:previous_changes).and_return(previous_changes)
+
+        ApiGuardian::Stores::UserStore.register(ActionController::Parameters.new)
+      end
+
+      it 'executes after_user_registered lambda when a new user is created' do
+        mock_user = mock_model(ApiGuardian::User)
+        previous_changes = ActiveSupport::HashWithIndifferentAccess.new
+        my_lambda = lambda { |user| }
+        expect_any_instance_of(ActionController::Parameters).to receive(:extract!).with(:type).and_return(ActionController::Parameters.new)
+        expect_any_instance_of(ActionController::Parameters).to receive(:fetch).with(:type).and_return('test')
+        mock_strategy = double(ApiGuardian::Strategies::Registration::Email)
+        expect(ApiGuardian::Strategies::Registration).to receive(:find_strategy).and_return(mock_strategy)
+        expect(mock_strategy).to receive(:register).and_return(mock_user)
+        expect(mock_user).to receive(:previous_changes).and_return(previous_changes)
+        expect(previous_changes).to receive(:[]).with(:id).and_return(true)
+        expect_any_instance_of(ApiGuardian::Configuration).to receive(:after_user_registered).and_return(my_lambda)
+        expect(my_lambda).to receive(:call)
 
         ApiGuardian::Stores::UserStore.register(ActionController::Parameters.new)
       end

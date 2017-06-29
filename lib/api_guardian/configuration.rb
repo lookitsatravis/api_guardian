@@ -212,6 +212,15 @@ module ApiGuardian
       regenerate_doorkeeper_config
     end
 
+    def after_user_registered
+      @after_user_registered ||= lambda { |user| }
+    end
+
+    def after_user_registered=(value)
+      fail ConfigurationError.new("#{value} is not a lambda") unless value.respond_to? :call
+      @after_user_registered = value
+    end
+
     protected
 
     def regenerate_doorkeeper_config

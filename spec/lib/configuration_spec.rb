@@ -220,6 +220,22 @@ describe ApiGuardian::Configuration do
         expect { subject.allow_guest_authentication = false }.not_to raise_error
       end
     end
+
+    describe '.after_user_registered=' do
+      it 'fails if the value is not a lambda' do
+        expect { subject.after_user_registered = -1 }.to(
+          raise_error(ApiGuardian::Configuration::ConfigurationError)
+        )
+
+        expect { subject.after_user_registered = lambda { |user| } }.not_to raise_error
+      end
+    end
+
+    describe '.after_user_registered' do
+      it 'returns a default lambda' do
+        expect(subject.after_user_registered).to respond_to(:call)
+      end
+    end
   end
 end
 
