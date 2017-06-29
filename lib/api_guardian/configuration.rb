@@ -186,7 +186,7 @@ module ApiGuardian
     end
 
     def on_reset_password
-      @on_reset_password ||= lambda do |user, reset_url|
+      @on_reset_password ||= lambda do |_user, _reset_url|
         ApiGuardian.logger.warn(
           'You need to customize ApiGuardian::Configuration#on_reset_password lambda to handle the password reset communication.'
         )
@@ -199,7 +199,7 @@ module ApiGuardian
     end
 
     def after_user_registered
-      @after_user_registered ||= lambda { |user| }
+      @after_user_registered ||= lambda { |_user| }
     end
 
     def after_user_registered=(value)
@@ -208,7 +208,7 @@ module ApiGuardian
     end
 
     def on_send_otp_via_sms
-      @on_send_otp_via_sms ||= lambda do |user|
+      @on_send_otp_via_sms ||= lambda do |_user|
         ApiGuardian.logger.warn(
           'You need to customize ApiGuardian::Configuration#on_send_otp_via_sms lambda to handle sending OTP via SMS.'
         )
@@ -221,7 +221,7 @@ module ApiGuardian
     end
 
     def on_send_otp_via_voice
-      @on_send_otp_via_voice ||= lambda do |user|
+      @on_send_otp_via_voice ||= lambda do |_user|
         ApiGuardian.logger.warn(
           'You need to customize ApiGuardian::Configuration#on_send_otp_via_voice lambda to handle sending OTP via voice.'
         )
@@ -234,7 +234,7 @@ module ApiGuardian
     end
 
     def on_send_otp_via_email
-      @on_send_otp_via_email ||= lambda do |user|
+      @on_send_otp_via_email ||= lambda do |_user|
         ApiGuardian.logger.warn(
           'You need to customize ApiGuardian::Configuration#on_send_otp_via_email lambda to handle sending OTP via email.'
         )
@@ -247,7 +247,7 @@ module ApiGuardian
     end
 
     def on_phone_verified
-      @on_phone_verified ||= lambda do |user|
+      @on_phone_verified ||= lambda do |_user|
         ApiGuardian.logger.warn(
           'You need to customize ApiGuardian::Configuration#on_phone_verified lambda to handle feedback after verifying phone.'
         )

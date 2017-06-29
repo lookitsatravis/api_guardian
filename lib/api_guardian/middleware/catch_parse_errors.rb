@@ -8,7 +8,7 @@ module ApiGuardian
       def call(env)
         begin
           @app.call(env)
-        rescue ActionDispatch::Http::Parameters::ParseError => error
+        rescue ActionDispatch::Http::Parameters::ParseError
           error = {
             id: SecureRandom.uuid,
             code: 'parse_error',

@@ -29,18 +29,18 @@ module ApiGuardian
         # We force the message if the user is trying to verify their phone
         return unless force || user_can_receive_sms?(user)
 
-        ApiGuardian.configuration.on_send_otp_via_sms.call(:user)
+        ApiGuardian.configuration.on_send_otp_via_sms.call(user)
       end
 
       def send_voice(user, force)
         # We force the message if the user is trying to verify their phone
         return unless force || user_can_receive_sms?(user)
 
-        ApiGuardian.configuration.on_send_otp_via_voice.call(:user)
+        ApiGuardian.configuration.on_send_otp_via_voice.call(user)
       end
 
       def send_email(user)
-        ApiGuardian.configuration.on_send_otp_via_email.call(:user)
+        ApiGuardian.configuration.on_send_otp_via_email.call(user)
       end
 
       def user_can_receive_sms?(user)

@@ -116,7 +116,7 @@ describe ApiGuardian::Stores::UserStore do
       it 'executes after_user_registered lambda when a new user is created' do
         mock_user = mock_model(ApiGuardian::User)
         previous_changes = ActiveSupport::HashWithIndifferentAccess.new
-        my_lambda = lambda { |user| }
+        my_lambda = lambda { |_user| }
         expect_any_instance_of(ActionController::Parameters).to receive(:extract!).with(:type).and_return(ActionController::Parameters.new)
         expect_any_instance_of(ActionController::Parameters).to receive(:fetch).with(:type).and_return('test')
         mock_strategy = double(ApiGuardian::Strategies::Registration::Email)
@@ -134,7 +134,7 @@ describe ApiGuardian::Stores::UserStore do
     describe '.reset_password' do
       it 'resets on valid email' do
         user = mock_model(ApiGuardian::User)
-        my_lambda = lambda { |user, reset_url| }
+        my_lambda = lambda { |_user, _reset_url| }
         expect(user).to receive(:reset_password_token=)
         expect(user).to receive(:reset_password_sent_at=)
         expect(user).to receive(:save)
