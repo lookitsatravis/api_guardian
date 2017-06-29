@@ -233,6 +233,126 @@ describe ApiGuardian::Configuration do
         expect { subject.on_reset_password = lambda { |user, reset_url| } }.not_to raise_error
       end
     end
+
+    describe '.on_send_otp_via_sms' do
+      it 'returns a default lambda which warns the user further setup is required' do
+        # Store test logger
+        og_mock_logger = ApiGuardian.logger
+
+        result = subject.on_send_otp_via_sms
+
+        logger = instance_double(ApiGuardian::Logging::Logger)
+        expect(ApiGuardian).to receive(:logger).and_return(logger)
+        expect(logger).to receive(:warn).with(
+          'You need to customize ApiGuardian::Configuration#on_send_otp_via_sms lambda to handle sending OTP via SMS.'
+        )
+
+        result.call(nil)
+
+        # Reset test logger
+        allow(ApiGuardian).to receive(:logger).and_return(og_mock_logger)
+      end
+    end
+
+    describe '.on_send_otp_via_sms=' do
+      it 'fails if the value is not a lambda' do
+        expect { subject.on_send_otp_via_sms = -1 }.to(
+          raise_error(ApiGuardian::Configuration::ConfigurationError)
+        )
+
+        expect { subject.on_send_otp_via_sms = lambda { |user| } }.not_to raise_error
+      end
+    end
+
+    describe '.on_send_otp_via_voice' do
+      it 'returns a default lambda which warns the user further setup is required' do
+        # Store test logger
+        og_mock_logger = ApiGuardian.logger
+
+        result = subject.on_send_otp_via_voice
+
+        logger = instance_double(ApiGuardian::Logging::Logger)
+        expect(ApiGuardian).to receive(:logger).and_return(logger)
+        expect(logger).to receive(:warn).with(
+          'You need to customize ApiGuardian::Configuration#on_send_otp_via_voice lambda to handle sending OTP via voice.'
+        )
+
+        result.call(nil)
+
+        # Reset test logger
+        allow(ApiGuardian).to receive(:logger).and_return(og_mock_logger)
+      end
+    end
+
+    describe '.on_send_otp_via_voice=' do
+      it 'fails if the value is not a lambda' do
+        expect { subject.on_send_otp_via_voice = -1 }.to(
+          raise_error(ApiGuardian::Configuration::ConfigurationError)
+        )
+
+        expect { subject.on_send_otp_via_voice = lambda { |user| } }.not_to raise_error
+      end
+    end
+
+    describe '.on_send_otp_via_email' do
+      it 'returns a default lambda which warns the user further setup is required' do
+        # Store test logger
+        og_mock_logger = ApiGuardian.logger
+
+        result = subject.on_send_otp_via_email
+
+        logger = instance_double(ApiGuardian::Logging::Logger)
+        expect(ApiGuardian).to receive(:logger).and_return(logger)
+        expect(logger).to receive(:warn).with(
+          'You need to customize ApiGuardian::Configuration#on_send_otp_via_email lambda to handle sending OTP via email.'
+        )
+
+        result.call(nil)
+
+        # Reset test logger
+        allow(ApiGuardian).to receive(:logger).and_return(og_mock_logger)
+      end
+    end
+
+    describe '.on_send_otp_via_email=' do
+      it 'fails if the value is not a lambda' do
+        expect { subject.on_send_otp_via_email = -1 }.to(
+          raise_error(ApiGuardian::Configuration::ConfigurationError)
+        )
+
+        expect { subject.on_send_otp_via_email = lambda { |user| } }.not_to raise_error
+      end
+    end
+
+    describe '.on_phone_verified' do
+      it 'returns a default lambda which warns the user further setup is required' do
+        # Store test logger
+        og_mock_logger = ApiGuardian.logger
+
+        result = subject.on_phone_verified
+
+        logger = instance_double(ApiGuardian::Logging::Logger)
+        expect(ApiGuardian).to receive(:logger).and_return(logger)
+        expect(logger).to receive(:warn).with(
+          'You need to customize ApiGuardian::Configuration#on_phone_verified lambda to handle feedback after verifying phone.'
+        )
+
+        result.call(nil)
+
+        # Reset test logger
+        allow(ApiGuardian).to receive(:logger).and_return(og_mock_logger)
+      end
+    end
+
+    describe '.on_phone_verified=' do
+      it 'fails if the value is not a lambda' do
+        expect { subject.on_phone_verified = -1 }.to(
+          raise_error(ApiGuardian::Configuration::ConfigurationError)
+        )
+
+        expect { subject.on_phone_verified = lambda { |user| } }.not_to raise_error
+      end
+    end
   end
 end
 

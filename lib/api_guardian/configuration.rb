@@ -207,6 +207,58 @@ module ApiGuardian
       @after_user_registered = value
     end
 
+    def on_send_otp_via_sms
+      @on_send_otp_via_sms ||= lambda do |user|
+        ApiGuardian.logger.warn(
+          'You need to customize ApiGuardian::Configuration#on_send_otp_via_sms lambda to handle sending OTP via SMS.'
+        )
+      end
+    end
+
+    def on_send_otp_via_sms=(value)
+      fail ConfigurationError.new("#{value} is not a lambda") unless value.respond_to? :call
+      @on_send_otp_via_sms = value
+    end
+
+    def on_send_otp_via_voice
+      @on_send_otp_via_voice ||= lambda do |user|
+        ApiGuardian.logger.warn(
+          'You need to customize ApiGuardian::Configuration#on_send_otp_via_voice lambda to handle sending OTP via voice.'
+        )
+      end
+    end
+
+    def on_send_otp_via_voice=(value)
+      fail ConfigurationError.new("#{value} is not a lambda") unless value.respond_to? :call
+      @on_send_otp_via_voice = value
+    end
+
+    def on_send_otp_via_email
+      @on_send_otp_via_email ||= lambda do |user|
+        ApiGuardian.logger.warn(
+          'You need to customize ApiGuardian::Configuration#on_send_otp_via_email lambda to handle sending OTP via email.'
+        )
+      end
+    end
+
+    def on_send_otp_via_email=(value)
+      fail ConfigurationError.new("#{value} is not a lambda") unless value.respond_to? :call
+      @on_send_otp_via_email = value
+    end
+
+    def on_phone_verified
+      @on_phone_verified ||= lambda do |user|
+        ApiGuardian.logger.warn(
+          'You need to customize ApiGuardian::Configuration#on_phone_verified lambda to handle feedback after verifying phone.'
+        )
+      end
+    end
+
+    def on_phone_verified=(value)
+      fail ConfigurationError.new("#{value} is not a lambda") unless value.respond_to? :call
+      @on_phone_verified = value
+    end
+
     protected
 
     def regenerate_doorkeeper_config

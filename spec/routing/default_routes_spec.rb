@@ -76,14 +76,6 @@ describe 'Default routes', type: :routing do
       )
     end
 
-    it 'POST /users/1/voice_otp routes to users#voice_otp' do
-      expect(post('/users/1/voice_otp')).to route_to(
-        controller: 'api_guardian/users',
-        action: 'voice_otp',
-        id: '1'
-      )
-    end
-
     it 'GET /users routes to users#index' do
       expect(get('/users')).to route_to('api_guardian/users#index')
     end

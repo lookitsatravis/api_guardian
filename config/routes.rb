@@ -13,7 +13,6 @@ ApiGuardian::Engine.routes.draw do
     get 'permissions', on: :member
     post 'add_phone', on: :member
     post 'verify_phone', on: :member
-    post 'voice_otp', on: :member
   end
 
   resources :roles, except: [:new, :edit]

@@ -97,20 +97,6 @@ describe ApiGuardian::Stores::UserStore do
 
         expect(result).to be false
       end
-
-      it 'confirms phone and queues SendSms job with success message' do
-        user = mock_model(ApiGuardian::User)
-        expect(user).to receive(:authenticate_otp).and_return true
-        expect(user).to receive(:phone_number_confirmed_at=)
-        expect(user).to receive(:save)
-        expect(ApiGuardian::Jobs::SendSms).to receive(:perform_later).with(
-          user, 'Your phone has been verified!'
-        )
-
-        result = subject.verify_phone(user, {})
-
-        expect(result).to be true
-      end
     end
 
     describe '.register' do

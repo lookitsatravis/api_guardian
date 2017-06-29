@@ -29,33 +29,18 @@ module ApiGuardian
         # We force the message if the user is trying to verify their phone
         return unless force || user_can_receive_sms?(user)
 
-        body = "#{user.otp_code} is your authentication code."
-
-        ApiGuardian.twilio_client.messages.create(
-          from: ApiGuardian.configuration.twilio_send_from,
-          to: user.phone_number,
-          body: body
-        )
-      rescue StandardError => e
-        ApiGuardian.logger.warn "Could not connect to Twilio! #{e.message}"
+        ApiGuardian.configuration.on_send_otp_via_sms.call(:user)
       end
 
       def send_voice(user, force)
         # We force the message if the user is trying to verify their phone
         return unless force || user_can_receive_sms?(user)
 
-        ApiGuardian.twilio_client.calls.create(
-          from: ApiGuardian.configuration.twilio_send_from,
-          to: user.phone_number,
-          url: ApiGuardian::Engine.routes.url_helpers.voice_otp_user_url(user)
-        )
-      rescue StandardError => e
-        ApiGuardian.logger.warn "Could not connect to Twilio! #{e.message}"
+        ApiGuardian.configuration.on_send_otp_via_voice.call(:user)
       end
 
       def send_email(user)
-        mailer = ApiGuardian::Mailers::Mailer
-        mailer.one_time_password(user).deliver_later
+        ApiGuardian.configuration.on_send_otp_via_email.call(:user)
       end
 
       def user_can_receive_sms?(user)

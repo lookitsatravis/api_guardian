@@ -11,15 +11,12 @@ describe ApiGuardian::Jobs::SendOtp do
 
       context 'with otp_enabled' do
         let(:user) { mock_model(ApiGuardian::User) }
-        let(:mock_client) { FakeSMS.new('foo', 'bar') }
-        let(:mock_voice_client) { FakeVoice.new('foo', 'bar') }
         let(:to_number) { '18005554321' }
         let(:from_number) { '18885551234' }
         let(:otp_code) { '0101' }
 
         before(:each) do
           expect(user).to receive(:otp_enabled?).and_return(true)
-          ApiGuardian.configuration.twilio_send_from = from_number
         end
 
         context 'can send via SMS' do
@@ -27,22 +24,10 @@ describe ApiGuardian::Jobs::SendOtp do
             expect(user).to receive(:otp_method).and_return('sms')
           end
 
-          it 'catches raised StandardErrors' do
-            expect(user).to receive(:otp_code).and_return(otp_code)
-            expect(ApiGuardian).to receive(:twilio_client).and_raise('oops')
-            expect(ApiGuardian.logger).to receive(:warn).with 'Could not connect to Twilio! oops'
-            subject.perform(user, true)
-          end
-
           it 'executes when forced' do
-            expect(user).to receive(:phone_number).and_return(to_number)
-            expect(user).to receive(:otp_code).and_return(otp_code)
-            expect(ApiGuardian).to receive(:twilio_client).and_return(mock_client)
-            expect(mock_client).to receive(:create).with(
-              from: from_number,
-              to: to_number,
-              body: "#{otp_code} is your authentication code."
-            )
+            my_lambda = lambda { |user| }
+            expect_any_instance_of(ApiGuardian::Configuration).to receive(:on_send_otp_via_sms).and_return(my_lambda)
+            expect(my_lambda).to receive(:call)
 
             subject.perform(user, true)
           end
@@ -60,43 +45,18 @@ describe ApiGuardian::Jobs::SendOtp do
               expect(ApiGuardian.logger).to receive(:error).with 'User does not have a confirmed phone number! Cannot send OTP.'
               subject.perform(user)
             end
-
-            it 'sends message via Twilio' do
-              expect(user).to receive(:phone_number).twice.and_return(to_number)
-              expect(user).to receive(:phone_number_confirmed_at).and_return(DateTime.now)
-              expect(user).to receive(:otp_code).and_return(otp_code)
-              expect(ApiGuardian).to receive(:twilio_client).and_return(mock_client)
-              expect(mock_client).to receive(:create).with(
-                from: from_number,
-                to: to_number,
-                body: "#{otp_code} is your authentication code."
-              )
-
-              subject.perform(user)
-            end
           end
         end
 
         context 'can send via voice' do
           before(:each) do
             expect(user).to receive(:otp_method).and_return('voice')
-            ApiGuardian::Engine.routes.default_url_options[:host] = 'http://example.com'
-          end
-
-          it 'catches raised StandardErrors' do
-            expect(ApiGuardian).to receive(:twilio_client).and_raise('oops')
-            expect(ApiGuardian.logger).to receive(:warn).with 'Could not connect to Twilio! oops'
-            subject.perform(user, true)
           end
 
           it 'executes when forced' do
-            expect(user).to receive(:phone_number).and_return(to_number)
-            expect(ApiGuardian).to receive(:twilio_client).and_return(mock_voice_client)
-            expect(mock_voice_client).to receive(:create).with(
-              from: from_number,
-              to: to_number,
-              url: ApiGuardian::Engine.routes.url_helpers.voice_otp_user_url(user)
-            )
+            my_lambda = lambda { |user| }
+            expect_any_instance_of(ApiGuardian::Configuration).to receive(:on_send_otp_via_voice).and_return(my_lambda)
+            expect(my_lambda).to receive(:call)
 
             subject.perform(user, true)
           end
@@ -114,27 +74,14 @@ describe ApiGuardian::Jobs::SendOtp do
               expect(ApiGuardian.logger).to receive(:error).with 'User does not have a confirmed phone number! Cannot send OTP.'
               subject.perform(user)
             end
-
-            it 'initiate call via Twilio' do
-              expect(user).to receive(:phone_number).twice.and_return(to_number)
-              expect(user).to receive(:phone_number_confirmed_at).and_return(DateTime.now)
-              expect(ApiGuardian).to receive(:twilio_client).and_return(mock_voice_client)
-              expect(mock_voice_client).to receive(:create).with(
-                from: from_number,
-                to: to_number,
-                url: ApiGuardian::Engine.routes.url_helpers.voice_otp_user_url(user)
-              )
-
-              subject.perform(user)
-            end
           end
         end
 
         it 'can send via email' do
           expect(user).to receive(:otp_method).and_return('email')
-          mock_delivery = instance_double(ActionMailer::MessageDelivery)
-          expect(ApiGuardian::Mailers::Mailer).to receive(:one_time_password).with(user).and_return(mock_delivery)
-          expect(mock_delivery).to receive(:deliver_later)
+          my_lambda = lambda { |user| }
+          expect_any_instance_of(ApiGuardian::Configuration).to receive(:on_send_otp_via_email).and_return(my_lambda)
+          expect(my_lambda).to receive(:call)
           subject.perform(user)
         end
 

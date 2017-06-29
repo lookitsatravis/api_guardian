@@ -68,4 +68,50 @@ ApiGuardian.configure do |config|
   # config.after_user_registered = lambda do |user|
   #   MyMailer.welcome(user).deliver_later
   # end
+
+  # You can use this block to hook into what happens when a one-time password token
+  # needs to be sent via SMS. This allows you to use any provider for sending the SMS.
+  # config.on_send_otp_via_sms = lambda do |user|
+  #   # Example using Twilio - twilio-ruby
+  #   twilio_send_from_number = '+15551234567'
+  #   twilio_client = Twilio::REST::Client.new twilio_id, twilio_token
+  #   twilio_client.messages.create(
+  #     from: twilio_send_from_number,
+  #     to: user.phone_number,
+  #     body: "#{user.otp_code} is your authentication code."
+  #   )
+  # end
+
+  # You can use this block to hook into what happens when a one-time password token
+  # needs to be sent via voice. This allows you to use any provider for sending the voice
+  # call.
+  # config.on_send_otp_via_voice = lambda do |user|
+  #   # Example using Twilio - twilio-ruby
+  #   twilio_send_from_number = '+15551234567'
+  #   twilio_client = Twilio::REST::Client.new twilio_id, twilio_token
+  #   twilio_client.calls.create(
+  #     from: twilio_send_from_number,
+  #     to: user.phone_number,
+  #     url: 'https://example.com/users/1/send_otp'
+  #   )
+  # end
+
+  # You can use this block to hook into what happens when a one-time password token
+  # needs to be sent via email. This allows you to customize the email contents.
+  # config.on_send_otp_via_email = lambda do |user|
+  #   MyMailer.send_otp(user).deliver_later
+  # end
+
+  # You can use this block to hook into what happens when user's phone number is
+  # verified. Often, you'll want to send a thank you.
+  # config.on_phone_verified = lambda do |user|
+  #   # Example using Twilio - twilio-ruby
+  #   twilio_send_from_number = '+15551234567'
+  #   twilio_client = Twilio::REST::Client.new twilio_id, twilio_token
+  #   twilio_client.messages.create(
+  #     from: twilio_send_from_number,
+  #     to: user.phone_number,
+  #     body: 'Your phone has been verified!'
+  #   )
+  # end
 end

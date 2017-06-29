@@ -54,7 +54,7 @@ module ApiGuardian
           user.phone_number_confirmed_at = DateTime.now.utc
           user.save
 
-          ApiGuardian::Jobs::SendSms.perform_later user, 'Your phone has been verified!'
+          ApiGuardian.configuration.on_phone_verified.call(user)
 
           return true
         end
