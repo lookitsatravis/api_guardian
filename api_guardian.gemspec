@@ -37,7 +37,7 @@ Gem::Specification.new do |s|
   s.add_dependency 'twilio-ruby', '~> 4.13'
   s.add_dependency 'zxcvbn-js', '~> 4.2'
   s.add_development_dependency 'capybara', '~> 2.7'
-  s.add_development_dependency 'database_cleaner', '~> 1.5'
+  s.add_development_dependency 'database_cleaner', '~> 1.6'
   s.add_development_dependency 'factory_girl_rails', '~> 4.7'
   s.add_development_dependency 'faker', '~> 1.6'
   s.add_development_dependency 'fuubar', '~> 2.1.0.beta1'
