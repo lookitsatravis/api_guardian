@@ -148,6 +148,24 @@ module ApiGuardian
   rescue
     false
   end
+
+  module_function
+
+  def find_user_store
+    store = nil
+
+    # Check for app-specfic store
+    if ApiGuardian.class_exists?('UserStore')
+      store = 'UserStore'
+    end
+
+    # Check for ApiGuardian Store
+    unless store
+      store = 'ApiGuardian::Stores::UserStore'
+    end
+
+    return store.constantize
+  end
 end
 
 require 'api_guardian/strategies/authentication/authentication'
