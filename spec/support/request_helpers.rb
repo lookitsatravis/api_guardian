@@ -111,13 +111,3 @@ module Requests
     end
   end
 end
-
-module ActionDispatch
-  module Integration
-    module RequestHelpers
-      def options(path, *args)
-        process_with_kwargs(:get, path, *args)
-      end
-    end
-  end
-end

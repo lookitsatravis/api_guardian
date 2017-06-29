@@ -4,9 +4,9 @@ describe 'ApiGuardian::ApplicationController' do
   # Authentication and permissions are tested elsewhere
   before(:each) { @routes = ApiGuardian::Engine.routes }
 
-  describe 'Missing round catcher' do
+  describe 'Missing route catcher' do
     it 'renders not found' do
-      %w(GET POST PUT PATCH DELETE OPTIONS HEAD).each do |method|
+      %w(GET POST PUT PATCH DELETE HEAD).each do |method|
         random_route = []
 
         rand(1..4).times do
