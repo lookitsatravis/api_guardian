@@ -6,7 +6,6 @@ require 'rack/cors'
 require 'kaminari'
 require 'zxcvbn'
 require 'phony'
-require 'twilio-ruby'
 require 'active_model_otp'
 require 'active_model_serializers'
 require 'api_guardian/version'
@@ -40,8 +39,6 @@ module ApiGuardian
       autoload :RolePermission, 'api_guardian/concerns/models/role_permission'
       autoload :Identity, 'api_guardian/concerns/models/identity'
     end
-
-    autoload :TwilioVoiceOtpHelper, 'api_guardian/concerns/twilio_voice_otp_helper'
   end
 
   module Stores
@@ -102,23 +99,12 @@ module ApiGuardian
     autoload :SendSms, 'api_guardian/jobs/send_sms'
   end
 
-  module Mailers
-    autoload :Mailer, 'api_guardian/mailers/mailer'
-  end
-
   class << self
     attr_accessor :current_request, :current_user
     attr_writer :configuration
 
     def zxcvbn_tester
       @zxcvbn_tester ||= ::Zxcvbn::Tester.new
-    end
-
-    def twilio_client
-      unless configuration.enable_2fa
-        fail Configuration::ConfigurationError.new('2FA is not enabled!')
-      end
-      @twilio_client ||= ::Twilio::REST::Client.new configuration.twilio_id, configuration.twilio_token
     end
 
     def root

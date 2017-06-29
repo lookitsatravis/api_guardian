@@ -24,13 +24,6 @@ ApiGuardian.configure do |config|
   # to have the app name, for example.
   # config.otp_header_name = 'AG-2FA-TOKEN'
 
-  # 2FA Send From Number. This is the Twilio number we will send from.
-  # config.twilio_send_from = nil
-
-  # Twilio Account SID and token (used with two-factor authentication)
-  # config.twilio_id = nil
-  # config.twilio_token = nil
-
   # Access token expiration time (default 2 hours).
   # config.access_token_expires_in = 2.hours
 

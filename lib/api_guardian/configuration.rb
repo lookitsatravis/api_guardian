@@ -15,8 +15,7 @@ module ApiGuardian
 
     attr_reader :validate_password_score, :enable_2fa, :reuse_access_token, :allow_guest_authentication
     attr_writer :user_class, :role_class, :permission_class, :role_permission_class,
-                :identity_class, :minimum_password_length, :twilio_id, :twilio_token,
-                :mail_from_address, :jwt_secret, :jwt_secret_key_path
+                :identity_class, :minimum_password_length, :jwt_secret, :jwt_secret_key_path
 
     def initialize
       @validate_password_score = true
@@ -74,10 +73,6 @@ module ApiGuardian
       end
     end
 
-    def mail_from_address
-      @mail_from_address ||= 'change-me@example.com'
-    end
-
     def otp_header_name
       @otp_header_name ||= 'AG-2FA-TOKEN'
     end
@@ -106,28 +101,6 @@ module ApiGuardian
         ) unless allowed_methods.include? method
       end
       @available_2fa_methods = value
-    end
-
-    def twilio_send_from
-      fail ConfigurationError.new('You must supply your Twilio Send From Number in order to use 2FA features.') unless @twilio_send_from
-      @twilio_send_from
-    end
-
-    def twilio_send_from=(phone_number)
-      unless Phony.plausible? phone_number
-        fail ConfigurationError.new("twilio_send_from value '#{phone_number}' is not a valid phone number and is required for 2FA.")
-      end
-      @twilio_send_from = Phony.normalize(phone_number)
-    end
-
-    def twilio_id
-      fail ConfigurationError.new('You must supply your Twilio SID in order to use 2FA features.') unless @twilio_id
-      @twilio_id
-    end
-
-    def twilio_token
-      fail ConfigurationError.new('You must supply your Twilio Auth Token in order to use 2FA features.') unless @twilio_token
-      @twilio_token
     end
 
     def registration

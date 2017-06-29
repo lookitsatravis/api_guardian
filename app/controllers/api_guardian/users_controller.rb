@@ -1,7 +1,5 @@
 module ApiGuardian
   class UsersController < ApiController
-    include ApiGuardian::Concerns::TwilioVoiceOtpHelper
-
     def add_phone
       resource_store.add_phone(@resource, add_phone_params)
       head :no_content

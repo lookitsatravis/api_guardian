@@ -124,14 +124,6 @@ RSpec.configure do |config|
   config.include Requests::AuthHelpers, type: :request
   config.include Requests::ErrorHelpers, type: :request
 
-  # To aid in testing Twilio SMS
-  # https://robots.thoughtbot.com/testing-sms-interactions
-  # ApiGuardian.twilio_client = FakeSMS
-  #
-  # config.before :each do
-  #   FakeSMS.messages = []
-  # end
-
   # Disable custom logger during tests
   config.before(:each) do
     logger = instance_double(ApiGuardian::Logging::Logger)

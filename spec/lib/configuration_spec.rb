@@ -101,39 +101,6 @@ describe ApiGuardian::Configuration do
       end
     end
 
-    describe '.twilio_send_from=' do
-      it 'fails if the provided number is invalid' do
-        expect(Phony).to receive(:plausible?).and_return false
-        expect { subject.twilio_send_from = 'test' }.to(
-          raise_error(ApiGuardian::Configuration::ConfigurationError)
-        )
-      end
-    end
-
-    describe '.twilio_id' do
-      it 'fails if the value is missing' do
-        expect { subject.twilio_id }.to(
-          raise_error(ApiGuardian::Configuration::ConfigurationError)
-        )
-
-        subject.twilio_id = 'test'
-
-        expect { subject.twilio_id }.not_to raise_error
-      end
-    end
-
-    describe '.twilio_token' do
-      it 'fails if the value is missing' do
-        expect { subject.twilio_token }.to(
-          raise_error(ApiGuardian::Configuration::ConfigurationError)
-        )
-
-        subject.twilio_token = 'test'
-
-        expect { subject.twilio_token }.not_to raise_error
-      end
-    end
-
     describe '.access_token_expires_in=' do
       it 'fails if the value is not a duration' do
         expect { subject.access_token_expires_in = 'a' }.to(
