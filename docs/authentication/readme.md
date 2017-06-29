@@ -145,9 +145,12 @@ end
 
 Two-Factor Authentication (2FA) functionality is available out of the box. Requirements:
 
-* [Twilio](https://www.twilio.com/) account
+* An SMS/Voice service (like [Twilio](https://www.twilio.com/))
+* Email sending setup
 
 To enable this feature, update the ApiGuardian config in `config/initializers/api_guardian.rb`:
+
+*Note: Restart your server when done for the changes to take effect.*
 
 ```rb
 ApiGuardian.configure do |config|
@@ -157,18 +160,67 @@ ApiGuardian.configure do |config|
   # 2FA header name. This header is used to validate a OTP and can be customized
   # to have the app name, for example.
   # config.otp_header_name = 'AG-2FA-TOKEN'
-
-  # 2FA Send From Number. This is the Twilio number we will send from.
-  config.twilio_send_from = 'YOUR_NUMBER' # formatted with country code, e.g. +18005551234
-
-  # Twilio Account SID and token (used with two-factor authentication). These can be found
-  # in your account.
-  config.twilio_id = 'YOUR_TWILIO_SID'
-  config.twilio_token = 'YOUR_TWILIO_AUTH_TOKEN'
 end
 ```
 
-*Note: Restart your server when done for the changes to take effect.*
+
+#### IMPORTANT!
+
+In addition, you will need to customize the lambdas which ApiGuardian calls when ready to actually interact with the sms/voice/email services. ApiGuardian does a lot of the heavy lifting, but actually communicating is up to the developer. Here are some examples using Twilio via the `twilio-ruby` gem, but any sms/voice provider can be used. The content and sending of the messages is up to you! The one time password is available on the instance of a user passed in as an argument and available via `user.otp_code`.
+
+```rb
+ApiGuardian.configure do |config|
+  # ...
+
+  # You can use this block to hook into what happens when a one-time password token
+  # needs to be sent via SMS. This allows you to use any provider for sending the SMS.
+  config.on_send_otp_via_sms = lambda do |user|
+    # Example using Twilio - twilio-ruby
+    twilio_send_from_number = '+15551234567'
+    twilio_client = Twilio::REST::Client.new twilio_id, twilio_token
+    twilio_client.messages.create(
+      from: twilio_send_from_number,
+      to: user.phone_number,
+      body: "#{user.otp_code} is your authentication code."
+    )
+  end
+
+  # You can use this block to hook into what happens when a one-time password token
+  # needs to be sent via voice. This allows you to use any provider for sending the voice
+  # call.
+  config.on_send_otp_via_voice = lambda do |user|
+    # Example using Twilio - twilio-ruby
+    twilio_send_from_number = '+15551234567'
+    twilio_client = Twilio::REST::Client.new twilio_id, twilio_token
+    twilio_client.calls.create(
+      from: twilio_send_from_number,
+      to: user.phone_number,
+      url: 'https://example.com/users/1/send_otp'
+    )
+  end
+
+  # You can use this block to hook into what happens when a one-time password token
+  # needs to be sent via email. This allows you to customize the email contents.
+  config.on_send_otp_via_email = lambda do |user|
+    MyMailer.send_otp(user).deliver_later
+  end
+
+  # You can use this block to hook into what happens when user's phone number is
+  # verified. Often, you'll want to send a thank you.
+  config.on_phone_verified = lambda do |user|
+    # Example using Twilio - twilio-ruby
+    twilio_send_from_number = '+15551234567'
+    twilio_client = Twilio::REST::Client.new twilio_id, twilio_token
+    twilio_client.messages.create(
+      from: twilio_send_from_number,
+      to: user.phone_number,
+      body: 'Your phone has been verified!'
+    )
+  end
+
+  # ...
+end
+```
 
 ### Enabling 2FA for a user
 
