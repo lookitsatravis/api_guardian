@@ -140,6 +140,14 @@ module ApiGuardian
   def logger
     @logger ||= ApiGuardian::Logging::Logger.new(STDOUT)
   end
+
+  module_function
+
+  def class_exists?(class_name)
+    class_name.constantize.is_a?(Class)
+  rescue
+    false
+  end
 end
 
 require 'api_guardian/strategies/authentication/authentication'

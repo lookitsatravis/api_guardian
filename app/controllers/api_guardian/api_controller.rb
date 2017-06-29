@@ -1,4 +1,3 @@
-# TODO: User. should be moved to UserStore.
 module ApiGuardian
   class ApiController < ActionController::API
     include ::Pundit
@@ -123,13 +122,13 @@ module ApiGuardian
       store = nil
 
       # Check for app-specfic store
-      if class_exists?(resource_name + 'Store')
+      if ApiGuardian.class_exists?(resource_name + 'Store')
         store = resource_name + 'Store'
       end
 
       # Check for ApiGuardian Store
       unless store
-        if class_exists?('ApiGuardian::Stores::' + resource_name + 'Store')
+        if ApiGuardian.class_exists?('ApiGuardian::Stores::' + resource_name + 'Store')
           store = 'ApiGuardian::Stores::' + resource_name + 'Store'
         end
       end
@@ -142,7 +141,7 @@ module ApiGuardian
     end
 
     def find_resource_class
-      if class_exists?(resource_name)
+      if ApiGuardian.class_exists?(resource_name)
         return resource_name.constantize
       elsif ApiGuardian.configuration.respond_to? "#{resource_name.downcase}_class"
         return ApiGuardian.configuration.send("#{resource_name.downcase}_class")
@@ -150,12 +149,6 @@ module ApiGuardian
         fail ApiGuardian::Errors::ResourceClassMissing, 'Could not find a resource class (model) ' \
              "for #{resource_name}. Have you created one?"
       end
-    end
-
-    def class_exists?(class_name)
-      class_name.constantize.is_a?(Class)
-    rescue
-      false
     end
   end
 end

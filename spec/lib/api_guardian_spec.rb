@@ -16,5 +16,12 @@ describe ApiGuardian do
         ApiGuardian.authenticate(:email, options)
       end
     end
+
+    describe '.class_exists?' do
+      it 'checks if a class exists by name' do
+        expect(ApiGuardian.class_exists?('NotARealClass')).to eq false
+        expect(ApiGuardian.class_exists?('ApiGuardian::Stores::UserStore')).to eq true
+      end
+    end
   end
 end
