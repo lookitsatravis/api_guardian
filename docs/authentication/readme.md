@@ -303,7 +303,7 @@ If done properly, you should be rewarded with an access token. If the OTP is inc
 
 ## Password Reset
 
-Initiating a password reset is fairly simple, though it does require some setup. It is important to know that ApiGuardian is not designed to handle the password reset forms, your clients should do that. ApiGuardian is only responsible for sending the reset link out, and receiving the reset complete request.
+Initiating a password reset is fairly simple, though it does require some setup. It is important to know that ApiGuardian is not designed to handle the password reset forms, your clients should do that. ApiGuardian is only responsible for generating the reset url, and receiving the reset complete request. Actually sending the email (or whatever it is you'd like to do) should be handled in the `on_reset_password` option in the config. The lambda you set here will be called with the user and reset_url as arguments.
 
 ### Setup
 
@@ -315,6 +315,14 @@ ApiGuardian.configure do |config|
   # ...
 
   config.client_password_reset_url = 'http://my.webapp.example.com'
+
+
+  # You can use this block to hook into what happens after a user's password
+  # reset is initiated. `reset_url` will be provided and can be used to customize
+  # an email sent to the user.
+  config.on_reset_password = lambda do |user, reset_url|
+    MyMailer.reset_password(user).deliver_later
+  end
 
   # ...
 
