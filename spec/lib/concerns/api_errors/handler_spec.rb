@@ -50,6 +50,19 @@ describe ApiGuardian::Concerns::ApiErrors::Handler, type: :request do
       it 'handles ActiveRecord::RecordNotDestroyed' do
       end
 
+      it 'handles ActionDispatch::Http::Parameters::ParseError' do
+        expect_any_instance_of(Test::Dummy).to receive(:render_error).with(
+          400, 'parse_error', 'Parse Error', 'The request input could not be parsed.'
+        )
+
+        # This is necessary because ParseError uses $! to get the message
+        begin
+          raise NameError
+        rescue
+          expect { dummy_class.api_error_handler(ActionDispatch::Http::Parameters::ParseError.new) }.not_to raise_error
+        end
+      end
+
       it 'handles InvalidContentType' do
         expect_any_instance_of(Test::Dummy).to receive(:render_error).with(
           415, 'invalid_content_type', 'Invalid Content Type', 'Supported content types are: application/vnd.api+json'
