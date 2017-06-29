@@ -1,4 +1,4 @@
-class CreateApiGuardianUsers < ActiveRecord::Migration
+class CreateApiGuardianUsers < ActiveRecord::Migration[5.0]
   def change
     create_table :api_guardian_users, id: :uuid do |t|
       t.string :first_name

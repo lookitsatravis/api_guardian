@@ -1,4 +1,4 @@
-class CreateApiGuardianIdentities < ActiveRecord::Migration
+class CreateApiGuardianIdentities < ActiveRecord::Migration[5.0]
   def change
     create_table :api_guardian_identities, id: :uuid do |t|
       t.string :provider, null: false

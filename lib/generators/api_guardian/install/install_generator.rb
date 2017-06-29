@@ -51,11 +51,11 @@ module ApiGuardian
         return
       end
 
-      seed_data = IO.read('db/seeds.rb')
+      seed_data = IO.read(Pathname(File.expand_path('../templates', __FILE__)).join('db', 'seeds.rb'))
       append_file(
         Rails.root.join('db', 'seeds.rb'),
         "\n\n######################################\n# ApiGuardian Seeds\n" \
-        "# Added at #{Time.now}\n######################################\n" \
+        "# Added at #{Time.now}\n######################################\n\n" \
         + seed_data
       )
     end

@@ -1,4 +1,4 @@
-class CreateApiGuardianRolePermissions < ActiveRecord::Migration
+class CreateApiGuardianRolePermissions < ActiveRecord::Migration[5.0]
   def change
     create_table :api_guardian_role_permissions, id: :uuid do |t|
       t.uuid :role_id
