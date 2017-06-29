@@ -7,6 +7,25 @@ succeeds, the user record will be returned.
 
 Endpoint: POST `{engine_mount_path}/register`
 
+## Configuration
+
+ApiGuardian has a hook available after a registration takes place. This allows you to do something like send a welcome email, or perhaps subscribe the user to a mailing list, or maybe send a Slack notification. No matter which registration stategy is used, this block will be executed.
+
+```rb
+ApiGuardian.configure do |config|
+  # ...
+
+  # Often, applications will want to send emails or do other things specific to
+  # registration. You can use this block to hook into what happens after a user is
+  # registered.
+  config.after_user_registered = lambda do |user|
+    MyMailer.welcome(user).deliver_later
+  end
+
+  # ...
+end
+```
+
 ## Email
 
 To register a user via email, the following fields are required.
