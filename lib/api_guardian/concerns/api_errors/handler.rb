@@ -25,8 +25,6 @@ module ApiGuardian
               render_not_found
             elsif exception.is_a? ActiveRecord::RecordNotDestroyed
               render_not_destroyed(exception)
-            elsif exception.is_a? ActionDispatch::Http::Parameters::ParseError
-              render_parse_error
             elsif exception.is_a? ApiGuardian::Errors::InvalidContentType
               invalid_content_type
             elsif exception.is_a? ApiGuardian::Errors::InvalidRequestBody
@@ -139,13 +137,6 @@ module ApiGuardian
 
           def render_not_destroyed(exception)
             record_invalid(exception)
-          end
-
-          def render_parse_error
-            render_error(
-              400, 'parse_error', 'Parse Error',
-              'The request input could not be parsed.'
-            )
           end
 
           def generic_error_handler(exception)

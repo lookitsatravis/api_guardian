@@ -4,6 +4,7 @@ require 'doorkeeper/grants_assertion'
 require 'api_guardian/doorkeeper/helpers'
 require 'api_guardian/doorkeeper/otp_validation'
 require 'api_guardian/doorkeeper/jwt_validation'
+require 'api_guardian/middleware/middleware'
 
 module ApiGuardian
   Doorkeeper = ::Doorkeeper
@@ -24,6 +25,8 @@ module ApiGuardian
         resource '*', headers: :any, methods: [:get, :post, :put, :delete, :options]
       end
     end
+
+    config.middleware.use ApiGuardian::Middleware::CatchParseErrors
 
     initializer 'api_guardian.doorkeeper_helpers' do
       ActiveSupport.on_load(:action_controller) do
