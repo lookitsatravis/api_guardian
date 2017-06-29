@@ -148,13 +148,13 @@ describe ApiGuardian::Stores::UserStore do
     describe '.reset_password' do
       it 'resets on valid email' do
         user = mock_model(ApiGuardian::User)
+        my_lambda = lambda { |user, reset_url| }
         expect(user).to receive(:reset_password_token=)
         expect(user).to receive(:reset_password_sent_at=)
         expect(user).to receive(:save)
-        mock_delivery = instance_double(ActionMailer::MessageDelivery)
         allow_any_instance_of(ApiGuardian::Stores::UserStore).to receive(:find_by_email).and_return(user)
-        expect(ApiGuardian::Mailers::Mailer).to receive(:reset_password).with(user).and_return(mock_delivery)
-        expect(mock_delivery).to receive(:deliver_later)
+        expect_any_instance_of(ApiGuardian::Configuration).to receive(:on_reset_password).and_return(my_lambda)
+        expect(my_lambda).to receive(:call)
 
         result = ApiGuardian::Stores::UserStore.reset_password('email')
 

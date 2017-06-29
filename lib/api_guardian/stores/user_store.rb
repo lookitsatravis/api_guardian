@@ -86,7 +86,10 @@ module ApiGuardian
           user.reset_password_sent_at = DateTime.now.utc
           user.save
 
-          ApiGuardian::Mailers::Mailer.reset_password(user).deliver_later
+          base_reset_url = ApiGuardian.configuration.client_password_reset_url
+          reset_url = "#{base_reset_url}?token=#{user.reset_password_token}"
+
+          ApiGuardian.configuration.on_reset_password.call(user, reset_url)
 
           return true
         end

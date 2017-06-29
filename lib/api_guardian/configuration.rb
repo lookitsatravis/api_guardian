@@ -212,6 +212,19 @@ module ApiGuardian
       regenerate_doorkeeper_config
     end
 
+    def on_reset_password
+      @on_reset_password ||= lambda do |user, reset_url|
+        ApiGuardian.logger.warn(
+          'You need to customize ApiGuardian::Configuration#on_reset_password lambda to handle the password reset communication.'
+        )
+      end
+    end
+
+    def on_reset_password=(value)
+      fail ConfigurationError.new("#{value} is not a lambda") unless value.respond_to? :call
+      @on_reset_password = value
+    end
+
     def after_user_registered
       @after_user_registered ||= lambda { |user| }
     end

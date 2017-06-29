@@ -236,6 +236,36 @@ describe ApiGuardian::Configuration do
         expect(subject.after_user_registered).to respond_to(:call)
       end
     end
+
+    describe '.on_reset_password' do
+      it 'returns a default lambda which warns the user further setup is required' do
+        # Store test logger
+        og_mock_logger = ApiGuardian.logger
+
+        result = subject.on_reset_password
+
+        logger = instance_double(ApiGuardian::Logging::Logger)
+        expect(ApiGuardian).to receive(:logger).and_return(logger)
+        expect(logger).to receive(:warn).with(
+          'You need to customize ApiGuardian::Configuration#on_reset_password lambda to handle the password reset communication.'
+        )
+
+        result.call(nil, nil)
+
+        # Reset test logger
+        allow(ApiGuardian).to receive(:logger).and_return(og_mock_logger)
+      end
+    end
+
+    describe '.on_reset_password=' do
+      it 'fails if the value is not a lambda' do
+        expect { subject.on_reset_password = -1 }.to(
+          raise_error(ApiGuardian::Configuration::ConfigurationError)
+        )
+
+        expect { subject.on_reset_password = lambda { |user, reset_url| } }.not_to raise_error
+      end
+    end
   end
 end
 
