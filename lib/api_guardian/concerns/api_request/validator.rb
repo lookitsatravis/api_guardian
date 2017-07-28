@@ -85,7 +85,7 @@ module ApiGuardian
             top_params = params.fetch(:data)
             fail ApiGuardian::Errors::InvalidRequestBody, 'type' unless top_params.fetch(:type, nil)
 
-            expected_request_type = resource_name.pluralize.underscore.dasherize
+            expected_request_type = resource_name.pluralize.underscore.dasherize.gsub(/\//, '-').sub(/^-/, '')
 
             request_type = top_params.fetch(:type, nil)
 
