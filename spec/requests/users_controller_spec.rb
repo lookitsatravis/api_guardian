@@ -114,5 +114,24 @@ describe 'ApiGuardian::UsersController' do
         expect(response).to have_http_status(:ok)
       end
     end
+
+    describe 'POST /{:user_id}/change_password' do
+      it 'changes a user\'s password' do
+        add_user_permission('user:update')
+        user = create(:user)
+
+        allow_any_instance_of(ApiGuardian::Stores::UserStore).to receive(:change_password).and_return(user)
+
+        new_pass = SecureRandom.hex(64)
+
+        data = { data: { type: 'users', id: user.id.to_s, attributes: {
+          password: new_pass, new_password: new_pass, new_password_confirmation: new_pass
+        } } }
+
+        post "/users/#{user.id}/change_password", params: data.to_json, headers: get_headers
+
+        expect(response).to have_http_status(:ok)
+      end
+    end
   end
 end

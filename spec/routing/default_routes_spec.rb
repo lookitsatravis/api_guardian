@@ -76,6 +76,14 @@ describe 'Default routes', type: :routing do
       )
     end
 
+    it 'POST /users/1/change_password routes to users#change_password' do
+      expect(post('/users/1/change_password')).to route_to(
+        controller: 'api_guardian/users',
+        action: 'change_password',
+        id: '1'
+      )
+    end
+
     it 'GET /users routes to users#index' do
       expect(get('/users')).to route_to('api_guardian/users#index')
     end

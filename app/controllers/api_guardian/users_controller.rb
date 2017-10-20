@@ -13,6 +13,11 @@ module ApiGuardian
       render json: @resource
     end
 
+    def change_password
+      resource_store.change_password(@resource, change_password_params)
+      render json: @resource
+    end
+
     protected
 
     def includes
@@ -33,6 +38,10 @@ module ApiGuardian
 
     def verify_phone_params
       params.require(:data).require(:attributes).permit(:otp)
+    end
+
+    def change_password_params
+      params.require(:data).require(:attributes).permit(:password, :new_password, :new_password_confirmation)
     end
   end
 end

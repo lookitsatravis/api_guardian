@@ -99,6 +99,25 @@ describe ApiGuardian::Stores::UserStore do
       end
     end
 
+    describe '#change_password' do
+      it 'updates a user\'s password after validation' do
+        user = mock_model(ApiGuardian::User)
+        my_lambda = lambda { |_user| }
+        expect(subject).to receive(:check_password).and_return(true)
+        expect(user).to receive(:assign_attributes)
+        expect(user).to receive(:save!)
+        expect_any_instance_of(ApiGuardian::Configuration).to receive(:on_password_changed).and_return(my_lambda)
+        expect(my_lambda).to receive(:call)
+
+        new_pass = SecureRandom.hex(64)
+
+        subject.change_password(user, {
+          new_password: new_pass,
+          new_password_confirmation: new_pass,
+        })
+      end
+    end
+
     describe '.register' do
       it 'passes attributes to registration strategy' do
         mock_user = mock_model(ApiGuardian::User)

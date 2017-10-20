@@ -26,6 +26,10 @@ module ApiGuardian
       def verify_phone?
         update?
       end
+
+      def change_password?
+        update?
+      end
     end
   end
 end

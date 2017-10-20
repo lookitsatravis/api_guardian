@@ -62,6 +62,23 @@ module ApiGuardian
         false
       end
 
+      def change_password(user, attributes)
+        # Validate current password
+        check_password user, attributes
+
+        # Update the user's password
+        user.assign_attributes({
+          password: attributes[:new_password],
+          password_confirmation: attributes[:new_password_confirmation]
+        })
+        user.save! # This will fail if it is invalid
+
+        # Finally initate notification if necessary
+        ApiGuardian.configuration.on_password_changed.call(user)
+
+        user
+      end
+
       def self.register(attributes)
         provider = attributes.extract!(:type).fetch(:type)
         strategy = ApiGuardian::Strategies::Registration.find_strategy provider
