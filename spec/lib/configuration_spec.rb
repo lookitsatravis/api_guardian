@@ -264,6 +264,36 @@ describe ApiGuardian::Configuration do
       end
     end
 
+    describe '.on_password_changed' do
+      it 'returns a default lambda which warns the user further setup is required' do
+        # Store test logger
+        og_mock_logger = ApiGuardian.logger
+
+        result = subject.on_password_changed
+
+        logger = instance_double(ApiGuardian::Logging::Logger)
+        expect(ApiGuardian).to receive(:logger).and_return(logger)
+        expect(logger).to receive(:warn).with(
+          'You need to customize ApiGuardian::Configuration#on_password_changed lambda to handle the post password change communication.'
+        )
+
+        result.call(nil)
+
+        # Reset test logger
+        allow(ApiGuardian).to receive(:logger).and_return(og_mock_logger)
+      end
+    end
+
+    describe '.on_password_changed=' do
+      it 'fails if the value is not a lambda' do
+        expect { subject.on_password_changed = -1 }.to(
+          raise_error(ApiGuardian::Configuration::ConfigurationError)
+        )
+
+        expect { subject.on_reset_password_complete = lambda { |user| } }.not_to raise_error
+      end
+    end
+
     describe '.on_send_otp_via_sms' do
       it 'returns a default lambda which warns the user further setup is required' do
         # Store test logger

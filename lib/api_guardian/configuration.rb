@@ -211,6 +211,19 @@ module ApiGuardian
       @on_reset_password_complete = value
     end
 
+    def on_password_changed
+      @on_password_changed ||= lambda do |_user|
+        ApiGuardian.logger.warn(
+          'You need to customize ApiGuardian::Configuration#on_password_changed lambda to handle the post password change communication.'
+        )
+      end
+    end
+
+    def on_password_changed=(value)
+      fail ConfigurationError.new("#{value} is not a lambda") unless value.respond_to? :call
+      @on_password_changed = value
+    end
+
     def after_user_registered
       @after_user_registered ||= lambda { |_user| }
     end

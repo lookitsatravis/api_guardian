@@ -69,6 +69,12 @@ ApiGuardian.configure do |config|
   #   MyMailer.reset_password_complete(user).deliver_later
   # end
 
+  # When a user's password is updated, you might use this to notify the user that
+  # the change has happened.
+  # config.on_password_changed = lambda do |user|
+  #   MyMailer.password_changed(user).deliver_later
+  # end
+
   # Often, applications will want to send emails or do other things specific to
   # registration. You can use this block to hook into what happens after a user is
   # registered.
