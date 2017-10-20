@@ -197,10 +197,13 @@ describe ApiGuardian::Stores::UserStore do
 
       it 'resets on valid attributes' do
         user = mock_model(ApiGuardian::User)
+        my_lambda = lambda { |_user| }
         allow_any_instance_of(ApiGuardian::Stores::UserStore).to receive(:find_by_reset_password_token).and_return(user)
         expect(user).to receive(:email).and_return('foo')
         expect(user).to receive(:reset_password_token_valid?).and_return(true)
         expect_any_instance_of(ActionController::Parameters).to receive(:fetch).with(:password, nil).and_return('password')
+        expect_any_instance_of(ApiGuardian::Configuration).to receive(:on_reset_password_complete).and_return(my_lambda)
+        expect(my_lambda).to receive(:call)
         expect(user).to receive(:assign_attributes)
         expect(user).to receive(:save!)
         expect(user).to receive(:reset_password_token=)
@@ -213,7 +216,9 @@ describe ApiGuardian::Stores::UserStore do
           password_confirmation: 'password'
         )
 
-        expect(ApiGuardian::Stores::UserStore.complete_reset_password(attributes)).to be true
+        result = ApiGuardian::Stores::UserStore.complete_reset_password(attributes)
+
+        expect(result).to be true
         expect(user.reset_password_token).to be nil
         expect(user.reset_password_sent_at).to be nil
       end

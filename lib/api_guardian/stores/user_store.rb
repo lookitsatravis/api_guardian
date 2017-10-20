@@ -124,7 +124,7 @@ module ApiGuardian
           user.reset_password_sent_at = nil
           user.save
 
-          # TODO: send password changed confirmation email
+          ApiGuardian.configuration.on_reset_password_complete.call(user)
 
           return true
         end
