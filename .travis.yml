@@ -1,14 +1,21 @@
 language: ruby
-cache: bundler
+env:
+  global:
+    - CC_TEST_REPORTER_ID=67bd12d38e2ebb8be9df65f57a080a4fb436739c75ed859a82cd3267807d38ba
 rvm:
-  - 2.4.0
-  - 2.3.3
-  - 2.2.6
+  - 2.6
+  - 2.5
+  - 2.4
 addons:
-  postgresql: "9.3"
-  code_climate:
-    repo_token: 67bd12d38e2ebb8be9df65f57a080a4fb436739c75ed859a82cd3267807d38ba
+  postgresql: "9.6"
 services:
   - postgresql
-after_success:
-  - bundle exec codeclimate-test-reporter
+before_script:
+  - curl -L https://codeclimate.com/downloads/test-reporter/test-reporter-latest-linux-amd64 > ./cc-test-reporter
+  - chmod +x ./cc-test-reporter
+  - ./cc-test-reporter before-build
+script:
+  - bundle exec rspec
+after_script:
+  - ./cc-test-reporter after-build --exit-code $TRAVIS_TEST_RESULT
+
