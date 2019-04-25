@@ -45,6 +45,6 @@ Gem::Specification.new do |s|
   s.add_development_dependency 'rspec-rails', '~> 3.5.0.beta4'
   s.add_development_dependency 'rubocop', '~> 0.41'
   s.add_development_dependency 'shoulda-matchers', '~> 4.0'
-  s.add_development_dependency 'simplecov', '~> 0.13'
+  s.add_development_dependency 'simplecov', '~> 0.16'
   s.add_development_dependency 'webmock', '~> 2.3'
 end
