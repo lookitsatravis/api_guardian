@@ -29,6 +29,10 @@ describe ApiGuardian::Validators::PasswordScoreValidator do
 
         record.password = 'password'
 
+        allow_any_instance_of(Zxcvbn::Tester).to(
+          receive(:test).and_return(OpenStruct.new({ score: 1 }))
+        )
+
         subject.validate(record)
 
         expect(record.errors).to include(:password)
@@ -47,9 +51,18 @@ describe ApiGuardian::Validators::PasswordScoreValidator do
         expect(record.errors).not_to include(:password)
 
         record.password = '1234'
+
+        allow_any_instance_of(Zxcvbn::Tester).to(
+          receive(:test).and_return(OpenStruct.new({ score: 1 }))
+        )
+
         subject.validate(record)
 
         expect(record.errors).to include(:password)
+
+        allow_any_instance_of(Zxcvbn::Tester).to(
+          receive(:test).and_return(OpenStruct.new({ score: 4 }))
+        )
 
         record = create(:user)
         record.password = Faker::Internet.password(32)

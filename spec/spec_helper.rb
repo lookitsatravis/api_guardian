@@ -1,6 +1,7 @@
 # Configure Rails Environment
 ENV['RAILS_ENV'] = 'test'
 
+# Setup simplecov
 require 'simplecov'
 
 SimpleCov.start do
@@ -20,8 +21,8 @@ SimpleCov.start do
   add_filter 'spec'
 end
 
+# Setup dummy Rails app and other test requirements
 require File.expand_path('../dummy/config/environment.rb', __FILE__)
-# require 'capybara/rspec'
 require 'pundit/rspec'
 require 'rspec/rails'
 require 'factory_bot_rails'
@@ -133,6 +134,13 @@ RSpec.configure do |config|
     allow(logger).to receive(:error)
     allow(logger).to receive(:fatal)
     allow(ApiGuardian).to receive(:logger).and_return(logger)
+  end
+
+  # Disable Zxcvbn to improve performance
+  config.before(:each) do
+    allow_any_instance_of(Zxcvbn::Tester).to(
+      receive(:test).and_return(OpenStruct.new({ score: 4 }))
+    )
   end
 end
 
