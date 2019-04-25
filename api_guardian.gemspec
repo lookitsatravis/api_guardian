@@ -34,7 +34,6 @@ Gem::Specification.new do |s|
   s.add_dependency 'pundit', '~> 1.1'
   s.add_dependency 'rack-cors', '~> 0.4'
   s.add_dependency 'zxcvbn-js', '~> 4.2'
-  s.add_development_dependency 'capybara', '~> 2.7'
   s.add_development_dependency 'database_cleaner', '~> 1.7'
   s.add_development_dependency 'factory_bot_rails', '~> 5.0'
   s.add_development_dependency 'faker', '~> 1.9'
