@@ -57,7 +57,9 @@ describe ApiGuardian::Logging::Logger::Formatter do
 
           result = subject.call 'WARN', nil, nil, 'Test warning.'
 
-          expect(result).to eq "[\033[0;36mApiGuardian\033[0m] [\033[1;32m12345\033[0m] [\033[0;33mWARN\033[0m] Test warning.\n"
+          expect(result).to eq(
+            "[\033[0;36mApiGuardian\033[0m] [\033[1;32m12345\033[0m] [\033[0;33mWARN\033[0m] Test warning.\n"
+          )
         end
       end
 
@@ -68,7 +70,9 @@ describe ApiGuardian::Logging::Logger::Formatter do
 
           result = subject.call 'ERROR', nil, nil, 'Test error.'
 
-          expect(result).to eq "[\033[0;36mApiGuardian\033[0m] [\033[1;32m12345\033[0m] [\033[1;31mERROR\033[0m] Test error.\n"
+          expect(result).to eq(
+            "[\033[0;36mApiGuardian\033[0m] [\033[1;32m12345\033[0m] [\033[1;31mERROR\033[0m] Test error.\n"
+          )
         end
       end
 
@@ -79,7 +83,9 @@ describe ApiGuardian::Logging::Logger::Formatter do
 
           result = subject.call 'FATAL', nil, nil, 'Test fatal.'
 
-          expect(result).to eq "[\033[0;36mApiGuardian\033[0m] [\033[1;32m12345\033[0m] [\033[0;31mFATAL\033[0m] Test fatal.\n"
+          expect(result).to eq(
+            "[\033[0;36mApiGuardian\033[0m] [\033[1;32m12345\033[0m] [\033[0;31mFATAL\033[0m] Test fatal.\n"
+          )
         end
       end
 
@@ -90,7 +96,9 @@ describe ApiGuardian::Logging::Logger::Formatter do
 
           result = subject.call 'INFO', nil, nil, 'Test info.'
 
-          expect(result).to eq "[\033[0;36mApiGuardian\033[0m] [\033[1;32m12345\033[0m] [\033[0;32mINFO\033[0m] Test info.\n"
+          expect(result).to eq(
+            "[\033[0;36mApiGuardian\033[0m] [\033[1;32m12345\033[0m] [\033[0;32mINFO\033[0m] Test info.\n"
+          )
         end
       end
     end

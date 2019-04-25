@@ -79,7 +79,13 @@ describe 'ApiGuardian::UsersController' do
 
         allow_any_instance_of(ApiGuardian::Stores::UserStore).to receive(:add_phone).and_return(user)
 
-        data = { data: { type: 'users', id: user.id.to_s, attributes: { phone_number: Faker::PhoneNumber.phone_number } } }
+        data = {
+          data: {
+            type: 'users',
+            id: user.id.to_s,
+            attributes: { phone_number: Faker::PhoneNumber.phone_number }
+          }
+        }
 
         post "/users/#{user.id}/add_phone", params: data.to_json, headers: get_headers
 

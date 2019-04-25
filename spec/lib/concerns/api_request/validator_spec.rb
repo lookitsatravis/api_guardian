@@ -17,7 +17,9 @@ describe ApiGuardian::Concerns::ApiRequest::Validator, type: :request do
         allow_any_instance_of(ActionDispatch::Request).to receive(:body).and_return(StringIO.new('body'))
         allow_any_instance_of(ActionDispatch::Request).to receive(:method).and_return(method)
         allow_any_instance_of(ActionDispatch::Request).to receive(:headers).and_return(headers)
-        allow_any_instance_of(ActionController::Parameters).to receive(:fetch).with(:data).and_return(ActionController::Parameters.new)
+        allow_any_instance_of(ActionController::Parameters).to(
+          receive(:fetch).with(:data).and_return(ActionController::Parameters.new)
+        )
         dummy_class.action_name = 'index'
       end
 
@@ -84,11 +86,15 @@ describe ApiGuardian::Concerns::ApiRequest::Validator, type: :request do
 
           # Invalid request resource type
           allow_any_instance_of(ActionController::Parameters).to receive(:fetch).with(:type, nil).and_return('test')
-          expect { dummy_class.validate_api_request }.to raise_error ApiGuardian::Errors::InvalidRequestResourceType, 'users'
+          expect { dummy_class.validate_api_request }.to(
+            raise_error ApiGuardian::Errors::InvalidRequestResourceType, 'users'
+          )
           allow_any_instance_of(ActionController::Parameters).to receive(:fetch).with(:type, nil).and_return('users')
           expect { dummy_class.validate_api_request }.not_to raise_error
           dummy_class.resource_name = 'MyModel'
-          allow_any_instance_of(ActionController::Parameters).to receive(:fetch).with(:type, nil).and_return('my-models')
+          allow_any_instance_of(ActionController::Parameters).to(
+            receive(:fetch).with(:type, nil).and_return('my-models')
+          )
           expect { dummy_class.validate_api_request }.not_to raise_error
         end
       end
@@ -110,9 +116,13 @@ describe ApiGuardian::Concerns::ApiRequest::Validator, type: :request do
 
           # Invalid request id matches param id
           allow_any_instance_of(ActionController::Parameters).to receive(:fetch).with(:id, nil).and_return('stuff')
-          expect { dummy_class.validate_api_request }.to raise_error ApiGuardian::Errors::InvalidRequestResourceId, 'stuff'
+          expect { dummy_class.validate_api_request }.to(
+            raise_error ApiGuardian::Errors::InvalidRequestResourceId, 'stuff'
+          )
           allow_any_instance_of(ActionController::Parameters).to receive(:fetch).with(:id, nil).and_return('test')
-          expect { dummy_class.validate_api_request }.not_to raise_error ApiGuardian::Errors::InvalidRequestResourceId, 'stuff'
+          expect { dummy_class.validate_api_request }.not_to(
+            raise_error ApiGuardian::Errors::InvalidRequestResourceId, 'stuff'
+          )
 
           # Invalid request body for type
           allow_any_instance_of(ActionController::Parameters).to receive(:fetch).with(:type, nil).and_return(nil)
@@ -122,11 +132,15 @@ describe ApiGuardian::Concerns::ApiRequest::Validator, type: :request do
 
           # Invalid request resource type
           allow_any_instance_of(ActionController::Parameters).to receive(:fetch).with(:type, nil).and_return('test')
-          expect { dummy_class.validate_api_request }.to raise_error ApiGuardian::Errors::InvalidRequestResourceType, 'users'
+          expect { dummy_class.validate_api_request }.to(
+            raise_error ApiGuardian::Errors::InvalidRequestResourceType, 'users'
+          )
           allow_any_instance_of(ActionController::Parameters).to receive(:fetch).with(:type, nil).and_return('users')
           expect { dummy_class.validate_api_request }.not_to raise_error
           dummy_class.resource_name = 'MyModel'
-          allow_any_instance_of(ActionController::Parameters).to receive(:fetch).with(:type, nil).and_return('my-models')
+          allow_any_instance_of(ActionController::Parameters).to(
+            receive(:fetch).with(:type, nil).and_return('my-models')
+          )
           expect { dummy_class.validate_api_request }.not_to raise_error
 
           # Turn the warning back on after this test

@@ -100,7 +100,10 @@ module ApiGuardian
           def array_permission_check(actions)
             grants = []
             perms = load_permission(actions)
-            fail ApiGuardian::Errors::InvalidPermissionName, "Permissions '#{actions.join(', ')}' are not valid." unless perms.length > 0
+
+            unless perms.length > 0
+              fail ApiGuardian::Errors::InvalidPermissionName, "Permissions '#{actions.join(', ')}' are not valid."
+            end
 
             role_permissions_collection.each do |rp|
               grants.push rp.granted if actions.include?(rp.permission.name)

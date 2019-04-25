@@ -117,11 +117,16 @@ describe 'Registration' do
     #   user.reset_password_token = SecureRandom.hex(64)
     #   user.reset_password_sent_at = DateTime.now.utc
     #   user.save
-    #
-    #   data = { email: Faker::Internet.email, token: user.reset_password_token, password: 'password', password_confirmatin: 'password' }
-    #
+
+    #   data = {
+    #     email: Faker::Internet.email,
+    #     token: user.reset_password_token,
+    #     password: 'password',
+    #     password_confirmatin: 'password'
+    #   }
+
     #   post '/complete-reset-password', data.to_json, headers
-    #
+
     #   validate_api_error(
     #     status: 403,
     #     code: 'reset_token_mismatch',
@@ -135,11 +140,16 @@ describe 'Registration' do
     #   user.reset_password_token = SecureRandom.hex(64)
     #   user.reset_password_sent_at = 36.hours.ago.utc
     #   user.save
-    #
-    #   data = { email: user.email, token: user.reset_password_token, password: 'password', password_confirmatin: 'password' }
-    #
+
+    #   data = {
+    #     email: user.email,
+    #     token: user.reset_password_token,
+    #     password: 'password',
+    #     password_confirmatin: 'password'
+    #   }
+
     #   post '/complete-reset-password', data.to_json, headers
-    #
+
     #   validate_api_error(
     #     status: 403,
     #     code: 'reset_token_expired',

@@ -214,7 +214,8 @@ describe ApiGuardian::Configuration do
         logger = instance_double(ApiGuardian::Logging::Logger)
         expect(ApiGuardian).to receive(:logger).and_return(logger)
         expect(logger).to receive(:warn).with(
-          'You need to customize ApiGuardian::Configuration#on_reset_password lambda to handle the password reset communication.'
+          'You need to customize ApiGuardian::Configuration#on_reset_password ' +
+          'lambda to handle the password reset communication.'
         )
 
         result.call(nil, nil)
@@ -244,7 +245,8 @@ describe ApiGuardian::Configuration do
         logger = instance_double(ApiGuardian::Logging::Logger)
         expect(ApiGuardian).to receive(:logger).and_return(logger)
         expect(logger).to receive(:warn).with(
-          'You need to customize ApiGuardian::Configuration#on_reset_password_complete lambda to handle the post password reset communication.'
+          'You need to customize ApiGuardian::Configuration#on_reset_password_complete ' +
+          'lambda to handle the post password reset communication.'
         )
 
         result.call(nil)
@@ -274,7 +276,8 @@ describe ApiGuardian::Configuration do
         logger = instance_double(ApiGuardian::Logging::Logger)
         expect(ApiGuardian).to receive(:logger).and_return(logger)
         expect(logger).to receive(:warn).with(
-          'You need to customize ApiGuardian::Configuration#on_password_changed lambda to handle the post password change communication.'
+          'You need to customize ApiGuardian::Configuration#on_password_changed lambda ' +
+          'to handle the post password change communication.'
         )
 
         result.call(nil)
@@ -304,7 +307,8 @@ describe ApiGuardian::Configuration do
         logger = instance_double(ApiGuardian::Logging::Logger)
         expect(ApiGuardian).to receive(:logger).and_return(logger)
         expect(logger).to receive(:warn).with(
-          'You need to customize ApiGuardian::Configuration#on_send_otp_via_sms lambda to handle sending OTP via SMS.'
+          'You need to customize ApiGuardian::Configuration#on_send_otp_via_sms lambda ' +
+          'to handle sending OTP via SMS.'
         )
 
         result.call(nil)
@@ -334,7 +338,8 @@ describe ApiGuardian::Configuration do
         logger = instance_double(ApiGuardian::Logging::Logger)
         expect(ApiGuardian).to receive(:logger).and_return(logger)
         expect(logger).to receive(:warn).with(
-          'You need to customize ApiGuardian::Configuration#on_send_otp_via_voice lambda to handle sending OTP via voice.'
+          'You need to customize ApiGuardian::Configuration#on_send_otp_via_voice lambda ' +
+          'to handle sending OTP via voice.'
         )
 
         result.call(nil)
@@ -364,7 +369,8 @@ describe ApiGuardian::Configuration do
         logger = instance_double(ApiGuardian::Logging::Logger)
         expect(ApiGuardian).to receive(:logger).and_return(logger)
         expect(logger).to receive(:warn).with(
-          'You need to customize ApiGuardian::Configuration#on_send_otp_via_email lambda to handle sending OTP via email.'
+          'You need to customize ApiGuardian::Configuration#on_send_otp_via_email lambda ' +
+          'to handle sending OTP via email.'
         )
 
         result.call(nil)
@@ -394,7 +400,8 @@ describe ApiGuardian::Configuration do
         logger = instance_double(ApiGuardian::Logging::Logger)
         expect(ApiGuardian).to receive(:logger).and_return(logger)
         expect(logger).to receive(:warn).with(
-          'You need to customize ApiGuardian::Configuration#on_phone_verified lambda to handle feedback after verifying phone.'
+          'You need to customize ApiGuardian::Configuration#on_phone_verified lambda ' +
+          'to handle feedback after verifying phone.'
         )
 
         result.call(nil)

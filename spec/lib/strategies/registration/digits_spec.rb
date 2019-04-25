@@ -34,7 +34,9 @@ describe ApiGuardian::Strategies::Registration::Digits do
         user = mock_model(ApiGuardian::User)
         role = mock_model(ApiGuardian::Role)
         mock_response = instance_double(Net::HTTPResponse)
-        expect_any_instance_of(ApiGuardian::Helpers::Digits).to receive(:validate).and_return(ApiGuardian::ValidationResult.new(true))
+        expect_any_instance_of(ApiGuardian::Helpers::Digits).to(
+          receive(:validate).and_return(ApiGuardian::ValidationResult.new(true))
+        )
         expect_any_instance_of(ApiGuardian::Helpers::Digits).to receive(:authorize!).and_return(mock_response)
         expect(mock_response).to receive(:body).twice.and_return('{}')
         store = double(ApiGuardian::Stores::UserStore)
@@ -69,7 +71,11 @@ describe ApiGuardian::Strategies::Registration::Digits do
           role = mock_model(ApiGuardian::Role)
           expect(ApiGuardian::Stores::RoleStore).to receive(:default_role).and_return(role)
 
-          result = subject.build_user_attributes_from_response(attributes, password: 'password', password_confirmation: 'password')
+          result = subject.build_user_attributes_from_response(
+            attributes,
+            password: 'password',
+            password_confirmation: 'password'
+          )
 
           expect(result).to be_a Hash
           expect(result[:phone_number]).to eq '18005551234'

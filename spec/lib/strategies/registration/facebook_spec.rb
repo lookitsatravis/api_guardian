@@ -39,7 +39,11 @@ describe ApiGuardian::Strategies::Registration::Facebook do
           role = mock_model(ApiGuardian::Role)
           expect(ApiGuardian::Stores::RoleStore).to receive(:default_role).and_return(role)
 
-          result = subject.build_user_attributes_from_response(mock_response, password: 'password', password_confirmation: 'password')
+          result = subject.build_user_attributes_from_response(
+            mock_response,
+            password: 'password',
+            password_confirmation: 'password'
+          )
 
           expect(result).to be_a Hash
           expect(result[:first_name]).to eq 'Travis'

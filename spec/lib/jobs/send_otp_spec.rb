@@ -35,14 +35,18 @@ describe ApiGuardian::Jobs::SendOtp do
           context 'executes when user can receive SMS' do
             it 'fails if user has no phone number' do
               expect(user).to receive(:phone_number).and_return('')
-              expect(ApiGuardian.logger).to receive(:error).with 'User does not have a confirmed phone number! Cannot send OTP.'
+              expect(ApiGuardian.logger).to(
+                receive(:error).with 'User does not have a confirmed phone number! Cannot send OTP.'
+              )
               subject.perform(user)
             end
 
             it 'fails if user\'s phone number is not confirmed' do
               expect(user).to receive(:phone_number).and_return(to_number)
               expect(user).to receive(:phone_number_confirmed_at).and_return(nil)
-              expect(ApiGuardian.logger).to receive(:error).with 'User does not have a confirmed phone number! Cannot send OTP.'
+              expect(ApiGuardian.logger).to(
+                receive(:error).with 'User does not have a confirmed phone number! Cannot send OTP.'
+              )
               subject.perform(user)
             end
           end
@@ -55,7 +59,9 @@ describe ApiGuardian::Jobs::SendOtp do
 
           it 'executes when forced' do
             my_lambda = lambda { |user| }
-            expect_any_instance_of(ApiGuardian::Configuration).to receive(:on_send_otp_via_voice).and_return(my_lambda)
+            expect_any_instance_of(ApiGuardian::Configuration).to(
+              receive(:on_send_otp_via_voice).and_return(my_lambda)
+            )
             expect(my_lambda).to receive(:call)
 
             subject.perform(user, true)
@@ -64,14 +70,18 @@ describe ApiGuardian::Jobs::SendOtp do
           context 'executes when user can receive voice call' do
             it 'fails if user has no phone number' do
               expect(user).to receive(:phone_number).and_return('')
-              expect(ApiGuardian.logger).to receive(:error).with 'User does not have a confirmed phone number! Cannot send OTP.'
+              expect(ApiGuardian.logger).to receive(:error).with(
+                'User does not have a confirmed phone number! Cannot send OTP.'
+              )
               subject.perform(user)
             end
 
             it 'fails if user\'s phone number is not confirmed' do
               expect(user).to receive(:phone_number).and_return(to_number)
               expect(user).to receive(:phone_number_confirmed_at).and_return(nil)
-              expect(ApiGuardian.logger).to receive(:error).with 'User does not have a confirmed phone number! Cannot send OTP.'
+              expect(ApiGuardian.logger).to receive(:error).with(
+                'User does not have a confirmed phone number! Cannot send OTP.'
+              )
               subject.perform(user)
             end
           end
@@ -80,20 +90,26 @@ describe ApiGuardian::Jobs::SendOtp do
         it 'can send via email' do
           expect(user).to receive(:otp_method).and_return('email')
           my_lambda = lambda { |user| }
-          expect_any_instance_of(ApiGuardian::Configuration).to receive(:on_send_otp_via_email).and_return(my_lambda)
+          expect_any_instance_of(ApiGuardian::Configuration).to(
+            receive(:on_send_otp_via_email).and_return(my_lambda)
+          )
           expect(my_lambda).to receive(:call)
           subject.perform(user)
         end
 
         it 'can handle google_auth' do
           expect(user).to receive(:otp_method).and_return('google_auth')
-          expect(ApiGuardian.logger).to receive(:info).with 'User will provide code from Google Auth app'
+          expect(ApiGuardian.logger).to receive(:info).with(
+            'User will provide code from Google Auth app'
+          )
           subject.perform(user)
         end
 
         it 'logs error for all other cases' do
           expect(user).to receive(:otp_method).and_return('blah')
-          expect(ApiGuardian.logger).to receive(:error).with "No valid OTP send methods for user #{user.id}!"
+          expect(ApiGuardian.logger).to receive(:error).with(
+            "No valid OTP send methods for user #{user.id}!"
+          )
           subject.perform(user)
         end
       end

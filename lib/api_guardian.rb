@@ -62,8 +62,6 @@ module ApiGuardian
 
   module Strategies
     module Authentication
-      module_function
-
       def self.find_strategy(provider)
         strategy = Base.providers[provider.to_sym]
         fail(
@@ -80,8 +78,6 @@ module ApiGuardian
     end
 
     module Registration
-      module_function
-
       def self.find_strategy(provider)
         strategy = Base.providers[provider.to_sym]
         fail(
@@ -126,15 +122,11 @@ module ApiGuardian
     @logger ||= ApiGuardian::Logging::Logger.new(STDOUT)
   end
 
-  module_function
-
   def class_exists?(class_name)
     class_name.constantize.is_a?(Class)
   rescue
     false
   end
-
-  module_function
 
   def find_user_store
     store = nil

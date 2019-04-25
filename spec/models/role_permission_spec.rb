@@ -10,7 +10,11 @@ RSpec.describe ApiGuardian::RolePermission, type: :model do
   # Validations
   context 'validations' do
     # TODO: This has a weird test error
-    # it { should validate_uniqueness_of(:role_id).scoped_to(:permission_id).with_message('Permission combination already exists!') }
+    # it do
+    #   should validate_uniqueness_of(:role_id)
+    #     .scoped_to(:permission_id)
+    #     .with_message('Permission combination already exists!')
+    # end
   end
 
   # Delegates

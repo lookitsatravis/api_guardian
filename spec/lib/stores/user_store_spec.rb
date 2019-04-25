@@ -55,7 +55,9 @@ describe ApiGuardian::Stores::UserStore do
         id_attrs = {}
         create_options = {}
         mock_user = mock_model(ApiGuardian::User)
-        expect_any_instance_of(ApiGuardian::Stores::UserStore).to receive(:create).with(attrs, create_options).and_return(mock_user)
+        expect_any_instance_of(ApiGuardian::Stores::UserStore).to(
+          receive(:create).with(attrs, create_options).and_return(mock_user)
+        )
         expect(mock_user).to receive_message_chain('identities.create!').with(id_attrs)
 
         subject.create_with_identity(attrs, id_attrs, create_options)
@@ -122,7 +124,9 @@ describe ApiGuardian::Stores::UserStore do
       it 'passes attributes to registration strategy' do
         mock_user = mock_model(ApiGuardian::User)
         previous_changes = ActiveSupport::HashWithIndifferentAccess.new
-        expect_any_instance_of(ActionController::Parameters).to receive(:extract!).with(:type).and_return(ActionController::Parameters.new)
+        expect_any_instance_of(ActionController::Parameters).to(
+          receive(:extract!).with(:type).and_return(ActionController::Parameters.new)
+        )
         expect_any_instance_of(ActionController::Parameters).to receive(:fetch).with(:type).and_return('test')
         mock_strategy = double(ApiGuardian::Strategies::Registration::Email)
         expect(ApiGuardian::Strategies::Registration).to receive(:find_strategy).and_return(mock_strategy)
@@ -136,7 +140,9 @@ describe ApiGuardian::Stores::UserStore do
         mock_user = mock_model(ApiGuardian::User)
         previous_changes = ActiveSupport::HashWithIndifferentAccess.new
         my_lambda = lambda { |_user| }
-        expect_any_instance_of(ActionController::Parameters).to receive(:extract!).with(:type).and_return(ActionController::Parameters.new)
+        expect_any_instance_of(ActionController::Parameters).to(
+          receive(:extract!).with(:type).and_return(ActionController::Parameters.new)
+        )
         expect_any_instance_of(ActionController::Parameters).to receive(:fetch).with(:type).and_return('test')
         mock_strategy = double(ApiGuardian::Strategies::Registration::Email)
         expect(ApiGuardian::Strategies::Registration).to receive(:find_strategy).and_return(mock_strategy)
@@ -209,7 +215,9 @@ describe ApiGuardian::Stores::UserStore do
         expect(user).to receive(:reset_password_token_valid?).and_return(true)
         expect(user).to receive(:password)
         expect_any_instance_of(ActionController::Parameters).to receive(:fetch).with(:password, nil).and_return(nil)
-        expect { ApiGuardian::Stores::UserStore.complete_reset_password(ActionController::Parameters.new(email: 'foo')) }.to(
+        expect do
+          ApiGuardian::Stores::UserStore.complete_reset_password(ActionController::Parameters.new(email: 'foo'))
+        end.to(
           raise_error ActiveRecord::RecordInvalid
         )
       end
@@ -220,7 +228,9 @@ describe ApiGuardian::Stores::UserStore do
         allow_any_instance_of(ApiGuardian::Stores::UserStore).to receive(:find_by_reset_password_token).and_return(user)
         expect(user).to receive(:email).and_return('foo')
         expect(user).to receive(:reset_password_token_valid?).and_return(true)
-        expect_any_instance_of(ActionController::Parameters).to receive(:fetch).with(:password, nil).and_return('password')
+        expect_any_instance_of(ActionController::Parameters).to(
+          receive(:fetch).with(:password, nil).and_return('password')
+        )
         expect_any_instance_of(ApiGuardian::Configuration).to receive(:on_reset_password_complete).and_return(my_lambda)
         expect(my_lambda).to receive(:call)
         expect(user).to receive(:assign_attributes)
