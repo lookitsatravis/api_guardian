@@ -1,18 +1,18 @@
 describe ApiGuardian::Policies::ApplicationPolicy do
   before(:each) do
-    FactoryGirl.create(:permission, name: 'user:create')
-    FactoryGirl.create(:permission, name: 'user:read')
-    FactoryGirl.create(:permission, name: 'user:update')
-    FactoryGirl.create(:permission, name: 'user:delete')
-    FactoryGirl.create(:permission, name: 'user:manage')
+    FactoryBot.create(:permission, name: 'user:create')
+    FactoryBot.create(:permission, name: 'user:read')
+    FactoryBot.create(:permission, name: 'user:update')
+    FactoryBot.create(:permission, name: 'user:delete')
+    FactoryBot.create(:permission, name: 'user:manage')
   end
 
-  let(:current_user) { FactoryGirl.create(:user) }
+  let(:current_user) { FactoryBot.create(:user) }
 
   subject { described_class }
 
   context 'defaults to disallowing' do
-    let(:record) { FactoryGirl.create(:user) }
+    let(:record) { FactoryBot.create(:user) }
 
     permissions :index? do
       it { is_expected.not_to permit(current_user, record) }
@@ -20,7 +20,7 @@ describe ApiGuardian::Policies::ApplicationPolicy do
   end
 
   context 'current_user has no permissions during' do
-    let(:record) { FactoryGirl.create(:user) }
+    let(:record) { FactoryBot.create(:user) }
 
     permissions :show?, :create?, :new?, :update?, :edit?, :destroy? do
       it { is_expected.not_to permit(current_user, record) }
@@ -28,7 +28,7 @@ describe ApiGuardian::Policies::ApplicationPolicy do
   end
 
   context 'current_user has read permissions during' do
-    let(:record) { FactoryGirl.create(:user) }
+    let(:record) { FactoryBot.create(:user) }
 
     permissions :show? do
       it { is_expected.not_to permit(current_user, record) }
@@ -36,7 +36,7 @@ describe ApiGuardian::Policies::ApplicationPolicy do
 
     permissions :show? do
       let(:current_user) do
-        user = FactoryGirl.create(:user)
+        user = FactoryBot.create(:user)
         user.role.add_permission('user:read')
         user
       end
@@ -45,7 +45,7 @@ describe ApiGuardian::Policies::ApplicationPolicy do
   end
 
   context 'current_user has create permissions during' do
-    let(:record) { FactoryGirl.create(:user) }
+    let(:record) { FactoryBot.create(:user) }
 
     permissions :create? do
       it { is_expected.not_to permit(current_user, record) }
@@ -53,7 +53,7 @@ describe ApiGuardian::Policies::ApplicationPolicy do
 
     permissions :create? do
       let(:current_user) do
-        user = FactoryGirl.create(:user)
+        user = FactoryBot.create(:user)
         user.role.add_permission('user:create')
         user
       end
@@ -62,7 +62,7 @@ describe ApiGuardian::Policies::ApplicationPolicy do
   end
 
   context 'current_user has update permissions during' do
-    let(:record) { FactoryGirl.create(:user) }
+    let(:record) { FactoryBot.create(:user) }
 
     permissions :update? do
       it { is_expected.not_to permit(current_user, record) }
@@ -70,7 +70,7 @@ describe ApiGuardian::Policies::ApplicationPolicy do
 
     permissions :update? do
       let(:current_user) do
-        user = FactoryGirl.create(:user)
+        user = FactoryBot.create(:user)
         user.role.add_permission('user:update')
         user
       end
@@ -79,7 +79,7 @@ describe ApiGuardian::Policies::ApplicationPolicy do
   end
 
   context 'current_user has delete permissions during' do
-    let(:record) { FactoryGirl.create(:user) }
+    let(:record) { FactoryBot.create(:user) }
 
     permissions :destroy? do
       it { is_expected.not_to permit(current_user, record) }
@@ -87,7 +87,7 @@ describe ApiGuardian::Policies::ApplicationPolicy do
 
     permissions :destroy? do
       let(:current_user) do
-        user = FactoryGirl.create(:user)
+        user = FactoryBot.create(:user)
         user.role.add_permission('user:delete')
         user
       end
@@ -96,7 +96,7 @@ describe ApiGuardian::Policies::ApplicationPolicy do
   end
 
   context 'current_user has manage permissions during' do
-    let(:record) { FactoryGirl.create(:user) }
+    let(:record) { FactoryBot.create(:user) }
 
     permissions :show? do
       it { is_expected.not_to permit(current_user, record) }
@@ -104,7 +104,7 @@ describe ApiGuardian::Policies::ApplicationPolicy do
 
     permissions :show?, :create?, :new?, :update?, :edit?, :destroy? do
       let(:current_user) do
-        user = FactoryGirl.create(:user)
+        user = FactoryBot.create(:user)
         user.role.add_permission('user:manage')
         user
       end

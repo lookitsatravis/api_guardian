@@ -1,13 +1,13 @@
 describe ApiGuardian::Policies::UserPolicy do
   before(:each) do
-    FactoryGirl.create(:permission, name: 'user:create')
-    FactoryGirl.create(:permission, name: 'user:read')
-    FactoryGirl.create(:permission, name: 'user:update')
-    FactoryGirl.create(:permission, name: 'user:delete')
-    FactoryGirl.create(:permission, name: 'user:manage')
+    FactoryBot.create(:permission, name: 'user:create')
+    FactoryBot.create(:permission, name: 'user:read')
+    FactoryBot.create(:permission, name: 'user:update')
+    FactoryBot.create(:permission, name: 'user:delete')
+    FactoryBot.create(:permission, name: 'user:manage')
   end
 
-  let(:current_user) { FactoryGirl.create(:user) }
+  let(:current_user) { FactoryBot.create(:user) }
 
   subject { described_class }
 

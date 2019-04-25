@@ -1,15 +1,15 @@
-FactoryGirl.define do
+FactoryBot.define do
   factory :role, class: ApiGuardian::Role do |f|
     f.sequence(:name) { |n| Faker::Lorem.word + n.to_s }
-    f.default false
+    f.default { false }
 
     factory :default_role do
-      default true
+      default { true }
     end
 
     factory :role_with_permissions do
       transient do
-        permission_count 5
+        permission_count { 5 }
       end
 
       after(:create) do |role, evaluator|

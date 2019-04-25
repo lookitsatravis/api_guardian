@@ -14,7 +14,7 @@ module Doorkeeper
         )
       end
       let(:credentials) { Client::Credentials.new(client.uid, client.secret) }
-      let(:client) { FactoryGirl.create(:application) }
+      let(:client) { FactoryBot.create(:application) }
       let(:owner)  { double :owner, id: 99 }
 
       subject do

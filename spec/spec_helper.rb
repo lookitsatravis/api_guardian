@@ -24,7 +24,7 @@ require File.expand_path('../dummy/config/environment.rb', __FILE__)
 require 'capybara/rspec'
 require 'pundit/rspec'
 require 'rspec/rails'
-require 'factory_girl_rails'
+require 'factory_bot_rails'
 require 'faker'
 require 'database_cleaner'
 require 'shoulda/matchers'
@@ -119,7 +119,7 @@ RSpec.configure do |config|
     DatabaseCleaner.clean
   end
 
-  config.include FactoryGirl::Syntax::Methods
+  config.include FactoryBot::Syntax::Methods
   config.include Requests::JsonHelpers, type: :request
   config.include Requests::AuthHelpers, type: :request
   config.include Requests::ErrorHelpers, type: :request
