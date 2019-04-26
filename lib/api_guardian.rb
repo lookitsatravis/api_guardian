@@ -7,7 +7,7 @@ require 'kaminari'
 require 'zxcvbn'
 require 'phony'
 require 'active_model_otp'
-require 'active_model_serializers'
+require 'fast_jsonapi'
 require 'api_guardian/version'
 require 'api_guardian/logs'
 require 'api_guardian/helpers/helpers'
@@ -46,6 +46,10 @@ module ApiGuardian
     autoload :UserStore, 'api_guardian/stores/user_store'
     autoload :RoleStore, 'api_guardian/stores/role_store'
     autoload :PermissionStore, 'api_guardian/stores/permission_store'
+  end
+
+  module Serializers
+    autoload :Base, 'api_guardian/serializers/base'
   end
 
   module Policies

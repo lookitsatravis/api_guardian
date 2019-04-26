@@ -47,6 +47,10 @@ ApiGuardian.configure do |config|
   # https://github.com/jwt/ruby-jwt. The default is HMAC 256.
   # config.jwt_encryption_method = :hs256
 
+  # The json_api response keyword separator
+  # https://github.com/Netflix/fast_jsonapi#key-transforms
+  # config.json_api_key_transform = :dash
+
   # The Client Password Reset URL is used in the email sent when resetting
   # a user's password. The client should post the token provided along with the
   # users's new password to /complete-reset-password. This is done because this
