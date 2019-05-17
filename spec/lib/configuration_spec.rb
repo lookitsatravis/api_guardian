@@ -204,6 +204,22 @@ describe ApiGuardian::Configuration do
       end
     end
 
+    describe '.after_user_authentication=' do
+      it 'fails if the value is not a lambda' do
+        expect { subject.after_user_authentication = -1 }.to(
+          raise_error(ApiGuardian::Configuration::ConfigurationError)
+        )
+
+        expect { subject.after_user_authentication = lambda { |user| } }.not_to raise_error
+      end
+    end
+
+    describe '.after_user_authentication' do
+      it 'returns a default lambda' do
+        expect(subject.after_user_authentication).to respond_to(:call)
+      end
+    end
+
     describe '.on_reset_password' do
       it 'returns a default lambda which warns the user further setup is required' do
         # Store test logger

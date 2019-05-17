@@ -82,6 +82,13 @@ ApiGuardian.configure do |config|
   #   MyMailer.welcome(user).deliver_later
   # end
 
+  # Often, applications will want to track logins or do other things after a user
+  # successfully authenticates. You can use this block to hook into what happens
+  # after a user authenticates.
+  # config.after_user_authentication = lambda do |user|
+  #   UserStore.track_login(user)
+  # end
+
   # You can use this block to hook into what happens when a one-time password token
   # needs to be sent via SMS. This allows you to use any provider for sending the SMS.
   # config.on_send_otp_via_sms = lambda do |user|

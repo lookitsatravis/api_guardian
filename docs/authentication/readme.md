@@ -370,6 +370,31 @@ curl -X POST \
 Other errors can occur if the token is invalid or doesn't match the provided email, or
 if new password information is invalid.*
 
+## After Authentication Hook
+
+Hooking into a successful authentication is fairly simple, though it does require some setup. The lambda you set here will be called with the user.
+
+### Setup
+
+You need update the ApiGuardian config in `config/initializers/api_guardian.rb`:
+
+```rb
+ApiGuardian.configure do |config|
+
+  # ...
+
+  # Often, applications will want to track logins or do other things after a user
+  # successfully authenticates. You can use this block to hook into what happens
+  # after a user authenticates.
+  config.after_user_authentication = lambda do |user|
+    UserStore.track_login(user)
+  end
+
+  # ...
+
+end
+```
+
 ---
 
 ApiGuardian is copyright © 2015-2017 Travis Vignon. It is free software, and may be

@@ -16,12 +16,14 @@ Doorkeeper.configure do
   resource_owner_from_credentials do
     owner = ApiGuardian.authenticate(:email, email: params[:username], password: params[:password])
     ApiGuardian.logger.warn 'User not found or credentials are invalid.' unless owner
+    ApiGuardian.configuration.after_user_authentication.call(owner)
     owner
   end
 
   resource_owner_from_assertion do
     owner = ApiGuardian.authenticate(params[:assertion_type], params[:assertion])
     ApiGuardian.logger.warn 'User not found or credentials are invalid.' unless owner
+    ApiGuardian.configuration.after_user_authentication.call(owner)
     owner
   end
 
