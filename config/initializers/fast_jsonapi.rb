@@ -3,14 +3,11 @@
 # To make AMS migration easier, we need to pluralize types
 # https://github.com/Netflix/fast_jsonapi/issues/301
 
-# rubocop:disable Naming/PredicateName
-# rubocop:disable Naming/AccessorMethodName
-
 module FastJsonapi
   module ObjectSerializer
     class_methods do
       def pluralize(type_name, options = {})
-        (options[:serializer] || options[:record_type] || type_name).to_s.pluralize
+        run_key_transform((options[:serializer] || options[:record_type] || type_name).to_s.pluralize)
       end
 
       alias_method :original_set_type, :set_type
@@ -38,6 +35,3 @@ module FastJsonapi
     end
   end
 end
-
-# rubocop:enable Naming/PredicateName
-# rubocop:enable Naming/AccessorMethodName
