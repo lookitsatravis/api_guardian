@@ -201,8 +201,8 @@ module ApiGuardian
       {
         self: url % [resources.current_page],
         first: url % [1],
-        prev: resources.length.zero? || resources.first_page? ? "null" : url % [resources.prev_page],
-        next: resources.length.zero? || resources.last_page? ? "null" : url % [resources.next_page],
+        prev: resources.length.zero? || resources.first_page? ? nil : url % [resources.prev_page],
+        next: resources.length.zero? || resources.last_page? ? nil : url % [resources.next_page],
         last: url % [resources.total_pages],
       }
     end
