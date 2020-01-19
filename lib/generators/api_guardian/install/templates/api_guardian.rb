@@ -82,6 +82,15 @@ ApiGuardian.configure do |config|
   #   MyMailer.welcome(user).deliver_later
   # end
 
+  # You can use this block to hook into the login lifecycle.
+  # config.on_login_success = lambda do |user|
+  #   UserStore.track_login user
+  # end
+  #
+  # config.on_login_failure = lambda do |provider, options|
+  #   AnalyticsService.log_failed_login provider, options
+  # end
+
   # You can use this block to hook into what happens when a one-time password token
   # needs to be sent via SMS. This allows you to use any provider for sending the SMS.
   # config.on_send_otp_via_sms = lambda do |user|

@@ -25,7 +25,15 @@ module ApiGuardian
   def authenticate(provider = :email, options = nil)
     strategy = Strategies::Authentication.find_strategy provider
     ApiGuardian.logger.info "Authenticating via #{provider}"
-    strategy.authenticate options
+    user = strategy.authenticate options
+
+    unless user.nil?
+      ApiGuardian.configuration.on_login_success.call(user)
+    else
+      ApiGuardian.configuration.on_login_failure.call(provider, options)
+    end
+
+    user
   end
 
   # constant-time comparison algorithm to prevent timing attacks

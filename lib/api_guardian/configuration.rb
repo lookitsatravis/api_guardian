@@ -240,6 +240,24 @@ module ApiGuardian
       @after_user_registered = value
     end
 
+    def on_login_success
+      @on_login_success ||= lambda { |_user| }
+    end
+
+    def on_login_success=(value)
+      fail ConfigurationError.new("#{value} is not a lambda") unless value.respond_to? :call
+      @on_login_success = value
+    end
+
+    def on_login_failure
+      @on_login_failure ||= lambda { |_provider, _options| }
+    end
+
+    def on_login_failure=(value)
+      fail ConfigurationError.new("#{value} is not a lambda") unless value.respond_to? :call
+      @on_login_failure = value
+    end
+
     def on_send_otp_via_sms
       @on_send_otp_via_sms ||= lambda do |_user|
         ApiGuardian.logger.warn(

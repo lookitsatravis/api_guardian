@@ -29,6 +29,7 @@ http://www.rubydoc.info/github/lookitsatravis/api_guardian/master
   * [Guest Authentication](authentication/readme.md#guest-authentication)
   * [Two-Factor Authentication](authentication/readme.md#two-factor-authentication)
   * [Password Reset](authentication/readme.md#password-reset)
+  * [Authentication Hooks](authentication/readme.md#authentication-hooks)
 * [Authorization](authorization/readme.md)
   * [Roles & Permissions](authorization/readme.md#roles--permissions)
   * [Users](authorization/readme.md#users)

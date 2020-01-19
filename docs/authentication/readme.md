@@ -340,6 +340,28 @@ curl -X POST \
 Other errors can occur if the token is invalid or doesn't match the provided email, or
 if new password information is invalid.*
 
+## Authentication Hooks
+
+Hooking into authentication is fairly simple, though it does require some setup.
+
+### Setup
+
+You need update the ApiGuardian config in `config/initializers/api_guardian.rb`:
+
+```rb
+ApiGuardian.configure do |config|
+  # ...
+  config.on_login_success = lambda do |user|
+    UserStore.track_login user
+  end
+  
+  config.on_login_failure = lambda do |provider, options|
+    AnalyticsService.log_failed_login provider, options
+  end
+  # ...
+end
+```
+
 ---
 
 ApiGuardian is copyright © 2015-2020 Travis Vignon. It is free software, and may be
