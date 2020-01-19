@@ -6,8 +6,6 @@ Drop in authorization and authentication suite for Rails APIs.
 [![Test Coverage](https://img.shields.io/codeclimate/coverage/lookitsatravis/api_guardian.svg?style=flat-square)](https://codeclimate.com/github/lookitsatravis/api_guardian/coverage)
 [![Code Climate](https://img.shields.io/codeclimate/maintainability/lookitsatravis/api_guardian.svg?style=flat-square)](https://codeclimate.com/github/lookitsatravis/api_guardian)
 
-## **\*\*This gem is in alpha stages and is not feature complete. It should not be used in production!\*\***
-
 ## Overview
 
 ApiGuardian includes the following features out of the box:
@@ -29,9 +27,9 @@ What doesn't it include?
 
 ## Requirements
 
-* Ruby >= 2.2.2
+* Ruby >= 2.5
 * PostgreSQL >= 9.3 (JSON and uuid-ossp support)
-* Rails >= 5.0
+* Rails >= 6.0
 
 **Note: For now, your app must use a PostgreSQL database.** This is because ApiGuardian is using UUID primary keys for all records.
 
