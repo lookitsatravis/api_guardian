@@ -179,7 +179,7 @@ describe 'Default routes', type: :routing do
         random_route = []
 
         rand(1..4).times do
-          random_route << Faker::Internet.slug(Faker::Lorem.words(4).join(' '), '-')
+          random_route << Faker::Internet.slug(words: Faker::Lorem.words(number: 4).join(' '), glue: '-')
         end
 
         expect(send(method.downcase, random_route.join('/'))).to route_to(

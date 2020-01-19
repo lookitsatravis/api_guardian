@@ -68,7 +68,7 @@ describe ApiGuardian::Strategies::Authentication::TwoFactor do
       end
 
       it 'should authenticate otp header value' do
-        password = Faker::Internet.password(32)
+        password = Faker::Internet.password(min_length: 32)
 
         user = create(:user, password: password, password_confirmation: password)
 

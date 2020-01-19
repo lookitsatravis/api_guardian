@@ -1,6 +1,6 @@
 require 'faker'
 
-password = Faker::Internet.password(32)
+password = Faker::Internet.password(min_length: 32)
 
 FactoryBot.define do
   factory :user, class: ApiGuardian::User do |f|
