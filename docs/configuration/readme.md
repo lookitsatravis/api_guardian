@@ -136,5 +136,5 @@ See [Two-Factor Authentication](../authentication/readme.md#two-factor-authentic
 
 ---
 
-ApiGuardian is copyright © 2015-2017 Travis Vignon. It is free software, and may be
+ApiGuardian is copyright © 2015-2020 Travis Vignon. It is free software, and may be
 redistributed under the terms specified in the [`MIT-LICENSE`](https://github.com/lookitsatravis/api_guardian/blob/master/MIT-LICENSE) file.
