@@ -148,5 +148,4 @@ end
 require 'api_guardian/strategies/authentication/authentication'
 require 'api_guardian/strategies/registration/base'
 require 'api_guardian/strategies/registration/email'
-require 'api_guardian/strategies/registration/digits'
 require 'api_guardian/strategies/registration/facebook'

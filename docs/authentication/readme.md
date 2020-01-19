@@ -80,42 +80,12 @@ The assertion for Facebook is any valid Facebook OAuth access token. These can b
 returned via any mobile or web SDK. ApiGuardian will extract the relevant identifiers
 after validating the token and, if valid, will allow a user to authenticate.
 
-To request an access token via Twitter Digits, the following fields are required.
+To request an access token via Facebook, the following fields are required.
 
 ```js
 {
     "assertion_type": "facebook",
     "assertion": "your_facebook_oauth_access_token",
-    "grant_type": "assertion"
-}
-```
-
-### [Twitter Digits](https://get.digits.com) Authentication
-
-The assertion for Twitter Digits is a Base64 encoded string of the the auth URL and the auth Header
-(both returned by the Digits SDK/API) joined by a semicolon. Example in JavaScript ([Digits web SDK docs](https://docs.fabric.io/web/digits/index.html)):
-
-```js
-Digits.init({ consumerKey: 'yourConsumerKey' });
-Digits.logIn()
-  .done(onLogin);
-
-function onLogin(loginResponse){
-  var oAuthHeaders = loginResponse.oauth_echo_headers;
-  var apiUrl = oAuthHeaders['X-Auth-Service-Provider'];
-  var authHeader = oAuthHeaders['X-Verify-Credentials-Authorization'];
-  var encodedPassword = window.btoa([apiUrl, authHeader].join(';'))
-
-  //encodedPassword is what you need to supply as the "assertion" to authenticate with Digits.
-}
-```
-
-To request an access token via Twitter Digits, the following fields are required.
-
-```js
-{
-    "assertion_type": "digits",
-    "assertion": "base_64_encoded_url_and_header",
     "grant_type": "assertion"
 }
 ```

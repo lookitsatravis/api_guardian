@@ -1,4 +1,3 @@
-require 'api_guardian/helpers/digits'
 require 'api_guardian/helpers/facebook'
 
 module ApiGuardian
@@ -11,8 +10,6 @@ module ApiGuardian
     end
 
     def self.phone_number?(value)
-      # We only have the need to match phone numbers formatted
-      # by Twitter Digits which is like +18884321000
       value && !!value.match(/\+{1}\d+(?!\w)/)
     end
   end

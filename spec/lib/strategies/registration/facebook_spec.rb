@@ -17,7 +17,7 @@ describe ApiGuardian::Strategies::Registration::Facebook do
     let(:mock_response) { { 'id' => '54321', 'name' => 'Travis Vignon', 'email' => 'test@example.com' } }
 
     describe '#register' do
-      it 'should authorize digits request and create user' do
+      it 'should authorize facebook request and create user' do
         attributes = {}
         user = mock_model(ApiGuardian::User)
         role = mock_model(ApiGuardian::Role)
