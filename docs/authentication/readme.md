@@ -74,22 +74,6 @@ of the `assertion` OAuth2 grant type ([IETF Standard](https://tools.ietf.org/htm
 ApiGuardian requires an additional parameter (`assertion_type`) to indicate the provider,
 and then all authentication details are passed into the `assertion` parameter.
 
-### Facebook Authentication
-
-The assertion for Facebook is any valid Facebook OAuth access token. These can be
-returned via any mobile or web SDK. ApiGuardian will extract the relevant identifiers
-after validating the token and, if valid, will allow a user to authenticate.
-
-To request an access token via Facebook, the following fields are required.
-
-```js
-{
-    "assertion_type": "facebook",
-    "assertion": "your_facebook_oauth_access_token",
-    "grant_type": "assertion"
-}
-```
-
 ## Guest Authentication
 
 Anonymous authentication is possible with ApiGuardian and it uses the same `assertion` grant as third-party authentication. Guest users will be created using the same default role as any other registered user. The difference is that the guest user record is created at the time of authentication, instead of requiring a separate registration step. To request an access token for an anonymous user, the following fields are required.

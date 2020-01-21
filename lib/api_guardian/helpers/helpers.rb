@@ -1,5 +1,3 @@
-require 'api_guardian/helpers/facebook'
-
 module ApiGuardian
   module Helpers
     def self.email_address?(value)

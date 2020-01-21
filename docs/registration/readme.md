@@ -46,23 +46,6 @@ the proper data for creating a user. *Note: Password can be optionally provided 
 that the user can also sign in via email on return trips. If it is not provided
 then a strong, random password will be generated for them*
 
-### Facebook
-
-Facebook registration assumes that a Facebook OAuth access token has been acquired
-from some other client library. All that you'll need to pass in is the access token
-and ApiGuardian will take care of validating it and creating a user.
-
-To register a user via Facebook, the following fields are required.
-
-```js
-{
-  "type": "facebook",
-  "access_token": "access_token_returned_from_facebook_sdk",
-  "password": "somepassword", // Optional
-  "password_confirmation": "somepassword" // Optional
-}
-```
-
 ---
 
 ApiGuardian is copyright © 2015-2020 Travis Vignon. It is free software, and may be
