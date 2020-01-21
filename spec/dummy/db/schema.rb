@@ -63,10 +63,8 @@ ActiveRecord::Schema.define(version: 2020_01_19_042559) do
     t.string "otp_secret_key"
     t.boolean "otp_enabled", default: false
     t.string "otp_method", default: "sms"
-    t.datetime "deleted_at"
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
-    t.index ["deleted_at"], name: "index_api_guardian_users_on_deleted_at"
     t.index ["email"], name: "index_api_guardian_users_on_email", unique: true
     t.index ["reset_password_token"], name: "index_api_guardian_users_on_reset_password_token", unique: true
     t.index ["role_id"], name: "index_api_guardian_users_on_role_id"

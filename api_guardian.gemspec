@@ -28,7 +28,6 @@ Gem::Specification.new do |s|
   s.add_dependency 'doorkeeper', '~> 5'
   s.add_dependency 'kaminari', '~> 1'
   s.add_dependency 'koala', '~> 3'
-  s.add_dependency 'paranoia', '~> 2.3'
   s.add_dependency 'pg', '~> 1'
   s.add_dependency 'phony', '~> 2'
   s.add_dependency 'pundit', '~> 2'

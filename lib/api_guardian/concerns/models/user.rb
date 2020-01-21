@@ -9,7 +9,6 @@ module ApiGuardian
         included do
           self.table_name = 'api_guardian_users'
 
-          acts_as_paranoid
           has_secure_password
           has_one_time_password
 

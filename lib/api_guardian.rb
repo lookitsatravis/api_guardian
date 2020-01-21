@@ -1,7 +1,6 @@
 require 'active_job'
 require 'action_mailer'
 require 'pundit'
-require 'paranoia'
 require 'rack/cors'
 require 'kaminari'
 require 'zxcvbn'

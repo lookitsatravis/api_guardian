@@ -125,7 +125,6 @@ http://www.rubydoc.info/github/lookitsatravis/api_guardian/master
     * acts_as_tenant
     * Phony
   * What could feasibly be added as an "addon" package
-    * Paranoia
     * zxcvbn-js
     * twilio-ruby
 
