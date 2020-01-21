@@ -6,19 +6,21 @@ Drop in authorization and authentication suite for Rails APIs.
 [![Test Coverage](https://img.shields.io/codeclimate/coverage/lookitsatravis/api_guardian.svg?style=flat-square)](https://codeclimate.com/github/lookitsatravis/api_guardian/coverage)
 [![Code Climate](https://img.shields.io/codeclimate/maintainability/lookitsatravis/api_guardian.svg?style=flat-square)](https://codeclimate.com/github/lookitsatravis/api_guardian)
 
+Special thanks to [Anton Visser](https://github.com/toneplex) for his work and support on this project.
+
 ## Overview
 
 ApiGuardian includes the following features out of the box:
 
 * User registration (email/pass)
-* Password reset workflow
-* Roles
-* Permissions
 * Stateless authentication using OAuth2 (via [Doorkeeper](https://github.com/doorkeeper-gem/doorkeeper) and [Doorkeeper::JWT](https://github.com/chriswarren/doorkeeper-jwt))
+* Roles and Permissions
+* Password reset workflow
+* Guest access
 * Policy enforcement (via [Pundit](https://github.com/elabs/pundit))
 * Serialization to [JSON API](http://jsonapi.org/) (via [AMS](https://github.com/rails-api/active_model_serializers))
-* Two-factor auth
-* External Login (TODO)
+* Two-factor support
+* Extensable to support any auth or registration strategies
 
 What doesn't it include?
 
@@ -89,7 +91,6 @@ http://www.rubydoc.info/github/lookitsatravis/api_guardian/master
   * Users can belong to multiple organizations?
   * Different roles based on organization? Or permissions?
 * Configuring allowed CORS domains (to better protect insecure clients)
-* omniauth
 * Account lockout (failed login attempts)
 * https://github.com/kickstarter/rack-attack
 * 2FA
@@ -104,7 +105,6 @@ http://www.rubydoc.info/github/lookitsatravis/api_guardian/master
 * Fix for JWT storage: https://github.com/doorkeeper-gem/doorkeeper/wiki/How-to-fix-PostgreSQL-error-on-index-row-size
 * Cache
 * SSO
-* Review Auth0 feature set
 * Documentation
   * Microservice usage
   * Request logging
@@ -115,18 +115,7 @@ http://www.rubydoc.info/github/lookitsatravis/api_guardian/master
   * Error rendering needs to match this setting
 * Toggle custom logger off
 * Add test for custom logger
-* Soft deleting and cascade deleting
 * A role can't be destroyed if users still belong to it
-* Remove dependencies on gems
-  * What could be moved to core?
-    * pundit
-    * doorkeeper
-    * otp
-    * acts_as_tenant
-    * Phony
-  * What could feasibly be added as an "addon" package
-    * zxcvbn-js
-    * twilio-ruby
 
 ## Getting Help
 

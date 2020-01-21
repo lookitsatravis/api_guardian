@@ -1,3 +1,3 @@
 module ApiGuardian
-  VERSION = '0.1.0.pre'.freeze
+  VERSION = '1.0.0-beta1'.freeze
 end
