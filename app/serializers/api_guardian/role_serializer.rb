@@ -1,6 +1,6 @@
 module ApiGuardian
-  class RoleSerializer < ActiveModel::Serializer
-    type 'roles'
+  class RoleSerializer < ApiGuardian::Serializers::Base
+    set_type 'roles'
 
     attributes :id, :name, :permissions, :created_at, :updated_at
   end

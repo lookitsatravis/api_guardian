@@ -21,11 +21,11 @@ Gem::Specification.new do |s|
 
   s.add_dependency 'rails', '>= 5.2'
   s.add_dependency 'active_model_otp', '~> 2'
-  s.add_dependency 'active_model_serializers', '~> 0.10'
   s.add_dependency 'bcrypt', '~> 3.1'
   s.add_dependency 'doorkeeper-grants_assertion', '~> 0.0.1'
   s.add_dependency 'doorkeeper-jwt', '~> 0.2'
   s.add_dependency 'doorkeeper', '~> 5'
+  s.add_dependency 'fast_jsonapi', '~> 1.5'
   s.add_dependency 'kaminari', '~> 1'
   s.add_dependency 'pg', '~> 1'
   s.add_dependency 'phony', '~> 2'

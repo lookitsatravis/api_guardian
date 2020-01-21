@@ -176,6 +176,14 @@ module ApiGuardian
       regenerate_doorkeeper_config
     end
 
+    def json_api_key_transform
+      @json_api_key_transform ||= :dash
+    end
+
+    def json_api_key_transform=(value)
+      @json_api_key_transform = value
+    end
+
     def client_password_reset_url
       @client_password_reset_url ||= 'https://change-me-in-the-apiguardian-initializer.com'
     end

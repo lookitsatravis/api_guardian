@@ -23,6 +23,7 @@ module ApiGuardian
     class UserInactive < Error; end
     class ResourceStoreMissing < Error; end
     class ResourceClassMissing < Error; end
+    class ResourceSerializerMissing < Error; end
     class GuestAuthenticationDisabled < Error; end
   end
 end
