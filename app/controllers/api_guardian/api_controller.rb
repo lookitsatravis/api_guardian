@@ -23,22 +23,22 @@ module ApiGuardian
       @resources = should_paginate? ?
         resource_store.paginate(page_params[:number], page_params[:size]) :
         resource_store.all
-      render json: resource_serializer('Index').new(@resources, options(@resources))
+      render json: resource_serializer.new(@resources, options(@resources))
     end
 
     def show
-      render json: resource_serializer('Show').new(@resource, options(@resource))
+      render json: resource_serializer.new(@resource, options(@resource))
     end
 
     def create
       authorize resource_class
       @resource = resource_store.create(create_resource_params)
-      render json: resource_serializer('Show').new(@resource, options(@resource)), status: :created
+      render json: resource_serializer.new(@resource, options(@resource)), status: :created
     end
 
     def update
       @resource = resource_store.update(@resource, update_resource_params)
-      render json: resource_serializer('Show').new(@resource, options(@resource))
+      render json: resource_serializer.new(@resource, options(@resource))
     end
 
     def destroy
@@ -69,8 +69,8 @@ module ApiGuardian
       @resource_policy ||= action_name == 'index' ? policy_scope(resource_class) : nil
     end
 
-    def resource_serializer(action)
-      @resource_serializer ||= find_and_init_serializer(action)
+    def resource_serializer
+      @resource_serializer ||= find_and_init_serializer
     end
 
     # :nocov:
@@ -159,8 +159,9 @@ module ApiGuardian
       end
     end
 
-    def find_and_init_serializer(action)
+    def find_and_init_serializer
       serializer = nil
+      action = action_name&.downcase&.upcase_first || ''
 
       # Check for app-specific serializer
       if ApiGuardian.class_exists?(resource_name + action + 'Serializer')

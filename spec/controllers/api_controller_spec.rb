@@ -8,10 +8,7 @@ end
 class ApiGuardian::Stores::FooStore < ApiGuardian::Stores::Base
 end
 
-class FooIndexSerializer < ApiGuardian::Serializers::Base
-end
-
-class FooShowSerializer < ApiGuardian::Serializers::Base
+class ApiGuardian::FooSerializer < ApiGuardian::Serializers::Base
 end
 
 class Foo < ActiveRecord::Base
@@ -34,6 +31,9 @@ end
 module Test
   class BazsController < ApiGuardian::ApiController
   end
+end
+
+class BazIndexSerializer < ApiGuardian::Serializers::Base
 end
 
 module Test
@@ -79,21 +79,22 @@ RSpec.describe ApiGuardian::ApiController do
 
     describe '#resource_serializer' do
       it 'is able to find a serializer for a resource' do
-        result1 = dummy_class.resource_serializer('Index')
+        result1 = dummy_class.resource_serializer
 
-        expect(result1).to be_a Class
+        expect(result1).to eq ApiGuardian::FooSerializer
 
-        result1 = dummy_class.resource_serializer('Show')
+        result2 = dummy2_class.resource_serializer
 
-        expect(result1).to be_a Class
+        expect(result2).to eq BarSerializer
 
-        result2 = dummy2_class.resource_serializer('Index')
+        dummy3_class.action_name = 'index'
+        result3 = dummy3_class.resource_serializer
 
-        expect(result2).to be_a Class
+        expect(result3).to eq BazIndexSerializer
 
-        expect { dummy3_class.resource_serializer('Index') }.to raise_error(
+        expect { dummy4_class.resource_serializer }.to raise_error(
           ApiGuardian::Errors::ResourceSerializerMissing, 'Could not find a resource serializer ' \
-          'for Baz. Have you created BazSerializer?'
+          'for Identity. Have you created IdentitySerializer?'
         )
       end
     end
