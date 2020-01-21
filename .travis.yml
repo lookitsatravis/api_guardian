@@ -3,9 +3,9 @@ env:
   global:
     - CC_TEST_REPORTER_ID=67bd12d38e2ebb8be9df65f57a080a4fb436739c75ed859a82cd3267807d38ba
 rvm:
+  - 2.7
   - 2.6
   - 2.5
-  - 2.4
 addons:
   postgresql: "9.6"
 services:
@@ -16,8 +16,10 @@ before_script:
   - ./cc-test-reporter before-build
   - psql -c 'create database api_guardian_test;' -U postgres
 script:
+  - bundle exec rails db:reset RAILS_ENV=test
   - bundle exec rails db:migrate RAILS_ENV=test
   - bundle exec rspec
+  - rubocop -c .rubocop.yml
 after_script:
   - ./cc-test-reporter after-build --exit-code $TRAVIS_TEST_RESULT
 

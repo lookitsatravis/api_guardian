@@ -217,5 +217,5 @@ Please see the awesome [Pundit](https://github.com/elabs/pundit) repo for more
 on custom policies. ApiGuardian doesn't differ from their examples at all except
 that it uses `user.can?` to determine authorization inside the policies.
 
-ApiGuardian is copyright © 2015-2017 Travis Vignon. It is free software, and may be
+ApiGuardian is copyright © 2015-2020 Travis Vignon. It is free software, and may be
 redistributed under the terms specified in the [`MIT-LICENSE`](https://github.com/lookitsatravis/api_guardian/blob/master/MIT-LICENSE) file.

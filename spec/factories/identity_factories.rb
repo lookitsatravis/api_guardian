@@ -1,3 +1,5 @@
+# frozen_string_literal: true
+
 FactoryBot.define do
   factory :identity, class: ApiGuardian::Identity do |f|
     f.sequence(:provider) { |n| "#{Faker::Lorem.word} #{n}" }

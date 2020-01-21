@@ -1,3 +1,5 @@
+# frozen_string_literal: true
+
 require 'active_support/concern'
 
 # TODO: Break this into further modules to decrease complexity
@@ -10,8 +12,8 @@ module ApiGuardian
         include ApiErrors::Renderer
 
         included do
-          # rubocop:disable CyclomaticComplexity
-          # rubocop:disable MethodLength
+          # rubocop:disable Metrics/CyclomaticComplexity
+          # rubocop:disable Metrics/MethodLength
           def api_error_handler(exception)
             ApiGuardian.logger.error 'ApiError: ' + exception.class.name + ' - ' + exception.message
 
@@ -69,8 +71,8 @@ module ApiGuardian
               generic_error_handler(exception)
             end
           end
-          # rubocop:enable CyclomaticComplexity
-          # rubocop:enable MethodLength
+          # rubocop:enable Metrics/CyclomaticComplexity
+          # rubocop:enable Metrics/MethodLength
 
           def doorkeeper_unauthorized_render_options(_)
             error = construct_error(

@@ -1,3 +1,5 @@
+# frozen_string_literal: true
+
 describe ApiGuardian::Strategies::Authentication::Guest do
   let(:klass) { ApiGuardian::Strategies::Authentication::Guest }
 
@@ -9,11 +11,11 @@ describe ApiGuardian::Strategies::Authentication::Guest do
 
         ApiGuardian.configuration.allow_guest_authentication = false
 
-        expect{ klass.new.authenticate }.to raise_error ApiGuardian::Errors::GuestAuthenticationDisabled
+        expect { klass.new.authenticate }.to raise_error ApiGuardian::Errors::GuestAuthenticationDisabled
 
         ApiGuardian.configuration.allow_guest_authentication = true
 
-        expect{ klass.new.authenticate }.not_to raise_error ApiGuardian::Errors::GuestAuthenticationDisabled
+        expect { klass.new.authenticate }.not_to raise_error ApiGuardian::Errors::GuestAuthenticationDisabled
 
         RSpec::Expectations.configuration.warn_about_potential_false_positives = true
       end

@@ -1,3 +1,5 @@
+# frozen_string_literal: true
+
 describe ApiGuardian::Stores::UserStore do
   # Methods
   describe 'methods' do

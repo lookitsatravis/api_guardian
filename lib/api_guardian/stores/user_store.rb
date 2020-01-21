@@ -1,3 +1,5 @@
+# frozen_string_literal: true
+
 # TODO: How can we remove dependency on .new?
 module ApiGuardian
   module Stores

@@ -1,4 +1,4 @@
-ActiveModel::Serializer.config.adapter = :json_api
+# frozen_string_literal: true
 
 api_mime_types = %w(
   application/vnd.api+json

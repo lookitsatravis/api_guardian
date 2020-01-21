@@ -1,3 +1,5 @@
+# frozen_string_literal: true
+
 RSpec.describe ApiGuardian::Role, type: :model do
   # Relations
   context 'relations' do

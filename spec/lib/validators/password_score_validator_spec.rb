@@ -1,3 +1,5 @@
+# frozen_string_literal: true
+
 describe ApiGuardian::Validators::PasswordScoreValidator do
   # Methods
   context 'methods' do
@@ -65,7 +67,7 @@ describe ApiGuardian::Validators::PasswordScoreValidator do
         )
 
         record = create(:user)
-        record.password = Faker::Internet.password(32)
+        record.password = Faker::Internet.password(min_length: 32)
         subject.validate(record)
 
         expect(record.errors).not_to include(:password)

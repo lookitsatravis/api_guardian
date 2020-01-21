@@ -1,3 +1,5 @@
+# frozen_string_literal: true
+
 describe ApiGuardian::Configuration do
   # Methods
   describe 'methods' do
@@ -201,6 +203,38 @@ describe ApiGuardian::Configuration do
     describe '.after_user_registered' do
       it 'returns a default lambda' do
         expect(subject.after_user_registered).to respond_to(:call)
+      end
+    end
+
+    describe '.on_login_success=' do
+      it 'fails if the value is not a lambda' do
+        expect { subject.on_login_success = -1 }.to(
+          raise_error(ApiGuardian::Configuration::ConfigurationError)
+        )
+
+        expect { subject.on_login_success = lambda { |user| } }.not_to raise_error
+      end
+    end
+
+    describe '.on_login_success' do
+      it 'returns a default lambda' do
+        expect(subject.on_login_success).to respond_to(:call)
+      end
+    end
+
+    describe '.on_login_failure=' do
+      it 'fails if the value is not a lambda' do
+        expect { subject.on_login_failure = -1 }.to(
+          raise_error(ApiGuardian::Configuration::ConfigurationError)
+        )
+
+        expect { subject.on_login_failure = lambda { |provider, options| } }.not_to raise_error
+      end
+    end
+
+    describe '.on_login_failure' do
+      it 'returns a default lambda' do
+        expect(subject.on_login_failure).to respond_to(:call)
       end
     end
 

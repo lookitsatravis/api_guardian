@@ -1,3 +1,5 @@
+# frozen_string_literal: true
+
 RSpec.describe ApiGuardian::Identity, type: :model do
   subject { create(:identity) }
 

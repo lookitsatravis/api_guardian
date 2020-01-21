@@ -15,12 +15,10 @@ class CreateApiGuardianUsers < ActiveRecord::Migration[5.0]
       t.string :otp_secret_key
       t.boolean :otp_enabled, default: false
       t.string :otp_method, default: 'sms'
-      t.datetime :deleted_at
 
       t.timestamps null: false
     end
 
-    add_index :api_guardian_users, :deleted_at, using: :btree
     add_index :api_guardian_users, :email, unique: true, using: :btree
     add_index :api_guardian_users, :reset_password_token, unique: true, using: :btree
     add_index :api_guardian_users, :role_id, using: :btree

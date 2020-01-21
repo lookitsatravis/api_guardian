@@ -1,3 +1,5 @@
+# frozen_string_literal: true
+
 describe ApiGuardian::Jobs::SendOtp do
   # Methods
   describe 'methods' do

@@ -1,3 +1,5 @@
+# frozen_string_literal: true
+
 describe 'Registration' do
   before(:each) do
     create(:default_role)

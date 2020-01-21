@@ -1,3 +1,5 @@
+# frozen_string_literal: true
+
 require 'generators/api_guardian/install/install_generator'
 
 describe 'ApiGuardian::InstallGenerator', type: :generator do

@@ -1,3 +1,5 @@
+# frozen_string_literal: true
+
 describe ApiGuardian::Strategies::Registration do
   describe 'methods' do
     describe '.find_strategy' do

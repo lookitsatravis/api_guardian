@@ -1,6 +1,8 @@
+# frozen_string_literal: true
+
 module ApiGuardian
-  class PermissionSerializer < ActiveModel::Serializer
-    type 'permissions'
+  class PermissionSerializer < ApiGuardian::Serializers::Base
+    set_type 'permissions'
 
     attributes :id, :name, :desc
   end

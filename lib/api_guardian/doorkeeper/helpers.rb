@@ -1,3 +1,5 @@
+# frozen_string_literal: true
+
 module ApiGuardian
   module DoorkeeperHelpers
     extend ActiveSupport::Concern

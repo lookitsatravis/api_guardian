@@ -1,7 +1,9 @@
+# frozen_string_literal: true
+
 class TestApp
   def call(env)
     if env == 'ok'
-      return true
+      true
     else
       begin
         raise NameError
@@ -17,12 +19,12 @@ describe ApiGuardian::Middleware::CatchParseErrors do
 
   describe '#call' do
     it 'will execute the next middleware and render ActionDispatch::Http::Parameters::ParseErrors' do
-      expect{ subject.call('ok') }.not_to raise_error
+      expect { subject.call('ok') }.not_to raise_error
 
       result = subject.call('fail')
 
       expect(result[0]).to eq 400
-      expect(result[1]).to eq({ "Content-Type" => "application/json" })
+      expect(result[1]).to eq({ 'Content-Type' => 'application/json' })
       expect(result[2]).to be_a Array
       expect(result[2].size).to eq 1
       expect(result[2][0]).to be_a String

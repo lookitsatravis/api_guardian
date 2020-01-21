@@ -1,3 +1,5 @@
+# frozen_string_literal: true
+
 describe ApiGuardian::Logging::Logger::Formatter do
   describe 'initialization' do
     it 'should create methods for each supported color' do

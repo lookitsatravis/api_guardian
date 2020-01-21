@@ -1,3 +1,5 @@
+# frozen_string_literal: true
+
 require 'faker'
 
 describe ApiGuardian::Strategies::Authentication::Email do
@@ -5,7 +7,7 @@ describe ApiGuardian::Strategies::Authentication::Email do
   describe 'methods' do
     describe '#authencate' do
       it 'should authenticate a user by email/password' do
-        password = Faker::Internet.password(32)
+        password = Faker::Internet.password(min_length: 32)
 
         user = create(:user, password: password, password_confirmation: password)
 

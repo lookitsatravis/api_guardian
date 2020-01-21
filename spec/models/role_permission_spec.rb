@@ -1,3 +1,5 @@
+# frozen_string_literal: true
+
 RSpec.describe ApiGuardian::RolePermission, type: :model do
   subject { create(:role_permission) }
 

@@ -1,3 +1,5 @@
+# frozen_string_literal: true
+
 RSpec::Matchers.define :have_content_type do |content_type|
   CONTENT_HEADER_MATCHER ||= /^(.*?)(?:; charset=(.*))?$/
 

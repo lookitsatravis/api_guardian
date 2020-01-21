@@ -1,3 +1,5 @@
+# frozen_string_literal: true
+
 describe ApiGuardian::Stores::Base do
   subject { ApiGuardian::Stores::Base.new(scope) }
 
