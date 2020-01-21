@@ -1,3 +1,5 @@
+# frozen_string_literal: true
+
 describe 'ApiGuardian::RolesController' do
   # Authentication and permissions are tested elsewhere
   before(:each) { @routes = ApiGuardian::Engine.routes }

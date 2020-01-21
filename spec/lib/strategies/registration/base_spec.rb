@@ -1,3 +1,5 @@
+# frozen_string_literal: true
+
 describe ApiGuardian::Strategies::Registration::Base do
   let(:klass) { ApiGuardian::Strategies::Registration::Base }
 
@@ -33,12 +35,12 @@ describe ApiGuardian::Strategies::Registration::Base do
 
     describe '.provides_registration_for' do
       it 'sets providers class var with instance by name' do
-        expect(klass.providers.count).to eq 2 # default
+        expect(klass.providers.count).to eq 1 # default
 
         klass.provides_registration_for(:foo)
 
         expect(klass.providers).to be_a Hash
-        expect(klass.providers.count).to eq 3
+        expect(klass.providers.count).to eq 2
         expect(klass.providers[:foo]).to be_a klass
       end
     end

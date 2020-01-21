@@ -1,3 +1,5 @@
+# frozen_string_literal: true
+
 module Test
   class FoosController < ApiGuardian::ApiController
   end
@@ -91,7 +93,7 @@ RSpec.describe ApiGuardian::ApiController do
 
         expect { dummy3_class.resource_serializer('Index') }.to raise_error(
           ApiGuardian::Errors::ResourceSerializerMissing, 'Could not find a resource serializer ' \
-          "for Baz. Have you created BazSerializer?"
+          'for Baz. Have you created BazSerializer?'
         )
       end
     end

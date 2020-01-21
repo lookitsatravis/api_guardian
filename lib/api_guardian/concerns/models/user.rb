@@ -1,3 +1,5 @@
+# frozen_string_literal: true
+
 require 'active_support/concern'
 
 module ApiGuardian
@@ -46,7 +48,7 @@ module ApiGuardian
 
           def guest?
             if email
-              self.email.include? "application-guest.com"
+              self.email.include? 'application-guest.com'
             else
               false
             end

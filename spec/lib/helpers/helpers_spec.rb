@@ -1,3 +1,5 @@
+# frozen_string_literal: true
+
 describe ApiGuardian::Helpers do
   describe 'methods' do
     describe '.email_address?' do

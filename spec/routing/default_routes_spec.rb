@@ -1,3 +1,5 @@
+# frozen_string_literal: true
+
 require 'faker'
 
 describe 'Default routes', type: :routing do

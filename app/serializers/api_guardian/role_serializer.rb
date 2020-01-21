@@ -1,3 +1,5 @@
+# frozen_string_literal: true
+
 module ApiGuardian
   class RoleSerializer < ApiGuardian::Serializers::Base
     set_type 'roles'

@@ -1,3 +1,5 @@
+# frozen_string_literal: true
+
 module ApiGuardian
   class ApiController < ActionController::API
     include ::Pundit
@@ -25,18 +27,18 @@ module ApiGuardian
     end
 
     def show
-      render json: resource_serializer("Show").new(@resource, options(@resource))
+      render json: resource_serializer('Show').new(@resource, options(@resource))
     end
 
     def create
       authorize resource_class
       @resource = resource_store.create(create_resource_params)
-      render json: resource_serializer("Show").new(@resource, options(@resource)), status: :created
+      render json: resource_serializer('Show').new(@resource, options(@resource)), status: :created
     end
 
     def update
       @resource = resource_store.update(@resource, update_resource_params)
-      render json: resource_serializer("Show").new(@resource, options(@resource))
+      render json: resource_serializer('Show').new(@resource, options(@resource))
     end
 
     def destroy
@@ -148,9 +150,9 @@ module ApiGuardian
 
     def find_resource_class
       if ApiGuardian.class_exists?(resource_name)
-        return resource_name.constantize
+        resource_name.constantize
       elsif ApiGuardian.configuration.respond_to? "#{resource_name.downcase}_class"
-        return ApiGuardian.configuration.send("#{resource_name.downcase}_class")
+        ApiGuardian.configuration.send("#{resource_name.downcase}_class")
       else
         fail ApiGuardian::Errors::ResourceClassMissing, 'Could not find a resource class (model) ' \
              "for #{resource_name}. Have you created one?"

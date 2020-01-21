@@ -1,3 +1,5 @@
+# frozen_string_literal: true
+
 require 'uri'
 
 module ApiGuardian
@@ -15,7 +17,8 @@ module ApiGuardian
 
     attr_reader :validate_password_score, :enable_2fa, :reuse_access_token, :allow_guest_authentication
     attr_writer :user_class, :role_class, :permission_class, :role_permission_class,
-                :identity_class, :minimum_password_length, :jwt_secret, :jwt_secret_key_path
+                :identity_class, :minimum_password_length, :jwt_secret, :jwt_secret_key_path,
+                :json_api_key_transform
 
     def initialize
       @validate_password_score = true
@@ -180,16 +183,12 @@ module ApiGuardian
       @json_api_key_transform ||= :dash
     end
 
-    def json_api_key_transform=(value)
-      @json_api_key_transform = value
-    end
-
     def client_password_reset_url
       @client_password_reset_url ||= 'https://change-me-in-the-apiguardian-initializer.com'
     end
 
     def client_password_reset_url=(value)
-      unless value =~ URI.regexp
+      unless value.match? URI.regexp
         fail ConfigurationError.new("#{value} is not a valid URL for client_password_reset_url!")
       end
       @client_password_reset_url = value

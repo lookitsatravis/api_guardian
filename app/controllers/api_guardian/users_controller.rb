@@ -1,3 +1,5 @@
+# frozen_string_literal: true
+
 module ApiGuardian
   class UsersController < ApiController
     def add_phone

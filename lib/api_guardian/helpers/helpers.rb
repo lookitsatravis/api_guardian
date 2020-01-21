@@ -1,3 +1,5 @@
+# frozen_string_literal: true
+
 module ApiGuardian
   module Helpers
     def self.email_address?(value)

@@ -1,3 +1,5 @@
+# frozen_string_literal: true
+
 $:.push File.expand_path('../lib', __FILE__)
 
 # Maintain your gem's version:
@@ -41,6 +43,7 @@ Gem::Specification.new do |s|
   s.add_development_dependency 'rspec-rails', '~> 3'
   s.add_development_dependency 'rubocop', '~> 0.79'
   s.add_development_dependency 'rubocop-performance', '~> 1'
+  s.add_development_dependency 'rubocop-rails', '~> 2'
   s.add_development_dependency 'shoulda-matchers', '~> 4'
   s.add_development_dependency 'simplecov', '~> 0.17'
   s.add_development_dependency 'webmock', '~> 3'

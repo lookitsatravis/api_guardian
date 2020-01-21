@@ -1,3 +1,5 @@
+# frozen_string_literal: true
+
 require 'active_job'
 require 'action_mailer'
 require 'pundit'
@@ -144,7 +146,7 @@ module ApiGuardian
       store = 'ApiGuardian::Stores::UserStore'
     end
 
-    return store.constantize
+    store.constantize
   end
 end
 

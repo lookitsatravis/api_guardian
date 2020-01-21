@@ -1,3 +1,5 @@
+# frozen_string_literal: true
+
 describe ApiGuardian::Strategies::Registration::Email do
   let(:base_klass) { ApiGuardian::Strategies::Registration::Base }
   let(:klass) { ApiGuardian::Strategies::Registration::Email }

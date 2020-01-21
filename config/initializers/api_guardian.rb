@@ -1,3 +1,5 @@
+# frozen_string_literal: true
+
 api_mime_types = %w(
   application/vnd.api+json
   text/x-json

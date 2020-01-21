@@ -1,3 +1,5 @@
+# frozen_string_literal: true
+
 # Borrowed from
 # https://github.com/doorkeeper-gem/doorkeeper/blob/master/spec/lib/oauth/password_access_token_request_spec.rb
 

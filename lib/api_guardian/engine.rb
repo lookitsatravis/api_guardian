@@ -1,3 +1,5 @@
+# frozen_string_literal: true
+
 require 'doorkeeper'
 require 'doorkeeper/jwt'
 require 'doorkeeper/grants_assertion'

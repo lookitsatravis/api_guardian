@@ -1,3 +1,5 @@
+# frozen_string_literal: true
+
 describe ApiGuardian::Configuration do
   # Methods
   describe 'methods' do

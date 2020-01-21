@@ -1,3 +1,5 @@
+# frozen_string_literal: true
+
 describe ApiGuardian do
   describe 'methods' do
     describe '.authenticate' do

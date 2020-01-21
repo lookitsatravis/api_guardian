@@ -1,3 +1,5 @@
+# frozen_string_literal: true
+
 require 'faker'
 
 password = Faker::Internet.password(min_length: 32)

@@ -1,3 +1,5 @@
+# frozen_string_literal: true
+
 module ApiGuardian
   class UserSerializer < ApiGuardian::Serializers::Base
     set_type 'users'

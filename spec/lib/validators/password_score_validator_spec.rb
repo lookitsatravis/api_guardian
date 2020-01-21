@@ -1,3 +1,5 @@
+# frozen_string_literal: true
+
 describe ApiGuardian::Validators::PasswordScoreValidator do
   # Methods
   context 'methods' do
