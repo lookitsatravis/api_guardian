@@ -9,19 +9,25 @@ require 'api_guardian/version'
 Gem::Specification.new do |s|
   s.name        = 'api_guardian'
   s.version     = ApiGuardian::VERSION
-  s.authors     = ['Travis Vignon']
+  s.authors     = ['Travis Vignon', 'Anton Visser']
   s.email       = ['travis@lookitsatravis.com']
   s.homepage    = 'https://github.com/lookitsatravis/api_guardian'
-  s.summary     = 'Drop in authorization and authentication suite for Rails APIs.'
-  s.description = 'Drop in authorization and authentication suite for Rails APIs.'
   s.license     = 'MIT'
+  s.summary     = 'Drop in authorization and authentication suite for Rails APIs.'
+  s.description = <<-DSC
+    Drop in authorization and authentication suite for Rails APIs. Features include
+    user registration, stateless authentication using OAuth2, roles and permissions,
+    password reset workflow, guest access, policy enforcement, JSON API serialization,
+    two-factor authentication support, and more. Designed to be extensable to
+    support any auth or registration strategies.
+  DSC
 
   s.files = Dir['{app,config,db,lib}/**/*', 'MIT-LICENSE', 'Rakefile', 'README.md']
   s.test_files = Dir['spec/**/*']
 
   s.required_ruby_version = '>= 2.5'
 
-  s.add_dependency 'rails', '>= 5.2'
+  s.add_dependency 'rails', '>= 5.2', '< 6.1'
   s.add_dependency 'active_model_otp', '~> 2'
   s.add_dependency 'bcrypt', '~> 3.1'
   s.add_dependency 'doorkeeper-grants_assertion', '~> 0.0.1'
