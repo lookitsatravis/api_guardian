@@ -16,8 +16,10 @@ before_script:
   - ./cc-test-reporter before-build
   - psql -c 'create database api_guardian_test;' -U postgres
 script:
+  - bundle exec rails db:reset RAILS_ENV=test
   - bundle exec rails db:migrate RAILS_ENV=test
   - bundle exec rspec
+  - rubocop -c .rubocop.yml
 after_script:
   - ./cc-test-reporter after-build --exit-code $TRAVIS_TEST_RESULT
 
