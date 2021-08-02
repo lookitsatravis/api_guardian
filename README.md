@@ -1,4 +1,11 @@
-# Api Guardian
+# Api Guardian (Inactive)
+
+| :zap:        Inactivity Notice ⚠️   |
+|-----------------------------------------|
+
+Thanks for your interest. I no longer have the bandwidth to maintain this package.
+
+---
 
 Drop in authorization and authentication suite for Rails APIs.
 
