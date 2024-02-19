@@ -13,21 +13,21 @@ Drop in authorization and authentication suite for Rails APIs.
 [![Test Coverage](https://img.shields.io/codeclimate/coverage/lookitsatravis/api_guardian.svg?style=flat-square)](https://codeclimate.com/github/lookitsatravis/api_guardian/coverage)
 [![Code Climate](https://img.shields.io/codeclimate/maintainability/lookitsatravis/api_guardian.svg?style=flat-square)](https://codeclimate.com/github/lookitsatravis/api_guardian)
 
-## **\*\*This gem is in alpha stages and is not feature complete. It should not be used in production!\*\***
+Special thanks to [Anton Visser](https://github.com/toneplex) for his work and support on this project.
 
 ## Overview
 
 ApiGuardian includes the following features out of the box:
 
 * User registration (email/pass)
-* Password reset workflow
-* Roles
-* Permissions
 * Stateless authentication using OAuth2 (via [Doorkeeper](https://github.com/doorkeeper-gem/doorkeeper) and [Doorkeeper::JWT](https://github.com/chriswarren/doorkeeper-jwt))
+* Roles and Permissions
+* Password reset workflow
+* Guest access
 * Policy enforcement (via [Pundit](https://github.com/elabs/pundit))
-* Serialization to [JSON API](http://jsonapi.org/) (via [AMS](https://github.com/rails-api/active_model_serializers))
-* Two-factor auth
-* External Login (TODO)
+* Serialization to [JSON API](http://jsonapi.org/) (via [fast_jsonapi](https://github.com/Netflix/fast_jsonapi))
+* Two-factor support
+* Extensable to support any auth or registration strategies
 
 What doesn't it include?
 
@@ -36,9 +36,9 @@ What doesn't it include?
 
 ## Requirements
 
-* Ruby >= 2.2.2
+* Ruby >= 2.5
 * PostgreSQL >= 9.3 (JSON and uuid-ossp support)
-* Rails >= 5.0
+* Rails >= 6.0
 
 **Note: For now, your app must use a PostgreSQL database.** This is because ApiGuardian is using UUID primary keys for all records.
 
@@ -98,7 +98,6 @@ http://www.rubydoc.info/github/lookitsatravis/api_guardian/master
   * Users can belong to multiple organizations?
   * Different roles based on organization? Or permissions?
 * Configuring allowed CORS domains (to better protect insecure clients)
-* omniauth
 * Account lockout (failed login attempts)
 * https://github.com/kickstarter/rack-attack
 * 2FA
@@ -113,7 +112,6 @@ http://www.rubydoc.info/github/lookitsatravis/api_guardian/master
 * Fix for JWT storage: https://github.com/doorkeeper-gem/doorkeeper/wiki/How-to-fix-PostgreSQL-error-on-index-row-size
 * Cache
 * SSO
-* Review Auth0 feature set
 * Documentation
   * Microservice usage
   * Request logging
@@ -124,19 +122,7 @@ http://www.rubydoc.info/github/lookitsatravis/api_guardian/master
   * Error rendering needs to match this setting
 * Toggle custom logger off
 * Add test for custom logger
-* Soft deleting and cascade deleting
 * A role can't be destroyed if users still belong to it
-* Remove dependencies on gems
-  * What could be moved to core?
-    * pundit
-    * doorkeeper
-    * otp
-    * acts_as_tenant
-    * Phony
-  * What could feasibly be added as an "addon" package
-    * Paranoia
-    * zxcvbn-js
-    * twilio-ruby
 
 ## Getting Help
 
@@ -152,5 +138,5 @@ See [CONTRIBUTING.md](CONTRIBUTING.md)
 
 ## License
 
-ApiGuardian is copyright © 2015-2017 Travis Vignon. It is free software, and may be
+ApiGuardian is copyright © 2015-2020 Travis Vignon. It is free software, and may be
 redistributed under the terms specified in the [`MIT-LICENSE`](MIT-LICENSE) file.

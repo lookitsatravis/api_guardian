@@ -1,3 +1,5 @@
+# frozen_string_literal: true
+
 describe ApiGuardian::Policies::UserPolicy do
   before(:each) do
     FactoryBot.create(:permission, name: 'user:create')

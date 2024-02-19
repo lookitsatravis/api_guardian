@@ -1,3 +1,5 @@
+# frozen_string_literal: true
+
 module ApiGuardian
   class RegistrationController < ApiGuardian::ApplicationController
     def create

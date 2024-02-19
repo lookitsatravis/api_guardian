@@ -1,3 +1,5 @@
+# frozen_string_literal: true
+
 require 'uri'
 
 module ApiGuardian
@@ -15,7 +17,8 @@ module ApiGuardian
 
     attr_reader :validate_password_score, :enable_2fa, :reuse_access_token, :allow_guest_authentication
     attr_writer :user_class, :role_class, :permission_class, :role_permission_class,
-                :identity_class, :minimum_password_length, :jwt_secret, :jwt_secret_key_path
+                :identity_class, :minimum_password_length, :jwt_secret, :jwt_secret_key_path,
+                :json_api_key_transform
 
     def initialize
       @validate_password_score = true
@@ -176,12 +179,16 @@ module ApiGuardian
       regenerate_doorkeeper_config
     end
 
+    def json_api_key_transform
+      @json_api_key_transform ||= :dash
+    end
+
     def client_password_reset_url
       @client_password_reset_url ||= 'https://change-me-in-the-apiguardian-initializer.com'
     end
 
     def client_password_reset_url=(value)
-      unless value =~ URI.regexp
+      unless value.match? URI.regexp
         fail ConfigurationError.new("#{value} is not a valid URL for client_password_reset_url!")
       end
       @client_password_reset_url = value
@@ -238,6 +245,24 @@ module ApiGuardian
     def after_user_registered=(value)
       fail ConfigurationError.new("#{value} is not a lambda") unless value.respond_to? :call
       @after_user_registered = value
+    end
+
+    def on_login_success
+      @on_login_success ||= lambda { |_user| }
+    end
+
+    def on_login_success=(value)
+      fail ConfigurationError.new("#{value} is not a lambda") unless value.respond_to? :call
+      @on_login_success = value
+    end
+
+    def on_login_failure
+      @on_login_failure ||= lambda { |_provider, _options| }
+    end
+
+    def on_login_failure=(value)
+      fail ConfigurationError.new("#{value} is not a lambda") unless value.respond_to? :call
+      @on_login_failure = value
     end
 
     def on_send_otp_via_sms

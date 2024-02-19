@@ -1,3 +1,5 @@
+# frozen_string_literal: true
+
 module ApiGuardian
   class ApplicationController < ActionController::API
     include ApiGuardian::Concerns::ApiErrors::Handler

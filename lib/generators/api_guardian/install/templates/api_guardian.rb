@@ -47,6 +47,10 @@ ApiGuardian.configure do |config|
   # https://github.com/jwt/ruby-jwt. The default is HMAC 256.
   # config.jwt_encryption_method = :hs256
 
+  # The json_api response keyword separator
+  # https://github.com/Netflix/fast_jsonapi#key-transforms
+  # config.json_api_key_transform = :dash
+
   # The Client Password Reset URL is used in the email sent when resetting
   # a user's password. The client should post the token provided along with the
   # users's new password to /complete-reset-password. This is done because this
@@ -80,6 +84,15 @@ ApiGuardian.configure do |config|
   # registered.
   # config.after_user_registered = lambda do |user|
   #   MyMailer.welcome(user).deliver_later
+  # end
+
+  # You can use this block to hook into the login lifecycle.
+  # config.on_login_success = lambda do |user|
+  #   UserStore.track_login user
+  # end
+  #
+  # config.on_login_failure = lambda do |provider, options|
+  #   AnalyticsService.log_failed_login provider, options
   # end
 
   # You can use this block to hook into what happens when a one-time password token

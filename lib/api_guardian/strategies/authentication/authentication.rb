@@ -1,3 +1,5 @@
+# frozen_string_literal: true
+
 module ApiGuardian
   module Strategies
     module Authentication
@@ -25,7 +27,15 @@ module ApiGuardian
   def authenticate(provider = :email, options = nil)
     strategy = Strategies::Authentication.find_strategy provider
     ApiGuardian.logger.info "Authenticating via #{provider}"
-    strategy.authenticate options
+    user = strategy.authenticate options
+
+    unless user.nil?
+      ApiGuardian.configuration.on_login_success.call(user)
+    else
+      ApiGuardian.configuration.on_login_failure.call(provider, options)
+    end
+
+    user
   end
 
   # constant-time comparison algorithm to prevent timing attacks
@@ -41,6 +51,4 @@ end
 
 require 'api_guardian/strategies/authentication/two_factor'
 require 'api_guardian/strategies/authentication/email'
-require 'api_guardian/strategies/authentication/digits'
-require 'api_guardian/strategies/authentication/facebook'
 require 'api_guardian/strategies/authentication/guest'

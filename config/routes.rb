@@ -1,3 +1,5 @@
+# frozen_string_literal: true
+
 ApiGuardian::Engine.routes.draw do
   # Registration
   post '/register' => 'registration#create'

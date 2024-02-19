@@ -1,3 +1,5 @@
+# frozen_string_literal: true
+
 require 'active_support/concern'
 
 module ApiGuardian
@@ -9,7 +11,6 @@ module ApiGuardian
         included do
           self.table_name = 'api_guardian_users'
 
-          acts_as_paranoid
           has_secure_password
           has_one_time_password
 
@@ -47,7 +48,7 @@ module ApiGuardian
 
           def guest?
             if email
-              self.email.include? "application-guest.com"
+              self.email.include? 'application-guest.com'
             else
               false
             end

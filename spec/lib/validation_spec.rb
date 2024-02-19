@@ -1,3 +1,5 @@
+# frozen_string_literal: true
+
 describe ApiGuardian::ValidationResult do
   it { should have_attr_reader(:succeeded) }
   it { should have_attr_reader(:error) }

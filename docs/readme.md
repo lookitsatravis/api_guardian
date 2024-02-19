@@ -20,17 +20,14 @@ http://www.rubydoc.info/github/lookitsatravis/api_guardian/master
 * [Registration](registration/readme.md)
   * [Email](registration/readme.md#email)
   * [Third-Party Registration](registration/readme.md#third-party-registration)
-    * [Facebook](registration/readme.md#facebook)
-    * [Twitter Digits](registration/readme.md#twitter-digits)
 * [Authentication](authentication/readme.md)
   * [JSON Web Token Responses](authentication/readme.md#jwt-responses)
   * [Email Authentication](authentication/readme.md#email-authentication)
   * [Third-Party Authentication](authentication/readme#third-party-authentication)
-    * [Facebook Authentication](authentication/readme.md#facebook-authentication)
-    * [Twitter Digits Authentication](authentication/readme.md#twitter-digits-authentication)
   * [Guest Authentication](authentication/readme.md#guest-authentication)
   * [Two-Factor Authentication](authentication/readme.md#two-factor-authentication)
   * [Password Reset](authentication/readme.md#password-reset)
+  * [Authentication Hooks](authentication/readme.md#authentication-hooks)
 * [Authorization](authorization/readme.md)
   * [Roles & Permissions](authorization/readme.md#roles--permissions)
   * [Users](authorization/readme.md#users)
@@ -42,5 +39,5 @@ http://www.rubydoc.info/github/lookitsatravis/api_guardian/master
 
 ---
 
-ApiGuardian is copyright © 2015-2017 Travis Vignon. It is free software, and may be
+ApiGuardian is copyright © 2015-2020 Travis Vignon. It is free software, and may be
 redistributed under the terms specified in the [`MIT-LICENSE`](https://github.com/lookitsatravis/api_guardian/blob/master/MIT-LICENSE) file.

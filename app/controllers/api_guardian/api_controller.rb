@@ -1,3 +1,5 @@
+# frozen_string_literal: true
+
 module ApiGuardian
   class ApiController < ActionController::API
     include ::Pundit
@@ -21,22 +23,22 @@ module ApiGuardian
       @resources = should_paginate? ?
         resource_store.paginate(page_params[:number], page_params[:size]) :
         resource_store.all
-      render json: @resources, include: includes
+      render json: resource_serializer.new(@resources, options(@resources))
     end
 
     def show
-      render json: @resource, include: includes
+      render json: resource_serializer.new(@resource, options(@resource))
     end
 
     def create
       authorize resource_class
       @resource = resource_store.create(create_resource_params)
-      render json: @resource, status: :created, include: includes
+      render json: resource_serializer.new(@resource, options(@resource)), status: :created
     end
 
     def update
       @resource = resource_store.update(@resource, update_resource_params)
-      render json: @resource, include: includes
+      render json: resource_serializer.new(@resource, options(@resource))
     end
 
     def destroy
@@ -65,6 +67,10 @@ module ApiGuardian
 
     def resource_policy
       @resource_policy ||= action_name == 'index' ? policy_scope(resource_class) : nil
+    end
+
+    def resource_serializer
+      @resource_serializer ||= find_and_init_serializer
     end
 
     # :nocov:
@@ -123,7 +129,7 @@ module ApiGuardian
     def find_and_init_store
       store = nil
 
-      # Check for app-specfic store
+      # Check for app-specific store
       if ApiGuardian.class_exists?(resource_name + 'Store')
         store = resource_name + 'Store'
       end
@@ -144,13 +150,64 @@ module ApiGuardian
 
     def find_resource_class
       if ApiGuardian.class_exists?(resource_name)
-        return resource_name.constantize
+        resource_name.constantize
       elsif ApiGuardian.configuration.respond_to? "#{resource_name.downcase}_class"
-        return ApiGuardian.configuration.send("#{resource_name.downcase}_class")
+        ApiGuardian.configuration.send("#{resource_name.downcase}_class")
       else
         fail ApiGuardian::Errors::ResourceClassMissing, 'Could not find a resource class (model) ' \
              "for #{resource_name}. Have you created one?"
       end
+    end
+
+    def find_and_init_serializer
+      serializer = nil
+      action = action_name&.downcase&.upcase_first || ''
+
+      # Check for app-specific serializer
+      if ApiGuardian.class_exists?(resource_name + action + 'Serializer')
+        serializer = resource_name + action + 'Serializer'
+      end
+
+      unless serializer
+        if ApiGuardian.class_exists?(resource_name + 'Serializer')
+          serializer = resource_name + 'Serializer'
+        end
+      end
+
+      # Check for ApiGuardian serializer
+      unless serializer
+        if ApiGuardian.class_exists?('ApiGuardian::' + resource_name + 'Serializer')
+          serializer = 'ApiGuardian::' + resource_name + 'Serializer'
+        end
+      end
+
+      return serializer.constantize if serializer
+
+      fail ApiGuardian::Errors::ResourceSerializerMissing, 'Could not find a resource serializer ' \
+           "for #{resource_name}. Have you created #{resource_name}Serializer?"
+    end
+
+    def options(resources)
+      options = {}
+      options[:include] = includes if includes.count.positive?
+      links = resource_links(resources)
+      options[:links] = resource_links(resources) if links
+
+      options
+    end
+
+    def resource_links(resources)
+      return nil unless resources.respond_to?(:next_page)
+
+      url = "#{request.original_url.split('?')[0]}?page%%5Bnumber%%5D=%i&page%%5Bsize%%5D=#{resources.limit_value}"
+
+      {
+        self: url % [resources.current_page],
+        first: url % [1],
+        prev: resources.length.zero? || resources.first_page? ? nil : url % [resources.prev_page],
+        next: resources.length.zero? || resources.last_page? ? nil : url % [resources.next_page],
+        last: url % [resources.total_pages],
+      }
     end
   end
 end

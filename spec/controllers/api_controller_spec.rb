@@ -1,9 +1,14 @@
+# frozen_string_literal: true
+
 module Test
   class FoosController < ApiGuardian::ApiController
   end
 end
 
 class ApiGuardian::Stores::FooStore < ApiGuardian::Stores::Base
+end
+
+class ApiGuardian::FooSerializer < ApiGuardian::Serializers::Base
 end
 
 class Foo < ActiveRecord::Base
@@ -17,12 +22,18 @@ end
 class BarStore < ApiGuardian::Stores::Base
 end
 
+class BarSerializer < ApiGuardian::Serializers::Base
+end
+
 class Bar < ActiveRecord::Base
 end
 
 module Test
   class BazsController < ApiGuardian::ApiController
   end
+end
+
+class BazIndexSerializer < ApiGuardian::Serializers::Base
 end
 
 module Test
@@ -62,6 +73,28 @@ RSpec.describe ApiGuardian::ApiController do
           ApiGuardian::Errors::ResourceStoreMissing, 'Could not find a resource store ' \
           'for Baz. Have you created one? You can override `#resource_store` ' \
           'in your controller in order to set it up specifically.'
+        )
+      end
+    end
+
+    describe '#resource_serializer' do
+      it 'is able to find a serializer for a resource' do
+        result1 = dummy_class.resource_serializer
+
+        expect(result1).to eq ApiGuardian::FooSerializer
+
+        result2 = dummy2_class.resource_serializer
+
+        expect(result2).to eq BarSerializer
+
+        dummy3_class.action_name = 'index'
+        result3 = dummy3_class.resource_serializer
+
+        expect(result3).to eq BazIndexSerializer
+
+        expect { dummy4_class.resource_serializer }.to raise_error(
+          ApiGuardian::Errors::ResourceSerializerMissing, 'Could not find a resource serializer ' \
+          'for Identity. Have you created IdentitySerializer?'
         )
       end
     end

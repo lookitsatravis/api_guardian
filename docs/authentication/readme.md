@@ -74,52 +74,6 @@ of the `assertion` OAuth2 grant type ([IETF Standard](https://tools.ietf.org/htm
 ApiGuardian requires an additional parameter (`assertion_type`) to indicate the provider,
 and then all authentication details are passed into the `assertion` parameter.
 
-### Facebook Authentication
-
-The assertion for Facebook is any valid Facebook OAuth access token. These can be
-returned via any mobile or web SDK. ApiGuardian will extract the relevant identifiers
-after validating the token and, if valid, will allow a user to authenticate.
-
-To request an access token via Twitter Digits, the following fields are required.
-
-```js
-{
-    "assertion_type": "facebook",
-    "assertion": "your_facebook_oauth_access_token",
-    "grant_type": "assertion"
-}
-```
-
-### [Twitter Digits](https://get.digits.com) Authentication
-
-The assertion for Twitter Digits is a Base64 encoded string of the the auth URL and the auth Header
-(both returned by the Digits SDK/API) joined by a semicolon. Example in JavaScript ([Digits web SDK docs](https://docs.fabric.io/web/digits/index.html)):
-
-```js
-Digits.init({ consumerKey: 'yourConsumerKey' });
-Digits.logIn()
-  .done(onLogin);
-
-function onLogin(loginResponse){
-  var oAuthHeaders = loginResponse.oauth_echo_headers;
-  var apiUrl = oAuthHeaders['X-Auth-Service-Provider'];
-  var authHeader = oAuthHeaders['X-Verify-Credentials-Authorization'];
-  var encodedPassword = window.btoa([apiUrl, authHeader].join(';'))
-
-  //encodedPassword is what you need to supply as the "assertion" to authenticate with Digits.
-}
-```
-
-To request an access token via Twitter Digits, the following fields are required.
-
-```js
-{
-    "assertion_type": "digits",
-    "assertion": "base_64_encoded_url_and_header",
-    "grant_type": "assertion"
-}
-```
-
 ## Guest Authentication
 
 Anonymous authentication is possible with ApiGuardian and it uses the same `assertion` grant as third-party authentication. Guest users will be created using the same default role as any other registered user. The difference is that the guest user record is created at the time of authentication, instead of requiring a separate registration step. To request an access token for an anonymous user, the following fields are required.
@@ -370,7 +324,29 @@ curl -X POST \
 Other errors can occur if the token is invalid or doesn't match the provided email, or
 if new password information is invalid.*
 
+## Authentication Hooks
+
+Hooking into authentication is fairly simple, though it does require some setup.
+
+### Setup
+
+You need update the ApiGuardian config in `config/initializers/api_guardian.rb`:
+
+```rb
+ApiGuardian.configure do |config|
+  # ...
+  config.on_login_success = lambda do |user|
+    UserStore.track_login user
+  end
+  
+  config.on_login_failure = lambda do |provider, options|
+    AnalyticsService.log_failed_login provider, options
+  end
+  # ...
+end
+```
+
 ---
 
-ApiGuardian is copyright © 2015-2017 Travis Vignon. It is free software, and may be
+ApiGuardian is copyright © 2015-2020 Travis Vignon. It is free software, and may be
 redistributed under the terms specified in the [`MIT-LICENSE`](https://github.com/lookitsatravis/api_guardian/blob/master/MIT-LICENSE) file.

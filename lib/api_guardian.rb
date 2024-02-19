@@ -1,13 +1,14 @@
+# frozen_string_literal: true
+
 require 'active_job'
 require 'action_mailer'
 require 'pundit'
-require 'paranoia'
 require 'rack/cors'
 require 'kaminari'
 require 'zxcvbn'
 require 'phony'
 require 'active_model_otp'
-require 'active_model_serializers'
+require 'fast_jsonapi'
 require 'api_guardian/version'
 require 'api_guardian/logs'
 require 'api_guardian/helpers/helpers'
@@ -46,6 +47,10 @@ module ApiGuardian
     autoload :UserStore, 'api_guardian/stores/user_store'
     autoload :RoleStore, 'api_guardian/stores/role_store'
     autoload :PermissionStore, 'api_guardian/stores/permission_store'
+  end
+
+  module Serializers
+    autoload :Base, 'api_guardian/serializers/base'
   end
 
   module Policies
@@ -141,12 +146,10 @@ module ApiGuardian
       store = 'ApiGuardian::Stores::UserStore'
     end
 
-    return store.constantize
+    store.constantize
   end
 end
 
 require 'api_guardian/strategies/authentication/authentication'
 require 'api_guardian/strategies/registration/base'
 require 'api_guardian/strategies/registration/email'
-require 'api_guardian/strategies/registration/digits'
-require 'api_guardian/strategies/registration/facebook'
